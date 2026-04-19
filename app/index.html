@@ -136,7 +136,7 @@
             <p class="section-kicker">Client ledger</p>
             <h2>Companies</h2>
           </div>
-          <button id="addCompanyButton" class="rail-action">Add company</button>
+          <button id="addCompanyButton" class="rail-action">New company</button>
           <label class="search-label" for="companySearch">Search companies</label>
           <input id="companySearch" class="search" type="search" placeholder="Name or company number">
           <div id="companyList" class="company-list"></div>
@@ -147,7 +147,7 @@
             <p class="section-kicker">Sole trader desk</p>
             <h2>Self Employed</h2>
           </div>
-          <button id="addSelfEmployedButton" class="rail-action">Add self employed</button>
+          <button id="addSelfEmployedButton" class="rail-action">New self employed</button>
           <div id="selfEmployedList" class="company-list compact-list"></div>
         </aside>
 
@@ -166,58 +166,6 @@
                 <button id="quickOpenCompanyButton" class="action-chip">Open first company</button>
                 <button id="quickOpenSelfButton" class="action-chip subtle">Open self employed</button>
               </div>
-            </section>
-
-            <section class="editor-grid">
-              <article class="glass-card">
-                <div class="card-head">
-                  <p class="section-kicker">Create</p>
-                  <h3>Add new company</h3>
-                </div>
-                <form id="addCompanyForm" class="form-grid">
-                  <label>
-                    <span>Display name</span>
-                    <input name="displayName" type="text" placeholder="Aligned Advisory Ltd">
-                  </label>
-                  <label>
-                    <span>Company number</span>
-                    <input name="companyNumber" type="text" placeholder="Optional if not registered yet">
-                  </label>
-                  <label class="full-span">
-                    <span>Notes</span>
-                    <textarea name="notes" rows="4" placeholder="Initial setup notes for this client"></textarea>
-                  </label>
-                </form>
-                <div class="import-actions">
-                  <button id="createCompanyButton" class="action-chip">Create company</button>
-                  <p id="createCompanyState" class="save-state" aria-live="polite"></p>
-                </div>
-              </article>
-
-              <article class="glass-card">
-                <div class="card-head">
-                  <p class="section-kicker">Create</p>
-                  <h3>Add new self employed</h3>
-                </div>
-                <form id="addPersonForm" class="form-grid">
-                  <label>
-                    <span>Full name</span>
-                    <input name="fullName" type="text" placeholder="Alex Example">
-                  </label>
-                  <label>
-                    <span>Trading name</span>
-                    <input name="tradingName" type="text" placeholder="Optional">
-                  </label>
-                  <label class="full-span">
-                    <span>Notes</span>
-                    <textarea name="notes" rows="4" placeholder="Initial setup notes for this person"></textarea>
-                  </label>
-                </form>
-                <div class="import-actions">
-                  <button id="createPersonButton" class="action-chip">Create self employed</button>
-                  <p id="createPersonState" class="save-state" aria-live="polite"></p>
-                </div>
-              </article>
             </section>
 
             <section class="editor-grid">
@@ -273,6 +221,172 @@
                     <strong>Manage security</strong>
                     <span>Change the desktop password and manage local access for this machine.</span>
                   </button>
+                </div>
+              </article>
+            </section>
+          </div>
+
+          <div id="newCompanyPanel" class="record-panel hidden">
+            <header class="entity-header">
+              <div>
+                <p class="section-kicker">New company</p>
+                <p class="entity-name">Client onboarding</p>
+                <h2>Set up a new company</h2>
+              </div>
+              <div class="entity-actions">
+                <p id="createCompanyState" class="save-state" aria-live="polite"></p>
+                <button class="action-chip subtle home-link-button" type="button">Back to home</button>
+                <button id="createCompanyButton" class="action-chip">Create company</button>
+              </div>
+            </header>
+
+            <section class="editor-grid details-layout">
+              <article class="glass-card">
+                <div class="card-head">
+                  <p class="section-kicker">Company setup</p>
+                  <h3>Core onboarding fields</h3>
+                </div>
+                <form id="addCompanyForm" class="form-grid">
+                  <label>
+                    <span>Display name</span>
+                    <input name="displayName" type="text" placeholder="Aligned Advisory Ltd">
+                  </label>
+                  <label>
+                    <span>Legal name</span>
+                    <input name="legalName" type="text" placeholder="Full registered company name">
+                  </label>
+                  <label>
+                    <span>Company number</span>
+                    <input name="companyNumber" type="text" placeholder="Optional if not registered yet">
+                  </label>
+                  <label>
+                    <span>Entity type</span>
+                    <input name="entityType" type="text" placeholder="Private limited company">
+                  </label>
+                  <label>
+                    <span>VAT registration</span>
+                    <input name="vatRegistration" type="text" placeholder="Optional">
+                  </label>
+                  <label>
+                    <span>Company UTR</span>
+                    <input name="utr" type="text" placeholder="Optional">
+                  </label>
+                  <label>
+                    <span>Primary contact</span>
+                    <input name="contactName" type="text" placeholder="Director or contact person">
+                  </label>
+                  <label>
+                    <span>Email / phone note</span>
+                    <input name="contactNote" type="text" placeholder="How you want to remember contact details">
+                  </label>
+                  <label class="full-span">
+                    <span>Registered address</span>
+                    <textarea name="address" rows="4" placeholder="Registered office or working address"></textarea>
+                  </label>
+                  <label class="full-span">
+                    <span>Onboarding notes</span>
+                    <textarea name="notes" rows="5" placeholder="Initial setup notes, Xero details, deadlines, or handover notes"></textarea>
+                  </label>
+                </form>
+              </article>
+
+              <article class="glass-card">
+                <div class="card-head">
+                  <p class="section-kicker">What happens next</p>
+                  <h3>Company setup path</h3>
+                </div>
+                <div class="notes-stack">
+                  <article class="note-card">
+                    <h4>Creates a live client record</h4>
+                    <p>The new company appears in the client rail immediately and opens with editable company pages.</p>
+                  </article>
+                  <article class="note-card">
+                    <h4>Works with Xero-led accounting</h4>
+                    <p>This setup is focused on client administration, archive tracking, and statement intake rather than bookkeeping inside the app.</p>
+                  </article>
+                  <article class="note-card">
+                    <h4>Expandable later</h4>
+                    <p>You can fill in gateway details, deadlines, bank labels, and archive notes after the company is created.</p>
+                  </article>
+                </div>
+              </article>
+            </section>
+          </div>
+
+          <div id="newPersonPanel" class="record-panel hidden">
+            <header class="entity-header">
+              <div>
+                <p class="section-kicker">New self employed</p>
+                <p class="entity-name">Personal onboarding</p>
+                <h2>Set up a new self employed record</h2>
+              </div>
+              <div class="entity-actions">
+                <p id="createPersonState" class="save-state" aria-live="polite"></p>
+                <button class="action-chip subtle home-link-button" type="button">Back to home</button>
+                <button id="createPersonButton" class="action-chip">Create self employed</button>
+              </div>
+            </header>
+
+            <section class="editor-grid details-layout">
+              <article class="glass-card">
+                <div class="card-head">
+                  <p class="section-kicker">Personal setup</p>
+                  <h3>Core onboarding fields</h3>
+                </div>
+                <form id="addPersonForm" class="form-grid">
+                  <label>
+                    <span>Full name</span>
+                    <input name="fullName" type="text" placeholder="Alex Example">
+                  </label>
+                  <label>
+                    <span>Trading name</span>
+                    <input name="tradingName" type="text" placeholder="Optional">
+                  </label>
+                  <label>
+                    <span>UTR</span>
+                    <input name="utr" type="text" placeholder="Optional">
+                  </label>
+                  <label>
+                    <span>NINO</span>
+                    <input name="nino" type="text" placeholder="Optional">
+                  </label>
+                  <label>
+                    <span>Date of birth</span>
+                    <input name="dateOfBirth" type="text" placeholder="Optional">
+                  </label>
+                  <label>
+                    <span>Nationality</span>
+                    <input name="nationality" type="text" placeholder="Optional">
+                  </label>
+                  <label class="full-span">
+                    <span>Address</span>
+                    <textarea name="address" rows="4" placeholder="Home or registered address"></textarea>
+                  </label>
+                  <label class="full-span">
+                    <span>Onboarding notes</span>
+                    <textarea name="notes" rows="5" placeholder="Initial setup notes, filing reminders, or handover context"></textarea>
+                  </label>
+                </form>
+              </article>
+
+              <article class="glass-card">
+                <div class="card-head">
+                  <p class="section-kicker">What happens next</p>
+                  <h3>Self employed setup path</h3>
+                </div>
+                <div class="notes-stack">
+                  <article class="note-card">
+                    <h4>Creates a live personal record</h4>
+                    <p>The new self employed person appears in the left rail immediately and opens with editable personal fields.</p>
+                  </article>
+                  <article class="note-card">
+                    <h4>Separate from companies</h4>
+                    <p>These records stay outside the limited company workspace so your structure remains clear and clean.</p>
+                  </article>
+                  <article class="note-card">
+                    <h4>Ready for detail later</h4>
+                    <p>You can add gateway details, identity notes, tax references, and filing details after creation.</p>
+                  </article>
                 </div>
               </article>
             </section>

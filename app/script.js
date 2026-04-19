@@ -179,6 +179,8 @@ const elements = {
   emptyState: document.getElementById("emptyState"),
   companyPanel: document.getElementById("companyPanel"),
   selfEmployedPanel: document.getElementById("selfEmployedPanel"),
+  newCompanyPanel: document.getElementById("newCompanyPanel"),
+  newPersonPanel: document.getElementById("newPersonPanel"),
   homeButton: document.getElementById("homeButton"),
   companiesButton: document.getElementById("companiesButton"),
   selfEmployedButton: document.getElementById("selfEmployedButton"),
@@ -542,6 +544,8 @@ function hideAllPanels() {
   elements.companyPanel.classList.add("hidden");
   elements.selfEmployedPanel.classList.add("hidden");
   elements.settingsPanel.classList.add("hidden");
+  elements.newCompanyPanel.classList.add("hidden");
+  elements.newPersonPanel.classList.add("hidden");
 }
 
 function updatePrimaryNav(active) {
@@ -565,6 +569,18 @@ function showSettingsPanel() {
   hideAllPanels();
   elements.settingsPanel.classList.remove("hidden");
   updatePrimaryNav("settings");
+}
+
+function showNewCompanyPanel() {
+  hideAllPanels();
+  elements.newCompanyPanel.classList.remove("hidden");
+  updatePrimaryNav("companies");
+}
+
+function showNewPersonPanel() {
+  hideAllPanels();
+  elements.newPersonPanel.classList.remove("hidden");
+  updatePrimaryNav("self");
 }
 
 async function createLocalAccess() {
@@ -1322,7 +1338,14 @@ async function changeLocalPassword() {
 function createCompanyRecord() {
   const formData = new FormData(elements.addCompanyForm);
   const displayName = String(formData.get("displayName") || "").trim();
+  const legalName = String(formData.get("legalName") || "").trim();
   const suppliedNumber = String(formData.get("companyNumber") || "").trim();
+  const entityType = String(formData.get("entityType") || "").trim();
+  const vatRegistration = String(formData.get("vatRegistration") || "").trim();
+  const utr = String(formData.get("utr") || "").trim();
+  const contactName = String(formData.get("contactName") || "").trim();
+  const contactNote = String(formData.get("contactNote") || "").trim();
+  const address = String(formData.get("address") || "").trim();
   const note = String(formData.get("notes") || "").trim();
 
   if (!displayName) {
@@ -1342,9 +1365,13 @@ function createCompanyRecord() {
   state.companyRecords[companyNumber] = {
     ...companyDefaults(customCompany),
     displayName,
-    legalName: displayName,
+    legalName: legalName || displayName,
     companyNumber,
-    generalNotes: note,
+    entityType: entityType || "Private limited company",
+    vatRegistration,
+    utr,
+    address,
+    generalNotes: [contactName, contactNote, note].filter(Boolean).join("\n"),
   };
 
   saveRecords(COMPANY_STORAGE_KEY, state.companyRecords);
@@ -1364,6 +1391,11 @@ function createPersonRecord() {
   const formData = new FormData(elements.addPersonForm);
   const fullName = String(formData.get("fullName") || "").trim();
   const tradingName = String(formData.get("tradingName") || "").trim();
+  const utr = String(formData.get("utr") || "").trim();
+  const nino = String(formData.get("nino") || "").trim();
+  const dateOfBirth = String(formData.get("dateOfBirth") || "").trim();
+  const nationality = String(formData.get("nationality") || "").trim();
+  const address = String(formData.get("address") || "").trim();
   const notes = String(formData.get("notes") || "").trim();
 
   if (!fullName) {
@@ -1381,6 +1413,11 @@ function createPersonRecord() {
   state.personRecords[fullName] = {
     ...personDefaults(fullName),
     tradingName,
+    utr,
+    nino,
+    dateOfBirth,
+    nationality,
+    address,
     notes,
   };
 
@@ -1438,8 +1475,8 @@ function bindEvents() {
     filterCompanies(event.target.value);
   });
 
-  elements.addCompanyButton.addEventListener("click", showHomePanel);
-  elements.addSelfEmployedButton.addEventListener("click", showHomePanel);
+  elements.addCompanyButton.addEventListener("click", showNewCompanyPanel);
+  elements.addSelfEmployedButton.addEventListener("click", showNewPersonPanel);
   elements.homeButton.addEventListener("click", showHomePanel);
   elements.companiesButton.addEventListener("click", () => openFirstCompany());
   elements.selfEmployedButton.addEventListener("click", openFirstSelfEmployed);

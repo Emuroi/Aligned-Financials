@@ -620,6 +620,10 @@ textarea {
   gap: 14px;
 }
 
+.details-layout .notes-stack {
+  align-content: start;
+}
+
 .quick-card {
   border: 1px solid rgba(242, 207, 124, 0.1);
   border-radius: 22px;
