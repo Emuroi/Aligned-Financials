@@ -1,0 +1,150 @@
+{
+  "zip_path": "data/raw/aligned-financials-data-export_20260304.zip",
+  "dump_files": [
+    {
+      "path": "dumps/alfn_20260304.dump",
+      "size_bytes": 11419612
+    },
+    {
+      "path": "dumps/emerald_20260304.dump",
+      "size_bytes": 703897
+    },
+    {
+      "path": "dumps/emerald-bs_20260304.dump",
+      "size_bytes": 676565
+    }
+  ],
+  "transaction_csv_file_count": 285,
+  "distinct_company_numbers": 20,
+  "years_present": {
+    "2018": 41,
+    "2019": 108,
+    "2020": 76,
+    "2021": 55,
+    "2022": 5
+  },
+  "top_companies_by_csv_count": [
+    {
+      "company_number": "08564152",
+      "csv_files": 60,
+      "rows": 788
+    },
+    {
+      "company_number": "12011913",
+      "csv_files": 58,
+      "rows": 453
+    },
+    {
+      "company_number": "10534265",
+      "csv_files": 45,
+      "rows": 2521
+    },
+    {
+      "company_number": "07726246",
+      "csv_files": 36,
+      "rows": 3692
+    },
+    {
+      "company_number": "08776214",
+      "csv_files": 19,
+      "rows": 150
+    },
+    {
+      "company_number": "11078138",
+      "csv_files": 16,
+      "rows": 51158
+    },
+    {
+      "company_number": "09750360",
+      "csv_files": 14,
+      "rows": 16736
+    },
+    {
+      "company_number": "11769803",
+      "csv_files": 12,
+      "rows": 3952
+    },
+    {
+      "company_number": "12127012",
+      "csv_files": 5,
+      "rows": 2794
+    },
+    {
+      "company_number": "09526995",
+      "csv_files": 5,
+      "rows": 1499
+    }
+  ],
+  "largest_transaction_csvs": [
+    {
+      "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/10/12_17_38_587368.csv",
+      "company_number": "11078138",
+      "year": "2018",
+      "row_count": 8541,
+      "amount_total": 34166.73
+    },
+    {
+      "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/10/12_25_10_461485.csv",
+      "company_number": "11078138",
+      "year": "2018",
+      "row_count": 8541,
+      "amount_total": 0.0
+    },
+    {
+      "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/10/12_23_36_352835.csv",
+      "company_number": "11078138",
+      "year": "2018",
+      "row_count": 8541,
+      "amount_total": 0.0
+    },
+    {
+      "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/10/12_21_48_764223.csv",
+      "company_number": "11078138",
+      "year": "2018",
+      "row_count": 8541,
+      "amount_total": 0.0
+    },
+    {
+      "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/10/12_29_39_661958.csv",
+      "company_number": "11078138",
+      "year": "2018",
+      "row_count": 8540,
+      "amount_total": 0.0
+    },
+    {
+      "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2018/10/11_28_59_519286.csv",
+      "company_number": "09750360",
+      "year": "2018",
+      "row_count": 6310,
+      "amount_total": 0.0
+    },
+    {
+      "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2018/10/11_32_20_185137.csv",
+      "company_number": "09750360",
+      "year": "2018",
+      "row_count": 6310,
+      "amount_total": 0.0
+    },
+    {
+      "path": "dumps/s3/mainrd-emeralds-bs/11769803/transactions/2020/5/09_40_28_905364.csv",
+      "company_number": "11769803",
+      "year": "2020",
+      "row_count": 1788,
+      "amount_total": -416.28
+    },
+    {
+      "path": "dumps/s3/mainrd-emeralds-bs/11769803/transactions/2019/12/12_00_50_079389.csv",
+      "company_number": "11769803",
+      "year": "2019",
+      "row_count": 1701,
+      "amount_total": 1682.74
+    },
+    {
+      "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2019/3/22_04_50_177799.csv",
+      "company_number": "09750360",
+      "year": "2019",
+      "row_count": 1543,
+      "amount_total": 0.0
+    }
+  ]
+}
