@@ -169,6 +169,13 @@ const elements = {
   companyStatusSummary: document.getElementById("companyStatusSummary"),
   workflowSummary: document.getElementById("workflowSummary"),
   workflowTableBody: document.getElementById("workflowTableBody"),
+  bankAccountLabel: document.getElementById("bankAccountLabel"),
+  bankStatementFile: document.getElementById("bankStatementFile"),
+  bankImportNotes: document.getElementById("bankImportNotes"),
+  importBankStatementButton: document.getElementById("importBankStatementButton"),
+  bankImportSummary: document.getElementById("bankImportSummary"),
+  bankImportEmpty: document.getElementById("bankImportEmpty"),
+  bankStatementList: document.getElementById("bankStatementList"),
   companyGeneralNotes: document.getElementById("companyGeneralNotes"),
   deadlineVatDue: document.getElementById("deadlineVatDue"),
   deadlineYearEnd: document.getElementById("deadlineYearEnd"),
@@ -226,6 +233,7 @@ function companyDefaults(company) {
     },
     generalNotes: legacy.generalNotes || "",
     workflow: {},
+    bankImports: [],
   };
 }
 
@@ -271,6 +279,15 @@ function bindCompanyTabs() {
 function setDefaultCompanyView() {
   elements.companyTabs.forEach((tab, index) => tab.classList.toggle("active", index === 0));
   elements.companyViews.forEach((panel, index) => panel.classList.toggle("hidden", index !== 0));
+}
+
+function getActiveCompanyView() {
+  return elements.companyTabs.find((tab) => tab.classList.contains("active"))?.dataset.view || "company-overview";
+}
+
+function setCompanyView(viewId) {
+  elements.companyTabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.view === viewId));
+  elements.companyViews.forEach((panel) => panel.classList.toggle("hidden", panel.id !== viewId));
 }
 
 function collectCompanyFormData() {
@@ -539,6 +556,121 @@ function renderCompanyNotes(record) {
   elements.companyGeneralNotes.value = record.generalNotes;
 }
 
+function renderBankImportSummary(record) {
+  const imports = record.bankImports || [];
+  const entries = imports.flatMap((statement) => statement.entries || []);
+  const moneyIn = entries.reduce((sum, entry) => sum + (entry.moneyIn || 0), 0);
+  const moneyOut = entries.reduce((sum, entry) => sum + (entry.moneyOut || 0), 0);
+  const cards = [
+    ["Statements", number.format(imports.length), "Imported CSV files for this company"],
+    ["Rows", number.format(entries.length), "Normalized statement lines saved locally"],
+    ["Money in", formatCurrency(moneyIn), "Positive or credit values detected"],
+    ["Money out", formatCurrency(moneyOut), "Negative or debit values detected"],
+  ];
+
+  elements.bankImportSummary.innerHTML = cards
+    .map(
+      ([label, value, subtext]) => `
+        <article class="metric-card">
+          <p class="metric-label">${label}</p>
+          <p class="metric-value">${value}</p>
+          <p class="metric-subtext">${subtext}</p>
+        </article>
+      `,
+    )
+    .join("");
+}
+
+function renderBankImports(record) {
+  const imports = record.bankImports || [];
+  renderBankImportSummary(record);
+
+  elements.bankImportEmpty.textContent = imports.length
+    ? ""
+    : "No bank statements imported yet for this company.";
+
+  elements.bankStatementList.innerHTML = imports
+    .map((statement) => {
+      const previewRows = statement.entries.slice(0, 12);
+      return `
+        <article class="statement-card">
+          <div class="statement-head">
+            <div>
+              <h4>${escapeHtml(statement.accountLabel || "Imported statement")}</h4>
+              <p class="statement-meta">
+                ${escapeHtml(statement.fileName)} | Imported ${escapeHtml(
+                  new Date(statement.importedAt).toLocaleString("en-GB"),
+                )}${statement.note ? ` | ${escapeHtml(statement.note)}` : ""}
+              </p>
+            </div>
+            <div class="statement-actions">
+              <button class="mini-button danger" data-remove-statement="${escapeAttribute(statement.id)}">Remove</button>
+            </div>
+          </div>
+          <div class="statement-grid">
+            <article class="metric-card">
+              <p class="metric-label">Rows</p>
+              <p class="metric-value">${number.format(statement.summary.rowCount)}</p>
+              <p class="metric-subtext">Normalized entries in this statement</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-label">Money In</p>
+              <p class="metric-value">${formatCurrency(statement.summary.moneyIn)}</p>
+              <p class="metric-subtext">${number.format(statement.summary.positiveCount)} positive entries</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-label">Money Out</p>
+              <p class="metric-value">${formatCurrency(statement.summary.moneyOut)}</p>
+              <p class="metric-subtext">${number.format(statement.summary.negativeCount)} negative entries</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-label">Zero Value</p>
+              <p class="metric-value">${number.format(statement.summary.zeroCount)}</p>
+              <p class="metric-subtext">Rows with no signed amount</p>
+            </article>
+          </div>
+          <div class="statement-preview">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Description</th>
+                  <th>Amount</th>
+                  <th>Money In</th>
+                  <th>Money Out</th>
+                  <th>Direction</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${previewRows
+                  .map(
+                    (entry) => `
+                      <tr>
+                        <td>${escapeHtml(entry.date || "")}</td>
+                        <td>${escapeHtml(entry.description || "")}</td>
+                        <td class="${amountClass(entry.amount)}">${formatCurrency(entry.amount)}</td>
+                        <td>${formatCurrency(entry.moneyIn)}</td>
+                        <td>${formatCurrency(entry.moneyOut)}</td>
+                        <td><span class="direction-pill ${escapeAttribute(entry.direction)}">${escapeHtml(entry.direction)}</span></td>
+                      </tr>
+                    `,
+                  )
+                  .join("")}
+              </tbody>
+            </table>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+
+  elements.bankStatementList.querySelectorAll("[data-remove-statement]").forEach((button) => {
+    button.addEventListener("click", () => {
+      removeBankStatement(button.dataset.removeStatement);
+    });
+  });
+}
+
 function setSaveState(element, message) {
   element.textContent = message;
   window.clearTimeout(element._saveTimer);
@@ -548,7 +680,7 @@ function setSaveState(element, message) {
   }, 2800);
 }
 
-function renderCompanyPanel() {
+function renderCompanyPanel(viewId = getActiveCompanyView()) {
   const company = getSelectedCompany();
   if (!company) {
     elements.emptyState.classList.remove("hidden");
@@ -562,11 +694,12 @@ function renderCompanyPanel() {
   elements.companyPanel.classList.remove("hidden");
   elements.companyName.textContent = record.displayName;
   elements.companyNumber.textContent = record.companyNumber;
-  setDefaultCompanyView();
+  setCompanyView(viewId);
   renderSignalBar(company, record);
   renderCompanyOverview(company, record);
   renderCompanyDetails(company, record);
   renderCompanyWorkflow(company, record);
+  renderBankImports(record);
   renderCompanyNotes(record);
 }
 
@@ -610,6 +743,187 @@ function renderSelfEmployedPanel() {
   `;
 }
 
+function readFileText(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = () => reject(new Error(`Unable to read ${file.name}.`));
+    reader.readAsText(file);
+  });
+}
+
+function parseCsvLine(line) {
+  const values = [];
+  let current = "";
+  let inQuotes = false;
+
+  for (let index = 0; index < line.length; index += 1) {
+    const character = line[index];
+    const next = line[index + 1];
+
+    if (character === "\"") {
+      if (inQuotes && next === "\"") {
+        current += "\"";
+        index += 1;
+      } else {
+        inQuotes = !inQuotes;
+      }
+      continue;
+    }
+
+    if (character === "," && !inQuotes) {
+      values.push(current);
+      current = "";
+      continue;
+    }
+
+    current += character;
+  }
+
+  values.push(current);
+  return values.map((value) => value.trim());
+}
+
+function parseCsvText(text) {
+  const lines = text.replace(/\r/g, "").split("\n").filter((line) => line.trim());
+  if (lines.length < 2) {
+    throw new Error("The CSV needs a header row and at least one transaction row.");
+  }
+
+  const headers = parseCsvLine(lines[0]);
+  return lines.slice(1).map((line) => {
+    const row = parseCsvLine(line);
+    return headers.reduce((record, header, index) => {
+      record[header] = row[index] || "";
+      return record;
+    }, {});
+  });
+}
+
+function findColumnName(row, candidates) {
+  const loweredCandidates = candidates.map((candidate) => candidate.toLowerCase());
+  return Object.keys(row).find((key) => loweredCandidates.includes(key.trim().toLowerCase())) || null;
+}
+
+function parseAmount(value) {
+  if (value == null) return 0;
+  const normalized = String(value).replace(/,/g, "").replace(/[^0-9().-]/g, "").trim();
+  if (!normalized) return 0;
+  if (/^\(.*\)$/.test(normalized)) {
+    return -Number(normalized.slice(1, -1));
+  }
+  const numeric = Number(normalized);
+  return Number.isFinite(numeric) ? numeric : 0;
+}
+
+function normalizeStatementRows(rows) {
+  return rows
+    .map((row, index) => {
+      const dateKey = findColumnName(row, ["Date", "Transaction Date", "Posted Date", "Booking Date"]);
+      const descriptionKey = findColumnName(row, ["Description", "Transaction Description", "Memo", "Reference", "Type"]);
+      const amountKey = findColumnName(row, ["Amount", "Value"]);
+      const paidInKey = findColumnName(row, ["Paid In", "Paid in", "Credit Amount", "Money In", "Credit"]);
+      const paidOutKey = findColumnName(row, ["Paid Out", "Paid out", "Debit Amount", "Money Out", "Debit", "Value Debit"]);
+
+      let amount = amountKey ? parseAmount(row[amountKey]) : 0;
+      const moneyIn = paidInKey ? Math.abs(parseAmount(row[paidInKey])) : 0;
+      const moneyOut = paidOutKey ? Math.abs(parseAmount(row[paidOutKey])) : 0;
+
+      if (!amount && (moneyIn || moneyOut)) {
+        amount = moneyIn - moneyOut;
+      }
+
+      const direction = amount > 0 ? "in" : amount < 0 ? "out" : "zero";
+      return {
+        id: `entry-${index + 1}`,
+        date: dateKey ? row[dateKey] : "",
+        description: descriptionKey ? row[descriptionKey] : "",
+        amount,
+        moneyIn: amount > 0 ? Math.abs(amount) : moneyIn,
+        moneyOut: amount < 0 ? Math.abs(amount) : moneyOut,
+        direction,
+      };
+    })
+    .filter((entry) => entry.date || entry.description || entry.amount || entry.moneyIn || entry.moneyOut);
+}
+
+function summarizeStatement(entries) {
+  return entries.reduce(
+    (summary, entry) => {
+      summary.rowCount += 1;
+      summary.moneyIn += entry.moneyIn || 0;
+      summary.moneyOut += entry.moneyOut || 0;
+      if (entry.direction === "in") summary.positiveCount += 1;
+      if (entry.direction === "out") summary.negativeCount += 1;
+      if (entry.direction === "zero") summary.zeroCount += 1;
+      return summary;
+    },
+    {
+      rowCount: 0,
+      moneyIn: 0,
+      moneyOut: 0,
+      positiveCount: 0,
+      negativeCount: 0,
+      zeroCount: 0,
+    },
+  );
+}
+
+async function importBankStatement() {
+  const company = getSelectedCompany();
+  const file = elements.bankStatementFile.files?.[0];
+  if (!company || !file) {
+    setSaveState(elements.companySaveState, "Choose a statement CSV first");
+    return;
+  }
+
+  const accountLabel = elements.bankAccountLabel.value.trim() || `${getCompanyRecord(company.company_number).displayName} bank account`;
+  const note = elements.bankImportNotes.value.trim();
+
+  try {
+    const text = await readFileText(file);
+    const rows = parseCsvText(text);
+    const entries = normalizeStatementRows(rows);
+
+    if (!entries.length) {
+      throw new Error("No usable transaction rows were found in that CSV.");
+    }
+
+    updateCompanyRecordField(company.company_number, (recordState) => {
+      recordState.bankImports ??= [];
+      recordState.bankImports.unshift({
+        id: `statement-${Date.now()}`,
+        accountLabel,
+        fileName: file.name,
+        note,
+        importedAt: new Date().toISOString(),
+        summary: summarizeStatement(entries),
+        entries,
+      });
+    });
+
+    elements.bankAccountLabel.value = "";
+    elements.bankImportNotes.value = "";
+    elements.bankStatementFile.value = "";
+    renderCompanyPanel("company-bank-import");
+    setSaveState(elements.companySaveState, `Imported ${file.name}`);
+  } catch (error) {
+    setSaveState(elements.companySaveState, error.message);
+  }
+}
+
+function removeBankStatement(statementId) {
+  const company = getSelectedCompany();
+  if (!company) return;
+
+  updateCompanyRecordField(company.company_number, (recordState) => {
+    recordState.bankImports = (recordState.bankImports || []).filter((statement) => statement.id !== statementId);
+  });
+
+  renderCompanyPanel("company-bank-import");
+  setSaveState(elements.companySaveState, "Statement removed");
+}
+
 function defaultWorkflowStatus(file) {
   if (Math.abs(file.amount_total) > 0 || Math.abs(file.paid_in_total) > 0 || Math.abs(file.paid_out_total) > 0) {
     return "reconciled";
@@ -637,6 +951,10 @@ function amountClass(value) {
 
 function formatCurrency(value) {
   return currency.format(value || 0);
+}
+
+function escapeHtml(value) {
+  return escapeAttribute(value);
 }
 
 function escapeAttribute(value) {
@@ -709,6 +1027,8 @@ function initializeRecords(data) {
   state.companies = data.companies;
   state.companies.forEach((company) => {
     state.companyRecords[company.company_number] ??= companyDefaults(company);
+    state.companyRecords[company.company_number].bankImports ??= [];
+    state.companyRecords[company.company_number].workflow ??= {};
   });
   SELF_EMPLOYED_PEOPLE.forEach((person) => {
     state.personRecords[person] ??= personDefaults(person);
@@ -729,6 +1049,7 @@ function bindEvents() {
 
   elements.saveCompanyButton.addEventListener("click", applyCompanyEdits);
   elements.resetCompanyButton.addEventListener("click", resetCurrentCompanyView);
+  elements.importBankStatementButton.addEventListener("click", importBankStatement);
   elements.savePersonButton.addEventListener("click", applyPersonEdits);
   elements.resetPersonButton.addEventListener("click", resetCurrentPersonView);
 }

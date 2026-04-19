@@ -583,6 +583,116 @@ textarea {
   gap: 12px;
 }
 
+.import-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.helper-copy {
+  margin: 0;
+  color: var(--muted);
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.statement-library {
+  margin-top: 18px;
+}
+
+.statement-list {
+  display: grid;
+  gap: 16px;
+}
+
+.statement-card {
+  border: 1px solid rgba(214, 168, 78, 0.1);
+  border-radius: 22px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.statement-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: start;
+  margin-bottom: 14px;
+}
+
+.statement-head h4,
+.statement-meta {
+  margin: 0;
+}
+
+.statement-meta {
+  margin-top: 8px;
+  color: var(--muted);
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.statement-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.mini-button {
+  border: 1px solid rgba(242, 207, 124, 0.2);
+  border-radius: 999px;
+  padding: 9px 12px;
+  color: var(--text);
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.mini-button.danger {
+  border-color: rgba(239, 143, 114, 0.35);
+  color: var(--danger);
+}
+
+.statement-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.statement-preview {
+  overflow: auto;
+}
+
+.statement-preview table {
+  min-width: 860px;
+}
+
+.direction-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-family: Arial, sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.direction-pill.in {
+  color: var(--success);
+}
+
+.direction-pill.out {
+  color: var(--danger);
+}
+
+.direction-pill.zero {
+  color: var(--muted);
+}
+
 .stack-card + .stack-card {
   margin-top: 12px;
 }
@@ -669,7 +779,12 @@ th {
 
   .form-grid,
   .compact-form,
-  .metric-grid {
+  .metric-grid,
+  .statement-grid {
     grid-template-columns: 1fr;
+  }
+
+  .statement-head {
+    flex-direction: column;
   }
 }

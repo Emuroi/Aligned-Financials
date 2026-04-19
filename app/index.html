@@ -87,6 +87,7 @@
               <button class="tab active" data-view="company-overview">Overview</button>
               <button class="tab" data-view="company-details">Details</button>
               <button class="tab" data-view="company-workflow">Workflow</button>
+              <button class="tab" data-view="company-bank-import">Bank Import</button>
               <button class="tab" data-view="company-notes">Notes</button>
             </nav>
 
@@ -286,6 +287,62 @@
                     </article>
                   </div>
                 </article>
+              </section>
+            </section>
+
+            <section class="view-panel hidden" id="company-bank-import">
+              <section class="editor-grid details-layout">
+                <article class="glass-card">
+                  <div class="card-head">
+                    <p class="section-kicker">Bank statements</p>
+                    <h3>Import statement CSV</h3>
+                  </div>
+                  <div class="form-grid">
+                    <label>
+                      <span>Bank account label</span>
+                      <input id="bankAccountLabel" type="text" placeholder="HSBC GBP current account">
+                    </label>
+                    <label>
+                      <span>Statement CSV file</span>
+                      <input id="bankStatementFile" type="file" accept=".csv,text/csv">
+                    </label>
+                    <label class="full-span">
+                      <span>Import notes</span>
+                      <textarea id="bankImportNotes" rows="3" placeholder="Optional note about this statement import"></textarea>
+                    </label>
+                  </div>
+                  <div class="import-actions">
+                    <button id="importBankStatementButton" class="action-chip">Import statement</button>
+                    <p class="helper-copy">Each import stays attached to the selected company and is saved in this browser on this machine.</p>
+                  </div>
+                </article>
+
+                <article class="glass-card">
+                  <div class="card-head">
+                    <p class="section-kicker">Auto sorting</p>
+                    <h3>Money in and money out</h3>
+                  </div>
+                  <div id="bankImportSummary" class="metric-grid"></div>
+                  <div class="notes-stack">
+                    <article class="note-card">
+                      <h4>How it works</h4>
+                      <p>Positive amounts are treated as money in. Negative amounts are treated as money out. Separate debit and credit columns are also detected automatically.</p>
+                    </article>
+                    <article class="note-card">
+                      <h4>Best statement format</h4>
+                      <p>CSV files with columns like Date, Description, Amount, Debit, Credit, Paid In, or Paid Out will import most reliably.</p>
+                    </article>
+                  </div>
+                </article>
+              </section>
+
+              <section class="glass-card statement-library">
+                <div class="card-head">
+                  <p class="section-kicker">Imported library</p>
+                  <h3>Company bank statements</h3>
+                </div>
+                <p id="bankImportEmpty" class="workflow-summary"></p>
+                <div id="bankStatementList" class="statement-list"></div>
               </section>
             </section>
           </div>
