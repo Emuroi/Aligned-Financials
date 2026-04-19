@@ -10,7 +10,16 @@
     <section id="authShell" class="auth-shell">
       <div class="auth-panel">
         <div class="auth-brand">
-          <img class="brand-image auth-mark-image" src="../build/icon.png" alt="Aligned Financials logo">
+          <div class="brand-token auth-token" aria-hidden="true">
+            <span class="brand-token-a">A</span>
+            <span class="brand-token-f">F</span>
+            <span class="brand-token-arrow"></span>
+            <span class="brand-token-bars">
+              <i></i>
+              <i></i>
+              <i></i>
+            </span>
+          </div>
           <p class="brand-kicker">Aligned Financials</p>
           <h1 class="auth-title">Private desktop accounting workspace</h1>
           <p class="auth-copy">
@@ -74,7 +83,16 @@
     <main id="appShell" class="shell hidden">
       <header class="topbar">
         <div class="topbar-brand">
-          <img class="brand-image topbar-logo" src="../build/icon.png" alt="Aligned Financials logo">
+          <div class="brand-token topbar-token" aria-hidden="true">
+            <span class="brand-token-a">A</span>
+            <span class="brand-token-f">F</span>
+            <span class="brand-token-arrow"></span>
+            <span class="brand-token-bars">
+              <i></i>
+              <i></i>
+              <i></i>
+            </span>
+          </div>
           <div>
             <p class="brand-kicker">Aligned Financials</p>
             <h1 class="app-title">Private accounting workspace</h1>
@@ -246,48 +264,82 @@
                   <p class="section-kicker">Company setup</p>
                   <h3>Core onboarding fields</h3>
                 </div>
+                <div class="wizard-steps" id="companyWizardSteps">
+                  <button class="wizard-step active" data-company-step="identity" type="button">Identity</button>
+                  <button class="wizard-step" data-company-step="tax" type="button">Tax</button>
+                  <button class="wizard-step" data-company-step="contacts" type="button">Contacts</button>
+                  <button class="wizard-step" data-company-step="notes" type="button">Notes</button>
+                </div>
                 <form id="addCompanyForm" class="form-grid">
-                  <label>
-                    <span>Display name</span>
-                    <input name="displayName" type="text" placeholder="Aligned Advisory Ltd">
-                  </label>
-                  <label>
-                    <span>Legal name</span>
-                    <input name="legalName" type="text" placeholder="Full registered company name">
-                  </label>
-                  <label>
-                    <span>Company number</span>
-                    <input name="companyNumber" type="text" placeholder="Optional if not registered yet">
-                  </label>
-                  <label>
-                    <span>Entity type</span>
-                    <input name="entityType" type="text" placeholder="Private limited company">
-                  </label>
-                  <label>
-                    <span>VAT registration</span>
-                    <input name="vatRegistration" type="text" placeholder="Optional">
-                  </label>
-                  <label>
-                    <span>Company UTR</span>
-                    <input name="utr" type="text" placeholder="Optional">
-                  </label>
-                  <label>
-                    <span>Primary contact</span>
-                    <input name="contactName" type="text" placeholder="Director or contact person">
-                  </label>
-                  <label>
-                    <span>Email / phone note</span>
-                    <input name="contactNote" type="text" placeholder="How you want to remember contact details">
-                  </label>
-                  <label class="full-span">
-                    <span>Registered address</span>
-                    <textarea name="address" rows="4" placeholder="Registered office or working address"></textarea>
-                  </label>
-                  <label class="full-span">
-                    <span>Onboarding notes</span>
-                    <textarea name="notes" rows="5" placeholder="Initial setup notes, Xero details, deadlines, or handover notes"></textarea>
-                  </label>
+                  <div class="wizard-panel" data-company-panel="identity">
+                    <div class="form-grid">
+                      <label>
+                        <span>Display name</span>
+                        <input name="displayName" type="text" placeholder="Aligned Advisory Ltd">
+                      </label>
+                      <label>
+                        <span>Legal name</span>
+                        <input name="legalName" type="text" placeholder="Full registered company name">
+                      </label>
+                      <label>
+                        <span>Company number</span>
+                        <input name="companyNumber" type="text" placeholder="Optional if not registered yet">
+                      </label>
+                      <label>
+                        <span>Entity type</span>
+                        <input name="entityType" type="text" placeholder="Private limited company">
+                      </label>
+                    </div>
+                  </div>
+                  <div class="wizard-panel hidden" data-company-panel="tax">
+                    <div class="form-grid">
+                      <label>
+                        <span>VAT registration</span>
+                        <input name="vatRegistration" type="text" placeholder="Optional">
+                      </label>
+                      <label>
+                        <span>Company UTR</span>
+                        <input name="utr" type="text" placeholder="Optional">
+                      </label>
+                      <label>
+                        <span>VAT scheme</span>
+                        <input name="vatScheme" type="text" placeholder="Standard / Flat rate / Cash">
+                      </label>
+                      <label>
+                        <span>Year end note</span>
+                        <input name="yearEndNote" type="text" placeholder="Optional reminder">
+                      </label>
+                    </div>
+                  </div>
+                  <div class="wizard-panel hidden" data-company-panel="contacts">
+                    <div class="form-grid">
+                      <label>
+                        <span>Primary contact</span>
+                        <input name="contactName" type="text" placeholder="Director or contact person">
+                      </label>
+                      <label>
+                        <span>Email / phone note</span>
+                        <input name="contactNote" type="text" placeholder="How you want to remember contact details">
+                      </label>
+                      <label class="full-span">
+                        <span>Registered address</span>
+                        <textarea name="address" rows="4" placeholder="Registered office or working address"></textarea>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="wizard-panel hidden" data-company-panel="notes">
+                    <div class="form-grid">
+                      <label class="full-span">
+                        <span>Onboarding notes</span>
+                        <textarea name="notes" rows="5" placeholder="Initial setup notes, Xero details, deadlines, or handover notes"></textarea>
+                      </label>
+                    </div>
+                  </div>
                 </form>
+                <div class="wizard-controls">
+                  <button id="companyWizardBack" class="action-chip subtle" type="button">Back</button>
+                  <button id="companyWizardNext" class="action-chip subtle" type="button">Next</button>
+                </div>
               </article>
 
               <article class="glass-card">
@@ -333,40 +385,66 @@
                   <p class="section-kicker">Personal setup</p>
                   <h3>Core onboarding fields</h3>
                 </div>
+                <div class="wizard-steps" id="personWizardSteps">
+                  <button class="wizard-step active" data-person-step="identity" type="button">Identity</button>
+                  <button class="wizard-step" data-person-step="tax" type="button">Tax</button>
+                  <button class="wizard-step" data-person-step="contacts" type="button">Contacts</button>
+                  <button class="wizard-step" data-person-step="notes" type="button">Notes</button>
+                </div>
                 <form id="addPersonForm" class="form-grid">
-                  <label>
-                    <span>Full name</span>
-                    <input name="fullName" type="text" placeholder="Alex Example">
-                  </label>
-                  <label>
-                    <span>Trading name</span>
-                    <input name="tradingName" type="text" placeholder="Optional">
-                  </label>
-                  <label>
-                    <span>UTR</span>
-                    <input name="utr" type="text" placeholder="Optional">
-                  </label>
-                  <label>
-                    <span>NINO</span>
-                    <input name="nino" type="text" placeholder="Optional">
-                  </label>
-                  <label>
-                    <span>Date of birth</span>
-                    <input name="dateOfBirth" type="text" placeholder="Optional">
-                  </label>
-                  <label>
-                    <span>Nationality</span>
-                    <input name="nationality" type="text" placeholder="Optional">
-                  </label>
-                  <label class="full-span">
-                    <span>Address</span>
-                    <textarea name="address" rows="4" placeholder="Home or registered address"></textarea>
-                  </label>
-                  <label class="full-span">
-                    <span>Onboarding notes</span>
-                    <textarea name="notes" rows="5" placeholder="Initial setup notes, filing reminders, or handover context"></textarea>
-                  </label>
+                  <div class="wizard-panel" data-person-panel="identity">
+                    <div class="form-grid">
+                      <label>
+                        <span>Full name</span>
+                        <input name="fullName" type="text" placeholder="Alex Example">
+                      </label>
+                      <label>
+                        <span>Trading name</span>
+                        <input name="tradingName" type="text" placeholder="Optional">
+                      </label>
+                      <label>
+                        <span>Date of birth</span>
+                        <input name="dateOfBirth" type="text" placeholder="Optional">
+                      </label>
+                      <label>
+                        <span>Nationality</span>
+                        <input name="nationality" type="text" placeholder="Optional">
+                      </label>
+                    </div>
+                  </div>
+                  <div class="wizard-panel hidden" data-person-panel="tax">
+                    <div class="form-grid">
+                      <label>
+                        <span>UTR</span>
+                        <input name="utr" type="text" placeholder="Optional">
+                      </label>
+                      <label>
+                        <span>NINO</span>
+                        <input name="nino" type="text" placeholder="Optional">
+                      </label>
+                    </div>
+                  </div>
+                  <div class="wizard-panel hidden" data-person-panel="contacts">
+                    <div class="form-grid">
+                      <label class="full-span">
+                        <span>Address</span>
+                        <textarea name="address" rows="4" placeholder="Home or registered address"></textarea>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="wizard-panel hidden" data-person-panel="notes">
+                    <div class="form-grid">
+                      <label class="full-span">
+                        <span>Onboarding notes</span>
+                        <textarea name="notes" rows="5" placeholder="Initial setup notes, filing reminders, or handover context"></textarea>
+                      </label>
+                    </div>
+                  </div>
                 </form>
+                <div class="wizard-controls">
+                  <button id="personWizardBack" class="action-chip subtle" type="button">Back</button>
+                  <button id="personWizardNext" class="action-chip subtle" type="button">Next</button>
+                </div>
               </article>
 
               <article class="glass-card">

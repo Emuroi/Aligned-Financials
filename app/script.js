@@ -130,6 +130,7 @@ const PERSON_STORAGE_KEY = "aligned-financials-self-employed-records";
 const CUSTOM_COMPANIES_KEY = "aligned-financials-custom-companies";
 const CUSTOM_PEOPLE_KEY = "aligned-financials-custom-people";
 const LEGACY_AUTH_STORAGE_KEY = "aligned-financials-auth";
+const WIZARD_STEPS = ["identity", "tax", "contacts", "notes"];
 
 const state = {
   companies: [],
@@ -145,6 +146,8 @@ const state = {
   activeUser: "",
   activePassword: "",
   persistedData: {},
+  companyWizardStep: "identity",
+  personWizardStep: "identity",
 };
 
 const currency = new Intl.NumberFormat("en-GB", {
@@ -197,6 +200,14 @@ const elements = {
   createPersonButton: document.getElementById("createPersonButton"),
   createCompanyState: document.getElementById("createCompanyState"),
   createPersonState: document.getElementById("createPersonState"),
+  companyWizardSteps: Array.from(document.querySelectorAll("[data-company-step]")),
+  companyWizardPanels: Array.from(document.querySelectorAll("[data-company-panel]")),
+  companyWizardBack: document.getElementById("companyWizardBack"),
+  companyWizardNext: document.getElementById("companyWizardNext"),
+  personWizardSteps: Array.from(document.querySelectorAll("[data-person-step]")),
+  personWizardPanels: Array.from(document.querySelectorAll("[data-person-panel]")),
+  personWizardBack: document.getElementById("personWizardBack"),
+  personWizardNext: document.getElementById("personWizardNext"),
   homeRouteCompanies: document.getElementById("homeRouteCompanies"),
   homeRouteSelf: document.getElementById("homeRouteSelf"),
   homeRouteImport: document.getElementById("homeRouteImport"),
@@ -559,6 +570,63 @@ function updatePrimaryNav(active) {
   });
 }
 
+function syncWizardUI(step, stepButtons, panels, backButton, nextButton) {
+  stepButtons.forEach((button) => {
+    button.classList.toggle("active", button.dataset.companyStep === step || button.dataset.personStep === step);
+  });
+
+  panels.forEach((panel) => {
+    panel.classList.toggle("hidden", panel.dataset.companyPanel !== step && panel.dataset.personPanel !== step);
+  });
+
+  const stepIndex = WIZARD_STEPS.indexOf(step);
+  if (backButton) {
+    backButton.disabled = stepIndex <= 0;
+    backButton.style.visibility = stepIndex <= 0 ? "hidden" : "visible";
+  }
+  if (nextButton) {
+    const isLastStep = stepIndex >= WIZARD_STEPS.length - 1;
+    nextButton.disabled = isLastStep;
+    nextButton.textContent = isLastStep ? "Final step" : "Next";
+  }
+}
+
+function setCompanyWizardStep(step) {
+  if (!WIZARD_STEPS.includes(step)) return;
+  state.companyWizardStep = step;
+  syncWizardUI(
+    step,
+    elements.companyWizardSteps,
+    elements.companyWizardPanels,
+    elements.companyWizardBack,
+    elements.companyWizardNext,
+  );
+}
+
+function moveCompanyWizard(direction) {
+  const currentIndex = WIZARD_STEPS.indexOf(state.companyWizardStep);
+  const nextIndex = Math.max(0, Math.min(WIZARD_STEPS.length - 1, currentIndex + direction));
+  setCompanyWizardStep(WIZARD_STEPS[nextIndex]);
+}
+
+function setPersonWizardStep(step) {
+  if (!WIZARD_STEPS.includes(step)) return;
+  state.personWizardStep = step;
+  syncWizardUI(
+    step,
+    elements.personWizardSteps,
+    elements.personWizardPanels,
+    elements.personWizardBack,
+    elements.personWizardNext,
+  );
+}
+
+function movePersonWizard(direction) {
+  const currentIndex = WIZARD_STEPS.indexOf(state.personWizardStep);
+  const nextIndex = Math.max(0, Math.min(WIZARD_STEPS.length - 1, currentIndex + direction));
+  setPersonWizardStep(WIZARD_STEPS[nextIndex]);
+}
+
 function showHomePanel() {
   hideAllPanels();
   elements.homePanel.classList.remove("hidden");
@@ -574,12 +642,14 @@ function showSettingsPanel() {
 function showNewCompanyPanel() {
   hideAllPanels();
   elements.newCompanyPanel.classList.remove("hidden");
+  setCompanyWizardStep("identity");
   updatePrimaryNav("companies");
 }
 
 function showNewPersonPanel() {
   hideAllPanels();
   elements.newPersonPanel.classList.remove("hidden");
+  setPersonWizardStep("identity");
   updatePrimaryNav("self");
 }
 
@@ -1343,12 +1413,15 @@ function createCompanyRecord() {
   const entityType = String(formData.get("entityType") || "").trim();
   const vatRegistration = String(formData.get("vatRegistration") || "").trim();
   const utr = String(formData.get("utr") || "").trim();
+  const vatScheme = String(formData.get("vatScheme") || "").trim();
+  const yearEndNote = String(formData.get("yearEndNote") || "").trim();
   const contactName = String(formData.get("contactName") || "").trim();
   const contactNote = String(formData.get("contactNote") || "").trim();
   const address = String(formData.get("address") || "").trim();
   const note = String(formData.get("notes") || "").trim();
 
   if (!displayName) {
+    setCompanyWizardStep("identity");
     setSaveState(elements.createCompanyState, "Enter a company name");
     return;
   }
@@ -1369,9 +1442,10 @@ function createCompanyRecord() {
     companyNumber,
     entityType: entityType || "Private limited company",
     vatRegistration,
+    vatScheme,
     utr,
     address,
-    generalNotes: [contactName, contactNote, note].filter(Boolean).join("\n"),
+    generalNotes: [contactName, contactNote, yearEndNote, note].filter(Boolean).join("\n"),
   };
 
   saveRecords(COMPANY_STORAGE_KEY, state.companyRecords);
@@ -1379,6 +1453,7 @@ function createCompanyRecord() {
   state.companies = [...state.customCompanies, ...state.companies.filter((company) => !company.isCustom)];
   filterCompanies(elements.companySearch.value);
   elements.addCompanyForm.reset();
+  setCompanyWizardStep("identity");
   state.selectedPersonId = null;
   state.selectedCompanyId = companyNumber;
   renderCompanyList();
@@ -1399,6 +1474,7 @@ function createPersonRecord() {
   const notes = String(formData.get("notes") || "").trim();
 
   if (!fullName) {
+    setPersonWizardStep("identity");
     setSaveState(elements.createPersonState, "Enter a full name");
     return;
   }
@@ -1424,6 +1500,7 @@ function createPersonRecord() {
   saveRecords(PERSON_STORAGE_KEY, state.personRecords);
   saveRecords(CUSTOM_PEOPLE_KEY, state.customPeople);
   elements.addPersonForm.reset();
+  setPersonWizardStep("identity");
   state.selectedCompanyId = null;
   state.selectedPersonId = fullName;
   renderCompanyList();
@@ -1491,6 +1568,16 @@ function bindEvents() {
   elements.homeRouteYears.addEventListener("click", () => openFirstCompany("company-years"));
   elements.homeRouteSettings.addEventListener("click", showSettingsPanel);
   elements.homeLinkButtons.forEach((button) => button.addEventListener("click", showHomePanel));
+  elements.companyWizardSteps.forEach((button) => {
+    button.addEventListener("click", () => setCompanyWizardStep(button.dataset.companyStep));
+  });
+  elements.companyWizardBack.addEventListener("click", () => moveCompanyWizard(-1));
+  elements.companyWizardNext.addEventListener("click", () => moveCompanyWizard(1));
+  elements.personWizardSteps.forEach((button) => {
+    button.addEventListener("click", () => setPersonWizardStep(button.dataset.personStep));
+  });
+  elements.personWizardBack.addEventListener("click", () => movePersonWizard(-1));
+  elements.personWizardNext.addEventListener("click", () => movePersonWizard(1));
   elements.createCompanyButton.addEventListener("click", createCompanyRecord);
   elements.createPersonButton.addEventListener("click", createPersonRecord);
   elements.createAccessButton.addEventListener("click", createLocalAccess);
@@ -1538,6 +1625,8 @@ async function loadApp() {
 
   initializeRecords(data);
   bindEvents();
+  setCompanyWizardStep("identity");
+  setPersonWizardStep("identity");
   renderHeader(data);
   renderStats();
   renderCompanyList();
