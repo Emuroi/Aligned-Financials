@@ -8,18 +8,9 @@
   </head>
   <body>
     <main class="shell">
-      <section class="masthead">
-        <div class="brand-block">
-          <p class="brand-kicker">Aligned Financials</p>
-          <h1>Editable client workspace for the recovered accounting handover.</h1>
-          <p class="brand-copy">
-            This version is designed to be used, not just previewed. Every company and
-            self-employed record can be opened, edited, and saved locally in the browser.
-          </p>
-        </div>
-
-        <div class="brand-mark-card">
-          <div class="brand-mark" aria-hidden="true">
+      <header class="topbar">
+        <div class="topbar-brand">
+          <div class="topbar-mark" aria-hidden="true">
             <span class="mark-a">A</span>
             <span class="mark-f">F</span>
             <span class="mark-arrow"></span>
@@ -29,8 +20,49 @@
               <i></i>
             </span>
           </div>
+          <div>
+            <p class="brand-kicker">Aligned Financials</p>
+            <h1 class="app-title">Private accounting workspace</h1>
+          </div>
+        </div>
+
+        <nav class="topbar-nav" aria-label="Primary">
+          <button id="homeButton" class="nav-chip active">Home</button>
+          <button id="companiesButton" class="nav-chip">Companies</button>
+          <button id="selfEmployedButton" class="nav-chip">Self Employed</button>
+        </nav>
+
+        <div class="topbar-meta">
           <p class="data-label">Recovered source</p>
           <p id="zipPath" class="data-value">Loading...</p>
+        </div>
+      </header>
+
+      <section class="masthead">
+        <div class="brand-block">
+          <p class="brand-kicker">Aligned Operating Desk</p>
+          <h2>High-trust client accounting, rebuilt as a single private workspace.</h2>
+          <p class="brand-copy">
+            Open the home desk for your full picture, jump into a client in one click, and keep
+            company, sole trader, workflow, statement, and compliance data together in one place.
+          </p>
+          <div class="masthead-actions">
+            <button id="mastheadHomeButton" class="action-chip">Open home</button>
+            <button id="mastheadCompaniesButton" class="action-chip subtle">Browse companies</button>
+          </div>
+        </div>
+
+        <div class="brand-mark-card">
+          <div class="brand-mark brand-mark-large" aria-hidden="true">
+            <span class="mark-a">A</span>
+            <span class="mark-f">F</span>
+            <span class="mark-arrow"></span>
+            <span class="mark-bars">
+              <i></i>
+              <i></i>
+              <i></i>
+            </span>
+          </div>
           <p id="generatedAt" class="data-meta"></p>
           <p class="storage-note">
             Changes are stored in this browser on this machine using local storage.
@@ -60,13 +92,79 @@
         </aside>
 
         <section class="workspace-main">
-          <div id="emptyState" class="empty-state">
+          <div id="homePanel" class="home-panel">
+            <section class="home-hero glass-card">
+              <div class="home-copy">
+                <p class="section-kicker">Home</p>
+                <h2>Aligned Financials control centre</h2>
+                <p>
+                  Use this home desk to move between companies, self employed records, bank imports,
+                  and current rebuild work without losing context.
+                </p>
+              </div>
+              <div class="home-actions">
+                <button id="quickOpenCompanyButton" class="action-chip">Open first company</button>
+                <button id="quickOpenSelfButton" class="action-chip subtle">Open self employed</button>
+              </div>
+            </section>
+
+            <section class="editor-grid">
+              <article class="glass-card">
+                <div class="card-head">
+                  <p class="section-kicker">Workspace focus</p>
+                  <h3>What this software does</h3>
+                </div>
+                <div class="notes-stack">
+                  <article class="note-card">
+                    <h4>Client management</h4>
+                    <p>Store legal details, tax references, gateway fields, notes, deadlines, and imported files per record.</p>
+                  </article>
+                  <article class="note-card">
+                    <h4>Bank statement handling</h4>
+                    <p>Import CSV statements per company and auto-sort positives into money in and negatives into money out.</p>
+                  </article>
+                  <article class="note-card">
+                    <h4>Personal operating software</h4>
+                    <p>This is being shaped as a private Aligned Financials desktop-style workspace rather than a public-facing dashboard.</p>
+                  </article>
+                </div>
+              </article>
+
+              <article class="glass-card">
+                <div class="card-head">
+                  <p class="section-kicker">Quick routes</p>
+                  <h3>Main navigation</h3>
+                </div>
+                <div class="quick-grid">
+                  <button id="homeRouteCompanies" class="quick-card">
+                    <span class="quick-label">Companies</span>
+                    <strong>Open company workspace</strong>
+                    <span>Go straight to the limited company desk and select a client.</span>
+                  </button>
+                  <button id="homeRouteSelf" class="quick-card">
+                    <span class="quick-label">Self employed</span>
+                    <strong>Open sole trader records</strong>
+                    <span>Jump to personal profiles and keep them separate from company accounts.</span>
+                  </button>
+                  <button id="homeRouteImport" class="quick-card">
+                    <span class="quick-label">Bank import</span>
+                    <strong>Import statement CSVs</strong>
+                    <span>Go directly to the bank import workflow for the selected company.</span>
+                  </button>
+                  <button id="homeRouteWorkflow" class="quick-card">
+                    <span class="quick-label">Workflow</span>
+                    <strong>Review transaction batches</strong>
+                    <span>Check imported file groups, notes, and reconciliation status from one place.</span>
+                  </button>
+                </div>
+              </article>
+            </section>
+          </div>
+
+          <div id="emptyState" class="empty-state hidden">
             <p class="section-kicker">Workspace ready</p>
             <h2>Select a company or self-employed person to begin editing.</h2>
-            <p>
-              The software now separates limited companies from self-employed records and lets you
-              edit the live record, deadlines, notes, and workflow status directly in the page.
-            </p>
+            <p>The software separates limited companies from self-employed records and keeps the main home desk one click away.</p>
           </div>
 
           <div id="companyPanel" class="record-panel hidden">
@@ -78,6 +176,7 @@
               </div>
               <div class="entity-actions">
                 <p id="companySaveState" class="save-state" aria-live="polite"></p>
+                <button class="action-chip subtle home-link-button" type="button">Back to home</button>
                 <button id="saveCompanyButton" class="action-chip">Save company</button>
                 <button id="resetCompanyButton" class="action-chip subtle">Reset view</button>
               </div>
@@ -356,6 +455,7 @@
               </div>
               <div class="entity-actions">
                 <p id="personSaveState" class="save-state" aria-live="polite"></p>
+                <button class="action-chip subtle home-link-button" type="button">Back to home</button>
                 <button id="savePersonButton" class="action-chip">Save person</button>
                 <button id="resetPersonButton" class="action-chip subtle">Reset view</button>
               </div>

@@ -153,9 +153,21 @@ const elements = {
   companySearch: document.getElementById("companySearch"),
   companyList: document.getElementById("companyList"),
   selfEmployedList: document.getElementById("selfEmployedList"),
+  homePanel: document.getElementById("homePanel"),
   emptyState: document.getElementById("emptyState"),
   companyPanel: document.getElementById("companyPanel"),
   selfEmployedPanel: document.getElementById("selfEmployedPanel"),
+  homeButton: document.getElementById("homeButton"),
+  companiesButton: document.getElementById("companiesButton"),
+  selfEmployedButton: document.getElementById("selfEmployedButton"),
+  mastheadHomeButton: document.getElementById("mastheadHomeButton"),
+  mastheadCompaniesButton: document.getElementById("mastheadCompaniesButton"),
+  quickOpenCompanyButton: document.getElementById("quickOpenCompanyButton"),
+  quickOpenSelfButton: document.getElementById("quickOpenSelfButton"),
+  homeRouteCompanies: document.getElementById("homeRouteCompanies"),
+  homeRouteSelf: document.getElementById("homeRouteSelf"),
+  homeRouteImport: document.getElementById("homeRouteImport"),
+  homeRouteWorkflow: document.getElementById("homeRouteWorkflow"),
   companyName: document.getElementById("companyName"),
   companyNumber: document.getElementById("companyNumber"),
   saveCompanyButton: document.getElementById("saveCompanyButton"),
@@ -186,6 +198,7 @@ const elements = {
   selfNotes: document.getElementById("selfNotes"),
   companySaveState: document.getElementById("companySaveState"),
   personSaveState: document.getElementById("personSaveState"),
+  homeLinkButtons: Array.from(document.querySelectorAll(".home-link-button")),
   companyTabs: Array.from(document.querySelectorAll(".tab[data-view]")),
   companyViews: Array.from(document.querySelectorAll("#companyPanel .view-panel")),
 };
@@ -423,9 +436,26 @@ function renderSelfEmployedList() {
 }
 
 function hideAllPanels() {
+  elements.homePanel.classList.add("hidden");
   elements.emptyState.classList.add("hidden");
   elements.companyPanel.classList.add("hidden");
   elements.selfEmployedPanel.classList.add("hidden");
+}
+
+function updatePrimaryNav(active) {
+  [
+    ["home", elements.homeButton],
+    ["companies", elements.companiesButton],
+    ["self", elements.selfEmployedButton],
+  ].forEach(([key, button]) => {
+    button.classList.toggle("active", key === active);
+  });
+}
+
+function showHomePanel() {
+  hideAllPanels();
+  elements.homePanel.classList.remove("hidden");
+  updatePrimaryNav("home");
 }
 
 function renderSignalBar(company, record) {
@@ -683,15 +713,15 @@ function setSaveState(element, message) {
 function renderCompanyPanel(viewId = getActiveCompanyView()) {
   const company = getSelectedCompany();
   if (!company) {
+    hideAllPanels();
     elements.emptyState.classList.remove("hidden");
-    elements.companyPanel.classList.add("hidden");
-    elements.selfEmployedPanel.classList.add("hidden");
     return;
   }
 
   const record = getCompanyRecord(company.company_number);
   hideAllPanels();
   elements.companyPanel.classList.remove("hidden");
+  updatePrimaryNav("companies");
   elements.companyName.textContent = record.displayName;
   elements.companyNumber.textContent = record.companyNumber;
   setCompanyView(viewId);
@@ -706,14 +736,14 @@ function renderCompanyPanel(viewId = getActiveCompanyView()) {
 function renderSelfEmployedPanel() {
   const person = getSelectedPersonRecord();
   if (!person) {
+    hideAllPanels();
     elements.emptyState.classList.remove("hidden");
-    elements.companyPanel.classList.add("hidden");
-    elements.selfEmployedPanel.classList.add("hidden");
     return;
   }
 
   hideAllPanels();
   elements.selfEmployedPanel.classList.remove("hidden");
+  updatePrimaryNav("self");
   elements.selfPersonName.textContent = person.fullName;
 
   elements.personDetailsForm.elements.fullName.value = person.fullName;
@@ -1006,6 +1036,34 @@ function resetCurrentPersonView() {
   renderSelfEmployedPanel();
 }
 
+function openFirstCompany(viewId = "company-overview") {
+  const firstCompany = state.filteredCompanies[0] || state.companies[0];
+  if (!firstCompany) {
+    hideAllPanels();
+    elements.emptyState.classList.remove("hidden");
+    return;
+  }
+  state.selectedPersonId = null;
+  state.selectedCompanyId = firstCompany.company_number;
+  renderCompanyList();
+  renderSelfEmployedList();
+  renderCompanyPanel(viewId);
+}
+
+function openFirstSelfEmployed() {
+  const firstPerson = SELF_EMPLOYED_PEOPLE[0];
+  if (!firstPerson) {
+    hideAllPanels();
+    elements.emptyState.classList.remove("hidden");
+    return;
+  }
+  state.selectedCompanyId = null;
+  state.selectedPersonId = firstPerson;
+  renderCompanyList();
+  renderSelfEmployedList();
+  renderSelfEmployedPanel();
+}
+
 function filterCompanies(query) {
   const lowered = query.trim().toLowerCase();
   state.filteredCompanies = state.companies.filter((company) => {
@@ -1047,6 +1105,18 @@ function bindEvents() {
     filterCompanies(event.target.value);
   });
 
+  elements.homeButton.addEventListener("click", showHomePanel);
+  elements.companiesButton.addEventListener("click", () => openFirstCompany());
+  elements.selfEmployedButton.addEventListener("click", openFirstSelfEmployed);
+  elements.mastheadHomeButton.addEventListener("click", showHomePanel);
+  elements.mastheadCompaniesButton.addEventListener("click", () => openFirstCompany());
+  elements.quickOpenCompanyButton.addEventListener("click", () => openFirstCompany());
+  elements.quickOpenSelfButton.addEventListener("click", openFirstSelfEmployed);
+  elements.homeRouteCompanies.addEventListener("click", () => openFirstCompany());
+  elements.homeRouteSelf.addEventListener("click", openFirstSelfEmployed);
+  elements.homeRouteImport.addEventListener("click", () => openFirstCompany("company-bank-import"));
+  elements.homeRouteWorkflow.addEventListener("click", () => openFirstCompany("company-workflow"));
+  elements.homeLinkButtons.forEach((button) => button.addEventListener("click", showHomePanel));
   elements.saveCompanyButton.addEventListener("click", applyCompanyEdits);
   elements.resetCompanyButton.addEventListener("click", resetCurrentCompanyView);
   elements.importBankStatementButton.addEventListener("click", importBankStatement);
@@ -1066,7 +1136,7 @@ function loadApp() {
   renderStats();
   renderCompanyList();
   renderSelfEmployedList();
-  renderCompanyPanel();
+  showHomePanel();
 }
 
 try {
