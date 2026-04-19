@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Aligned Financials Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Aligned Financials</p>
+          <h1>Accounting handover dashboard</h1>
+          <p class="lede">
+            A first-pass internal interface for exploring the recovered transaction export by
+            company number, year, and file activity.
+          </p>
+        </div>
+        <div class="hero-card">
+          <p class="hero-label">Data source</p>
+          <p id="zipPath" class="hero-value">Loading...</p>
+          <p id="generatedAt" class="hero-meta"></p>
+        </div>
+      </section>
+
+      <section class="stats" id="stats"></section>
+
+      <section class="workspace">
+        <aside class="sidebar">
+          <label class="filter-label" for="companySearch">Find company number</label>
+          <input id="companySearch" class="search" type="search" placeholder="e.g. 12011913">
+          <div id="companyList" class="company-list"></div>
+        </aside>
+
+        <section class="content">
+          <div id="emptyState" class="empty-state">
+            <h2>Select a company</h2>
+            <p>Pick a company number on the left to inspect the handed-over transaction files.</p>
+          </div>
+
+          <div id="companyPanel" class="company-panel hidden">
+            <header class="panel-header">
+              <div>
+                <p class="panel-kicker">Company Number</p>
+                <h2 id="companyNumber"></h2>
+              </div>
+              <div class="year-chips" id="yearChips"></div>
+            </header>
+
+            <section class="panel-metrics" id="panelMetrics"></section>
+
+            <section class="table-card">
+              <div class="table-header">
+                <h3>Transaction file summaries</h3>
+                <p>Net movement and date coverage are estimated from the CSVs in the archive.</p>
+              </div>
+              <div class="table-scroll">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Year</th>
+                      <th>Month</th>
+                      <th>Rows</th>
+                      <th>Net</th>
+                      <th>Paid In</th>
+                      <th>Paid Out</th>
+                      <th>Date Range</th>
+                    </tr>
+                  </thead>
+                  <tbody id="fileTableBody"></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="dashboard-data.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

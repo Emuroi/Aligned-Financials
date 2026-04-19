@@ -8,6 +8,8 @@ Accounting-focused GitHub project built around the `aligned-financials-data-expo
 - `scripts/analyze_export.py`: inventories the archive and summarizes transaction CSV activity
 - `reports/generated/summary.json`: machine-readable overview
 - `reports/generated/summary.md`: human-readable accounting summary
+- `reports/generated/dashboard-data.json`: app-friendly dataset for the first accounting dashboard
+- `app/`: browser-based dashboard for exploring company-level transaction file summaries
 
 ## Export contents
 
@@ -28,6 +30,19 @@ python scripts/analyze_export.py
 ```
 
 The script reads the ZIP in `data/raw/` and regenerates the reports in `reports/generated/`.
+
+Then open `app/index.html` in a browser to use the first-pass dashboard.
+
+## First software layer
+
+The current MVP is a lightweight internal dashboard rather than full bookkeeping software. It helps you:
+
+- browse the recovered companies by company number
+- see years covered by the export
+- inspect file counts, row counts, and estimated money movement
+- review transaction-file date coverage before deeper import work
+
+This gives us a usable foundation before we build proper reconciliation, chart-of-accounts, VAT, or reporting workflows.
 
 ## Suggested accounting workflow
 

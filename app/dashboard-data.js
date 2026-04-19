@@ -1,0 +1,6517 @@
+window.APP_DATA = {
+  "generated_at": "2026-04-19T15:54:27Z",
+  "summary": {
+    "zip_path": "data/raw/aligned-financials-data-export_20260304.zip",
+    "dump_files": [
+      {
+        "path": "dumps/alfn_20260304.dump",
+        "size_bytes": 11419612
+      },
+      {
+        "path": "dumps/emerald_20260304.dump",
+        "size_bytes": 703897
+      },
+      {
+        "path": "dumps/emerald-bs_20260304.dump",
+        "size_bytes": 676565
+      }
+    ],
+    "transaction_csv_file_count": 285,
+    "distinct_company_numbers": 20,
+    "years_present": {
+      "2018": 41,
+      "2019": 108,
+      "2020": 76,
+      "2021": 55,
+      "2022": 5
+    },
+    "top_companies_by_csv_count": [
+      {
+        "company_number": "08564152",
+        "csv_files": 60,
+        "rows": 788,
+        "net_amount": 54661.41
+      },
+      {
+        "company_number": "12011913",
+        "csv_files": 58,
+        "rows": 453,
+        "net_amount": 180840.61
+      },
+      {
+        "company_number": "10534265",
+        "csv_files": 45,
+        "rows": 2521,
+        "net_amount": -9904.8
+      },
+      {
+        "company_number": "07726246",
+        "csv_files": 36,
+        "rows": 3692,
+        "net_amount": -28274.14
+      },
+      {
+        "company_number": "08776214",
+        "csv_files": 19,
+        "rows": 150,
+        "net_amount": 0.0
+      },
+      {
+        "company_number": "11078138",
+        "csv_files": 16,
+        "rows": 51158,
+        "net_amount": -1009837.69
+      },
+      {
+        "company_number": "09750360",
+        "csv_files": 14,
+        "rows": 16736,
+        "net_amount": 0.0
+      },
+      {
+        "company_number": "11769803",
+        "csv_files": 12,
+        "rows": 3952,
+        "net_amount": 8701.48
+      },
+      {
+        "company_number": "12127012",
+        "csv_files": 5,
+        "rows": 2794,
+        "net_amount": 466.52
+      },
+      {
+        "company_number": "09526995",
+        "csv_files": 5,
+        "rows": 1499,
+        "net_amount": 0.0
+      }
+    ],
+    "largest_transaction_csvs": [
+      {
+        "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/10/12_17_38_587368.csv",
+        "source_bucket": "mainrd-emeralds",
+        "company_number": "11078138",
+        "year": "2018",
+        "month": "10",
+        "row_count": 8541,
+        "amount_total": 34166.73,
+        "paid_in_total": 295737.41,
+        "paid_out_total": 261570.68,
+        "first_date": "2018-05-14",
+        "last_date": "2018-07-31",
+        "column_names": [
+          "Date",
+          "Paid In",
+          "Paid Out",
+          "Type",
+          "Description"
+        ]
+      },
+      {
+        "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/10/12_25_10_461485.csv",
+        "source_bucket": "mainrd-emeralds",
+        "company_number": "11078138",
+        "year": "2018",
+        "month": "10",
+        "row_count": 8541,
+        "amount_total": 0.0,
+        "paid_in_total": 0.0,
+        "paid_out_total": 0.0,
+        "first_date": "2018-05-14",
+        "last_date": "2018-07-31",
+        "column_names": [
+          "Date",
+          "Type",
+          "Description",
+          "Paid out",
+          "Paid in",
+          "Balance"
+        ]
+      },
+      {
+        "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/10/12_23_36_352835.csv",
+        "source_bucket": "mainrd-emeralds",
+        "company_number": "11078138",
+        "year": "2018",
+        "month": "10",
+        "row_count": 8541,
+        "amount_total": 0.0,
+        "paid_in_total": 0.0,
+        "paid_out_total": 0.0,
+        "first_date": "2018-05-14",
+        "last_date": "2018-07-31",
+        "column_names": [
+          "Date",
+          "Type",
+          "Description",
+          "Paid out",
+          "Paid in",
+          "Balance"
+        ]
+      },
+      {
+        "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/10/12_21_48_764223.csv",
+        "source_bucket": "mainrd-emeralds",
+        "company_number": "11078138",
+        "year": "2018",
+        "month": "10",
+        "row_count": 8541,
+        "amount_total": 0.0,
+        "paid_in_total": 0.0,
+        "paid_out_total": 0.0,
+        "first_date": "2018-05-14",
+        "last_date": "2018-07-31",
+        "column_names": [
+          "Date",
+          "Type",
+          "Description",
+          "Paid out",
+          "Paid in",
+          "Balance"
+        ]
+      },
+      {
+        "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/10/12_29_39_661958.csv",
+        "source_bucket": "mainrd-emeralds",
+        "company_number": "11078138",
+        "year": "2018",
+        "month": "10",
+        "row_count": 8540,
+        "amount_total": 0.0,
+        "paid_in_total": 0.0,
+        "paid_out_total": 0.0,
+        "first_date": "2018-05-14",
+        "last_date": "2018-07-31",
+        "column_names": [
+          "Date",
+          "Type",
+          "Description",
+          "Paid out",
+          "Paid in",
+          "Balance"
+        ]
+      },
+      {
+        "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2018/10/11_28_59_519286.csv",
+        "source_bucket": "mainrd-emeralds",
+        "company_number": "09750360",
+        "year": "2018",
+        "month": "10",
+        "row_count": 6310,
+        "amount_total": 0.0,
+        "paid_in_total": 0.0,
+        "paid_out_total": 0.0,
+        "first_date": "2017-11-15",
+        "last_date": "2018-09-28",
+        "column_names": [
+          "Date",
+          "Type",
+          "Description",
+          "Paid out",
+          "Paid in",
+          "Balance"
+        ]
+      },
+      {
+        "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2018/10/11_32_20_185137.csv",
+        "source_bucket": "mainrd-emeralds",
+        "company_number": "09750360",
+        "year": "2018",
+        "month": "10",
+        "row_count": 6310,
+        "amount_total": 0.0,
+        "paid_in_total": 0.0,
+        "paid_out_total": 0.0,
+        "first_date": "2017-11-15",
+        "last_date": "2018-09-28",
+        "column_names": [
+          "Date",
+          "Type",
+          "Description",
+          "Paid out",
+          "Paid in",
+          "Balance"
+        ]
+      },
+      {
+        "path": "dumps/s3/mainrd-emeralds-bs/11769803/transactions/2020/5/09_40_28_905364.csv",
+        "source_bucket": "mainrd-emeralds-bs",
+        "company_number": "11769803",
+        "year": "2020",
+        "month": "5",
+        "row_count": 1788,
+        "amount_total": -416.28,
+        "paid_in_total": 0.0,
+        "paid_out_total": 0.0,
+        "first_date": "2019-04-08",
+        "last_date": "2020-04-03",
+        "column_names": [
+          "Number",
+          "Date",
+          "Account",
+          "Amount",
+          "Subcategory",
+          "Memo"
+        ]
+      },
+      {
+        "path": "dumps/s3/mainrd-emeralds-bs/11769803/transactions/2019/12/12_00_50_079389.csv",
+        "source_bucket": "mainrd-emeralds-bs",
+        "company_number": "11769803",
+        "year": "2019",
+        "month": "12",
+        "row_count": 1701,
+        "amount_total": 1682.74,
+        "paid_in_total": 0.0,
+        "paid_out_total": 0.0,
+        "first_date": "2018-04-05",
+        "last_date": "2019-04-05",
+        "column_names": [
+          "Number",
+          "Date",
+          "Account",
+          "Amount",
+          "Subcategory",
+          "Memo"
+        ]
+      },
+      {
+        "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2019/3/22_04_50_177799.csv",
+        "source_bucket": "mainrd-emeralds",
+        "company_number": "09750360",
+        "year": "2019",
+        "month": "3",
+        "row_count": 1543,
+        "amount_total": 0.0,
+        "paid_in_total": 0.0,
+        "paid_out_total": 0.0,
+        "first_date": null,
+        "last_date": null,
+        "column_names": [
+          "Date",
+          "Type",
+          "Description",
+          "Paid out",
+          "Paid in",
+          "Balance"
+        ]
+      }
+    ]
+  },
+  "companies": [
+    {
+      "company_number": "08564152",
+      "csv_file_count": 60,
+      "row_count": 788,
+      "net_amount": 54661.41,
+      "paid_in_total": 210500.17,
+      "paid_out_total": 119314.77,
+      "years_present": [
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2019/10/20_01_04_109315.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2019",
+          "month": "10",
+          "row_count": 2,
+          "amount_total": 0.0,
+          "paid_in_total": 5.5,
+          "paid_out_total": 5.5,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2019/10/20_01_16_625279.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2019",
+          "month": "10",
+          "row_count": 2,
+          "amount_total": 0.0,
+          "paid_in_total": 5.5,
+          "paid_out_total": 5.5,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2019/10/20_01_30_634688.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2019",
+          "month": "10",
+          "row_count": 3,
+          "amount_total": 110.5,
+          "paid_in_total": 8000.0,
+          "paid_out_total": 7889.5,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2019/10/20_01_44_407479.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2019",
+          "month": "10",
+          "row_count": 5,
+          "amount_total": -38.5,
+          "paid_in_total": 5314.0,
+          "paid_out_total": 5352.5,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2019/10/20_01_56_302951.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2019",
+          "month": "10",
+          "row_count": 5,
+          "amount_total": 27.5,
+          "paid_in_total": 4000.0,
+          "paid_out_total": 3972.5,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2019/10/20_02_08_847615.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2019",
+          "month": "10",
+          "row_count": 1,
+          "amount_total": -5.5,
+          "paid_in_total": 0.0,
+          "paid_out_total": 5.5,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2019/10/20_02_23_304622.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2019",
+          "month": "10",
+          "row_count": 9,
+          "amount_total": 1074.28,
+          "paid_in_total": 1319.73,
+          "paid_out_total": 245.45,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2019/10/20_02_33_151252.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2019",
+          "month": "10",
+          "row_count": 4,
+          "amount_total": -69.83,
+          "paid_in_total": 72.0,
+          "paid_out_total": 141.83,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2019/10/20_02_42_708363.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2019",
+          "month": "10",
+          "row_count": 4,
+          "amount_total": -131.96,
+          "paid_in_total": 72.0,
+          "paid_out_total": 203.96,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2019/10/20_12_33_779925.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2019",
+          "month": "10",
+          "row_count": 7,
+          "amount_total": -74.36,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2019/10/20_13_38_667613.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2019",
+          "month": "10",
+          "row_count": 7,
+          "amount_total": -74.36,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2019/10/20_16_27_186863.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2019",
+          "month": "10",
+          "row_count": 7,
+          "amount_total": -74.36,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2019/10/20_18_16_017158.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2019",
+          "month": "10",
+          "row_count": 7,
+          "amount_total": -74.36,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2020/1/11_48_31_704507.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2020",
+          "month": "1",
+          "row_count": 6,
+          "amount_total": -146.36,
+          "paid_in_total": 72.0,
+          "paid_out_total": 218.36,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2020/1/11_48_43_623521.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2020",
+          "month": "1",
+          "row_count": 5,
+          "amount_total": -61.77,
+          "paid_in_total": 138.03,
+          "paid_out_total": 199.8,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2020/1/11_48_54_289839.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2020",
+          "month": "1",
+          "row_count": 6,
+          "amount_total": -151.91,
+          "paid_in_total": 72.0,
+          "paid_out_total": 223.91,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2020/10/10_18_47_998597.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2020",
+          "month": "10",
+          "row_count": 26,
+          "amount_total": -3870.97,
+          "paid_in_total": 7004.85,
+          "paid_out_total": 10875.82,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2020/10/10_19_36_085361.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2020",
+          "month": "10",
+          "row_count": 16,
+          "amount_total": 5737.29,
+          "paid_in_total": 6845.33,
+          "paid_out_total": 1108.04,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2020/10/10_19_59_482021.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2020",
+          "month": "10",
+          "row_count": 15,
+          "amount_total": 45403.99,
+          "paid_in_total": 50775.33,
+          "paid_out_total": 5371.34,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2020/4/07_55_04_289682.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2020",
+          "month": "4",
+          "row_count": 4,
+          "amount_total": -77.54,
+          "paid_in_total": 139.93,
+          "paid_out_total": 217.47,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2020/4/07_55_17_612807.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2020",
+          "month": "4",
+          "row_count": 3,
+          "amount_total": -235.25,
+          "paid_in_total": 0.0,
+          "paid_out_total": 235.25,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2020/4/07_55_29_929169.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2020",
+          "month": "4",
+          "row_count": 5,
+          "amount_total": -1083.05,
+          "paid_in_total": 72.0,
+          "paid_out_total": 1155.05,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2020/4/07_55_43_042059.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2020",
+          "month": "4",
+          "row_count": 3,
+          "amount_total": -1142.05,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2020/7/07_51_20_077842.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2020",
+          "month": "7",
+          "row_count": 6,
+          "amount_total": 258.87,
+          "paid_in_total": 538.55,
+          "paid_out_total": 279.68,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2020/7/07_51_39_020188.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2020",
+          "month": "7",
+          "row_count": 9,
+          "amount_total": 1628.04,
+          "paid_in_total": 1950.0,
+          "paid_out_total": 321.96,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2020/7/07_51_56_191201.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2020",
+          "month": "7",
+          "row_count": 7,
+          "amount_total": -456.92,
+          "paid_in_total": 0.0,
+          "paid_out_total": 456.92,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2020/7/08_56_01_165113.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2020",
+          "month": "7",
+          "row_count": 11,
+          "amount_total": 2416.58,
+          "paid_in_total": 2712.0,
+          "paid_out_total": 295.42,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/1/08_16_31_579676.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "1",
+          "row_count": 47,
+          "amount_total": -12149.19,
+          "paid_in_total": 35.33,
+          "paid_out_total": 12184.52,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/1/10_17_52_241384.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "1",
+          "row_count": 86,
+          "amount_total": -29747.15,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/1/10_24_36_565898.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "1",
+          "row_count": 15,
+          "amount_total": 45403.99,
+          "paid_in_total": 50775.33,
+          "paid_out_total": 5371.34,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/1/10_25_57_468535.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "1",
+          "row_count": 15,
+          "amount_total": 45403.99,
+          "paid_in_total": 50775.33,
+          "paid_out_total": 5371.34,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/1/10_28_19_616616.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "1",
+          "row_count": 28,
+          "amount_total": -29803.0,
+          "paid_in_total": 36.33,
+          "paid_out_total": 29839.33,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/1/10_28_35_375589.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "1",
+          "row_count": 34,
+          "amount_total": 7938.51,
+          "paid_in_total": 13242.78,
+          "paid_out_total": 5304.27,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/10/08_48_27_656403.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "10",
+          "row_count": 41,
+          "amount_total": -996.3,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/10/10_47_56_150949.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "10",
+          "row_count": 6,
+          "amount_total": -73.91,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/10/10_48_10_727554.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "10",
+          "row_count": 13,
+          "amount_total": -332.76,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/3/08_39_33_360995.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "3",
+          "row_count": 41,
+          "amount_total": -4435.78,
+          "paid_in_total": 3173.49,
+          "paid_out_total": 7609.27,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/4/07_28_52_951345.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "4",
+          "row_count": 37,
+          "amount_total": -7172.77,
+          "paid_in_total": 35.33,
+          "paid_out_total": 7208.1,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/4/07_29_02_835580.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "4",
+          "row_count": 11,
+          "amount_total": -676.12,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/4/07_33_29_187049.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "4",
+          "row_count": 8,
+          "amount_total": -484.85,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/4/07_53_59_025941.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "4",
+          "row_count": 8,
+          "amount_total": -484.85,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/4/08_07_25_961528.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "4",
+          "row_count": 8,
+          "amount_total": 484.85,
+          "paid_in_total": 0.0,
+          "paid_out_total": -484.85,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/4/08_11_19_471526.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "4",
+          "row_count": 8,
+          "amount_total": 484.85,
+          "paid_in_total": 0.0,
+          "paid_out_total": -484.85,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/4/08_27_53_156838.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "4",
+          "row_count": 8,
+          "amount_total": 484.85,
+          "paid_in_total": 0.0,
+          "paid_out_total": -484.85,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/4/09_27_09_118116.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "4",
+          "row_count": 8,
+          "amount_total": -484.85,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/7/08_38_43_456783.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "7",
+          "row_count": 22,
+          "amount_total": -2506.6,
+          "paid_in_total": 1173.83,
+          "paid_out_total": 3680.43,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/7/08_39_14_481507.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "7",
+          "row_count": 23,
+          "amount_total": -275.41,
+          "paid_in_total": 395.33,
+          "paid_out_total": 670.74,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/7/08_39_24_816142.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "7",
+          "row_count": 15,
+          "amount_total": -352.96,
+          "paid_in_total": 35.33,
+          "paid_out_total": 388.29,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/7/08_39_36_155344.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "7",
+          "row_count": 15,
+          "amount_total": -333.45,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/7/08_42_53_366148.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "7",
+          "row_count": 13,
+          "amount_total": -297.73,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/7/14_13_47_589889.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "7",
+          "row_count": 14,
+          "amount_total": -2021.75,
+          "paid_in_total": 1173.83,
+          "paid_out_total": 3195.58,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/7/14_14_01_942807.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "7",
+          "row_count": 23,
+          "amount_total": -275.41,
+          "paid_in_total": 395.33,
+          "paid_out_total": 670.74,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/7/14_14_12_633056.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "7",
+          "row_count": 15,
+          "amount_total": -352.96,
+          "paid_in_total": 35.33,
+          "paid_out_total": 388.29,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/7/14_14_21_975101.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "7",
+          "row_count": 6,
+          "amount_total": -89.43,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2021/7/14_15_19_749130.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2021",
+          "month": "7",
+          "row_count": 6,
+          "amount_total": -89.43,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2022/1/17_05_42_951773.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2022",
+          "month": "1",
+          "row_count": 11,
+          "amount_total": 37.23,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2022/4/10_46_56_595225.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2022",
+          "month": "4",
+          "row_count": 2,
+          "amount_total": 27.33,
+          "paid_in_total": 35.33,
+          "paid_out_total": 8.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2022/4/10_47_12_381299.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2022",
+          "month": "4",
+          "row_count": 4,
+          "amount_total": -54.49,
+          "paid_in_total": 35.33,
+          "paid_out_total": 89.82,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2022/4/10_47_21_730517.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2022",
+          "month": "4",
+          "row_count": 3,
+          "amount_total": 29.86,
+          "paid_in_total": 37.86,
+          "paid_out_total": 8.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/08564152/transactions/2022/7/20_11_42_361851.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "08564152",
+          "year": "2022",
+          "month": "7",
+          "row_count": 9,
+          "amount_total": -1030.9,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "12011913",
+      "csv_file_count": 58,
+      "row_count": 453,
+      "net_amount": 180840.61,
+      "paid_in_total": 0.0,
+      "paid_out_total": 0.0,
+      "years_present": [
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2019/10/16_19_43_724378.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2019",
+          "month": "10",
+          "row_count": 9,
+          "amount_total": 5533.6,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2019-09-05",
+          "last_date": "2019-10-02",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2019/10/19_22_19_658758.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2019",
+          "month": "10",
+          "row_count": 2,
+          "amount_total": 1920.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2019-09-23",
+          "last_date": "2019-09-23",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2019/10/19_24_53_202308.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2019",
+          "month": "10",
+          "row_count": 2,
+          "amount_total": 1920.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2019-09-23",
+          "last_date": "2019-09-23",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2019/11/07_56_13_418246.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2019",
+          "month": "11",
+          "row_count": 11,
+          "amount_total": 7269.41,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2019-10-07",
+          "last_date": "2019-10-31",
+          "column_names": [
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2019/11/07_58_49_497270.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2019",
+          "month": "11",
+          "row_count": 1,
+          "amount_total": 2280.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2019-10-16",
+          "last_date": "2019-10-16",
+          "column_names": [
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2019/11/09_14_33_733535.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2019",
+          "month": "11",
+          "row_count": 1,
+          "amount_total": 2280.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2019-10-16",
+          "last_date": "2019-10-16",
+          "column_names": [
+            "Date",
+            "Account",
+            "Amount"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2019/11/09_20_58_930742.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2019",
+          "month": "11",
+          "row_count": 1,
+          "amount_total": 2280.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2019-10-16",
+          "last_date": "2019-10-16",
+          "column_names": [
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2019/12/17_10_37_151050.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2019",
+          "month": "12",
+          "row_count": 8,
+          "amount_total": 9892.9,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2019-11-04",
+          "last_date": "2019-11-27",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2019/12/17_15_59_017292.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2019",
+          "month": "12",
+          "row_count": 2,
+          "amount_total": 2760.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2019-11-19",
+          "last_date": "2019-11-19",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2019/12/19_18_53_530573.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2019",
+          "month": "12",
+          "row_count": 2,
+          "amount_total": 2760.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2019-11-19",
+          "last_date": "2019-11-19",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2019/9/13_11_30_769656.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2019",
+          "month": "9",
+          "row_count": 5,
+          "amount_total": 8733.6,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2019-08-15",
+          "last_date": "2019-09-03",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/10/12_38_09_387653.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "10",
+          "row_count": 12,
+          "amount_total": 5001.22,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-09-01",
+          "last_date": "2020-09-30",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/10/12_38_41_874892.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "10",
+          "row_count": 3,
+          "amount_total": 1800.4,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-09-07",
+          "last_date": "2020-09-15",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/11/15_26_38_614520.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "11",
+          "row_count": 3,
+          "amount_total": -5087.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-10-14",
+          "last_date": "2020-10-19",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/11/15_26_53_454568.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "11",
+          "row_count": 14,
+          "amount_total": 6725.74,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-10-02",
+          "last_date": "2020-10-30",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/12/11_59_07_377461.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "12",
+          "row_count": 16,
+          "amount_total": 7777.38,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-11-02",
+          "last_date": "2020-11-30",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/12/11_59_24_779017.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "12",
+          "row_count": 2,
+          "amount_total": 2400.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-11-16",
+          "last_date": "2020-11-16",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/2/10_25_00_311925.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "2",
+          "row_count": 11,
+          "amount_total": -142.86,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-01-02",
+          "last_date": "2020-01-30",
+          "column_names": [
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/2/10_25_15_870380.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "2",
+          "row_count": 1,
+          "amount_total": 2160.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-01-17",
+          "last_date": "2020-01-17",
+          "column_names": [
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/2/10_26_49_432017.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "2",
+          "row_count": 1,
+          "amount_total": 2160.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-01-17",
+          "last_date": "2020-01-17",
+          "column_names": [
+            "Date",
+            "Account",
+            "Amount"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/2/10_28_15_569633.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "2",
+          "row_count": 2,
+          "amount_total": 2160.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-01-17",
+          "last_date": "2020-01-17",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/2/10_44_02_728012.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "2",
+          "row_count": 26,
+          "amount_total": 14834.72,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2019-12-02",
+          "last_date": "2019-12-30",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/2/10_44_16_691548.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "2",
+          "row_count": 3,
+          "amount_total": -4488.88,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2019-12-02",
+          "last_date": "2019-12-19",
+          "column_names": [
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/3/11_20_37_173535.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "3",
+          "row_count": 20,
+          "amount_total": -7802.97,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-02-03",
+          "last_date": "2020-02-27",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/3/11_21_01_282974.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "3",
+          "row_count": 2,
+          "amount_total": 2640.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-02-18",
+          "last_date": "2020-02-18",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/4/08_24_35_296538.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "4",
+          "row_count": 3,
+          "amount_total": 2401.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-03-02",
+          "last_date": "2020-03-17",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/4/08_24_46_646327.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "4",
+          "row_count": 11,
+          "amount_total": 10892.9,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-03-02",
+          "last_date": "2020-03-30",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/5/08_18_31_489512.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "5",
+          "row_count": 13,
+          "amount_total": 3858.94,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-04-02",
+          "last_date": "2020-04-30",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/5/08_18_43_861582.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "5",
+          "row_count": 3,
+          "amount_total": -5688.25,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-04-06",
+          "last_date": "2020-04-15",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/6/08_42_27_126792.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "6",
+          "row_count": 8,
+          "amount_total": 11682.9,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-05-04",
+          "last_date": "2020-05-28",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/6/08_42_41_416136.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "6",
+          "row_count": 2,
+          "amount_total": 2520.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-05-13",
+          "last_date": "2020-05-13",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/7/12_59_14_890532.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "7",
+          "row_count": 16,
+          "amount_total": 12862.69,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-06-01",
+          "last_date": "2020-06-30",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/7/12_59_26_856873.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "7",
+          "row_count": 4,
+          "amount_total": -4014.96,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-06-05",
+          "last_date": "2020-06-15",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/8/16_42_25_551771.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "8",
+          "row_count": 11,
+          "amount_total": 1735.74,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-07-02",
+          "last_date": "2020-07-30",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/8/16_42_37_536441.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "8",
+          "row_count": 2,
+          "amount_total": 2400.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-07-16",
+          "last_date": "2020-07-16",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/9/11_36_27_641131.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "9",
+          "row_count": 10,
+          "amount_total": 9250.4,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-08-03",
+          "last_date": "2020-08-17",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2020/9/11_37_43_946863.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2020",
+          "month": "9",
+          "row_count": 2,
+          "amount_total": 2640.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-08-17",
+          "last_date": "2020-08-17",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/10/09_03_30_176307.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "10",
+          "row_count": 9,
+          "amount_total": -1145.87,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-09-02",
+          "last_date": "2021-09-30",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/10/09_03_43_908491.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "10",
+          "row_count": 2,
+          "amount_total": 0.07,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-09-06",
+          "last_date": "2021-09-06",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/10/10_14_39_067964.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "10",
+          "row_count": 2,
+          "amount_total": -2692.33,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-10-01",
+          "last_date": "2021-10-01",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/10/10_14_50_095215.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "10",
+          "row_count": 13,
+          "amount_total": 14062.46,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-09-02",
+          "last_date": "2021-10-01",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/11/09_58_58_121981.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "11",
+          "row_count": 14,
+          "amount_total": 6771.35,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-10-04",
+          "last_date": "2021-11-03",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/12/17_30_18_521401.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "12",
+          "row_count": 17,
+          "amount_total": 11992.95,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-11-04",
+          "last_date": "2021-12-02",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/2/07_34_11_173443.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "2",
+          "row_count": 16,
+          "amount_total": 4217.58,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-12-01",
+          "last_date": "2020-12-30",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/2/07_34_31_992037.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "2",
+          "row_count": 13,
+          "amount_total": 6104.17,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-01-04",
+          "last_date": "2021-01-29",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/2/07_34_50_066305.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "2",
+          "row_count": 3,
+          "amount_total": 2280.16,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2020-12-07",
+          "last_date": "2020-12-18",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/2/07_35_04_503078.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "2",
+          "row_count": 3,
+          "amount_total": -4256.47,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-01-13",
+          "last_date": "2021-01-14",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/3/08_29_35_413927.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "3",
+          "row_count": 11,
+          "amount_total": 10279.58,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-02-01",
+          "last_date": "2021-02-16",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/3/08_29_49_991932.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "3",
+          "row_count": 2,
+          "amount_total": 2280.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-02-16",
+          "last_date": "2021-02-16",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/4/06_17_21_657699.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "4",
+          "row_count": 14,
+          "amount_total": -11719.14,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-03-02",
+          "last_date": "2021-03-30",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/4/06_17_34_053712.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "4",
+          "row_count": 3,
+          "amount_total": 2280.16,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-03-08",
+          "last_date": "2021-03-15",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/5/19_30_02_997637.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "5",
+          "row_count": 19,
+          "amount_total": 1049.68,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-04-01",
+          "last_date": "2021-04-30",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/5/19_30_39_261205.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "5",
+          "row_count": 2,
+          "amount_total": -6534.03,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-04-12",
+          "last_date": "2021-04-12",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/6/10_05_39_981810.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "6",
+          "row_count": 23,
+          "amount_total": 9766.06,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-05-04",
+          "last_date": "2021-05-28",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/8/13_06_58_317996.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "8",
+          "row_count": 14,
+          "amount_total": 2688.15,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-07-02",
+          "last_date": "2021-07-30",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/9/08_58_52_301854.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "9",
+          "row_count": 11,
+          "amount_total": -4208.42,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-08-02",
+          "last_date": "2021-08-31",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/9/09_06_19_364553.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "9",
+          "row_count": 15,
+          "amount_total": 9315.75,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-06-01",
+          "last_date": "2021-06-30",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12011913/transactions/2021/9/09_07_39_599539.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12011913",
+          "year": "2021",
+          "month": "9",
+          "row_count": 2,
+          "amount_total": 0.13,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2021-06-07",
+          "last_date": "2021-06-07",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "10534265",
+      "csv_file_count": 45,
+      "row_count": 2521,
+      "net_amount": -9904.8,
+      "paid_in_total": 162223.82,
+      "paid_out_total": 172128.62,
+      "years_present": [
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds/10534265/transactions/2019/4/13_47_54_813662.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "10534265",
+          "year": "2019",
+          "month": "4",
+          "row_count": 5,
+          "amount_total": 275.75,
+          "paid_in_total": 822.15,
+          "paid_out_total": 546.4,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/10534265/transactions/2019/4/13_48_41_518592.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "10534265",
+          "year": "2019",
+          "month": "4",
+          "row_count": 15,
+          "amount_total": 2365.12,
+          "paid_in_total": 3858.52,
+          "paid_out_total": 1493.4,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/10534265/transactions/2019/4/13_49_33_701168.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "10534265",
+          "year": "2019",
+          "month": "4",
+          "row_count": 19,
+          "amount_total": 1993.03,
+          "paid_in_total": 3509.16,
+          "paid_out_total": 1516.13,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/10534265/transactions/2019/4/13_50_50_631592.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "10534265",
+          "year": "2019",
+          "month": "4",
+          "row_count": 60,
+          "amount_total": 452.64,
+          "paid_in_total": 4485.37,
+          "paid_out_total": 4032.73,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/10534265/transactions/2019/4/13_52_52_937340.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "10534265",
+          "year": "2019",
+          "month": "4",
+          "row_count": 60,
+          "amount_total": -3230.92,
+          "paid_in_total": 2643.59,
+          "paid_out_total": 5874.51,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/10534265/transactions/2019/4/13_55_53_264546.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "10534265",
+          "year": "2019",
+          "month": "4",
+          "row_count": 30,
+          "amount_total": 2059.4,
+          "paid_in_total": 3780.37,
+          "paid_out_total": 1720.97,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/10534265/transactions/2019/4/13_58_47_967007.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "10534265",
+          "year": "2019",
+          "month": "4",
+          "row_count": 24,
+          "amount_total": 21.31,
+          "paid_in_total": 3222.11,
+          "paid_out_total": 3200.8,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/10534265/transactions/2019/4/13_59_26_014302.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "10534265",
+          "year": "2019",
+          "month": "4",
+          "row_count": 43,
+          "amount_total": 182.71,
+          "paid_in_total": 2613.42,
+          "paid_out_total": 2430.71,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/10534265/transactions/2019/4/14_00_12_660026.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "10534265",
+          "year": "2019",
+          "month": "4",
+          "row_count": 26,
+          "amount_total": 2497.77,
+          "paid_in_total": 4652.32,
+          "paid_out_total": 2154.55,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/10534265/transactions/2019/4/14_01_47_851391.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "10534265",
+          "year": "2019",
+          "month": "4",
+          "row_count": 33,
+          "amount_total": -677.32,
+          "paid_in_total": 2422.66,
+          "paid_out_total": 3099.98,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_35_54_890405.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 33,
+          "amount_total": -677.32,
+          "paid_in_total": 2422.66,
+          "paid_out_total": 3099.98,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_36_39_183426.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 36,
+          "amount_total": -474.08,
+          "paid_in_total": 4215.14,
+          "paid_out_total": 4689.22,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_37_00_749654.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 45,
+          "amount_total": -106.43,
+          "paid_in_total": 4181.76,
+          "paid_out_total": 4288.19,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_37_23_047193.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 17,
+          "amount_total": -493.25,
+          "paid_in_total": 2092.5,
+          "paid_out_total": 2585.75,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_38_04_620374.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 22,
+          "amount_total": -373.33,
+          "paid_in_total": 1991.25,
+          "paid_out_total": 2364.58,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_38_19_165710.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 47,
+          "amount_total": 436.14,
+          "paid_in_total": 10643.25,
+          "paid_out_total": 10207.11,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_38_37_214560.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 64,
+          "amount_total": -2213.41,
+          "paid_in_total": 2317.0,
+          "paid_out_total": 4530.41,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_38_51_635062.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 52,
+          "amount_total": 652.77,
+          "paid_in_total": 2896.25,
+          "paid_out_total": 2243.48,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_39_08_541680.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 52,
+          "amount_total": -501.97,
+          "paid_in_total": 3551.08,
+          "paid_out_total": 4053.05,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_39_25_890599.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 55,
+          "amount_total": -763.44,
+          "paid_in_total": 3522.01,
+          "paid_out_total": 4285.45,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_39_44_656968.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 60,
+          "amount_total": 2146.74,
+          "paid_in_total": 5108.5,
+          "paid_out_total": 2961.76,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_40_09_408050.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 44,
+          "amount_total": -772.17,
+          "paid_in_total": 2650.0,
+          "paid_out_total": 3422.17,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_40_25_105719.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 36,
+          "amount_total": -1531.05,
+          "paid_in_total": 933.06,
+          "paid_out_total": 2464.11,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_42_08_415105.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 36,
+          "amount_total": -1531.05,
+          "paid_in_total": 933.06,
+          "paid_out_total": 2464.11,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_42_39_533971.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 92,
+          "amount_total": 487.17,
+          "paid_in_total": 5938.0,
+          "paid_out_total": 5450.83,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_43_40_138524.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 176,
+          "amount_total": -2800.22,
+          "paid_in_total": 3474.0,
+          "paid_out_total": 6274.22,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_44_40_647145.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 32,
+          "amount_total": -339.82,
+          "paid_in_total": 3056.0,
+          "paid_out_total": 3395.82,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_45_51_900963.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 65,
+          "amount_total": 547.17,
+          "paid_in_total": 2878.75,
+          "paid_out_total": 2331.58,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/06_46_52_437945.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 100,
+          "amount_total": 1125.63,
+          "paid_in_total": 9255.0,
+          "paid_out_total": 8129.37,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/12_17_15_701315.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 71,
+          "amount_total": -643.77,
+          "paid_in_total": 2665.0,
+          "paid_out_total": 3308.77,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/12_17_26_484665.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 100,
+          "amount_total": 1125.63,
+          "paid_in_total": 9255.0,
+          "paid_out_total": 8129.37,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/12_18_09_084086.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 65,
+          "amount_total": 547.17,
+          "paid_in_total": 2878.75,
+          "paid_out_total": 2331.58,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/12_18_42_282831.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 32,
+          "amount_total": -339.82,
+          "paid_in_total": 3056.0,
+          "paid_out_total": 3395.82,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/12_19_09_142227.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 176,
+          "amount_total": -2800.22,
+          "paid_in_total": 3474.0,
+          "paid_out_total": 6274.22,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/12_19_31_951790.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 92,
+          "amount_total": 487.17,
+          "paid_in_total": 5938.0,
+          "paid_out_total": 5450.83,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/12_39_14_958480.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 33,
+          "amount_total": -677.32,
+          "paid_in_total": 2422.66,
+          "paid_out_total": 3099.98,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/13_17_30_706353.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 36,
+          "amount_total": -1531.05,
+          "paid_in_total": 933.06,
+          "paid_out_total": 2464.11,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/13_20_22_578838.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 36,
+          "amount_total": -1531.05,
+          "paid_in_total": 933.06,
+          "paid_out_total": 2464.11,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2020/7/13_24_05_845700.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2020",
+          "month": "7",
+          "row_count": 36,
+          "amount_total": -2272.17,
+          "paid_in_total": 562.5,
+          "paid_out_total": 2834.67,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2021/3/13_44_25_094042.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2021",
+          "month": "3",
+          "row_count": 93,
+          "amount_total": 646.97,
+          "paid_in_total": 3335.25,
+          "paid_out_total": 2688.28,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2021/3/13_44_41_761391.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2021",
+          "month": "3",
+          "row_count": 107,
+          "amount_total": -1095.5,
+          "paid_in_total": 4536.0,
+          "paid_out_total": 5631.5,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2021/3/13_44_58_069338.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2021",
+          "month": "3",
+          "row_count": 76,
+          "amount_total": 1243.83,
+          "paid_in_total": 5308.0,
+          "paid_out_total": 4064.17,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2021/3/13_45_14_230926.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2021",
+          "month": "3",
+          "row_count": 56,
+          "amount_total": -1019.68,
+          "paid_in_total": 8833.6,
+          "paid_out_total": 9853.28,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2021/3/13_45_29_482725.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2021",
+          "month": "3",
+          "row_count": 94,
+          "amount_total": -893.58,
+          "paid_in_total": 2616.0,
+          "paid_out_total": 3509.58,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10534265/transactions/2021/3/13_45_45_226287.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10534265",
+          "year": "2021",
+          "month": "3",
+          "row_count": 39,
+          "amount_total": 91.02,
+          "paid_in_total": 1408.0,
+          "paid_out_total": 1316.98,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "07726246",
+      "csv_file_count": 36,
+      "row_count": 3692,
+      "net_amount": -28274.14,
+      "paid_in_total": 577238.77,
+      "paid_out_total": 605512.91,
+      "years_present": [
+        "2019"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/3/14_46_45_798497.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "3",
+          "row_count": 11,
+          "amount_total": -842.05,
+          "paid_in_total": 300.0,
+          "paid_out_total": 1142.05,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/3/18_11_00_078827.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "3",
+          "row_count": 11,
+          "amount_total": -2272.23,
+          "paid_in_total": 1000.0,
+          "paid_out_total": 3272.23,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/07_35_34_766581.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 1,
+          "amount_total": 1500.0,
+          "paid_in_total": 1500.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/07_36_38_967655.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 8,
+          "amount_total": 3300.18,
+          "paid_in_total": 4300.18,
+          "paid_out_total": 1000.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/07_38_34_139176.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 11,
+          "amount_total": -2699.83,
+          "paid_in_total": 4500.17,
+          "paid_out_total": 7200.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/07_42_41_608439.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 4,
+          "amount_total": -1999.9,
+          "paid_in_total": 2500.1,
+          "paid_out_total": 4500.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/09_48_55_774742.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 131,
+          "amount_total": 442.78,
+          "paid_in_total": 24020.0,
+          "paid_out_total": 23577.22,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/13_20_58_678392.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 7,
+          "amount_total": 1908.53,
+          "paid_in_total": 2350.0,
+          "paid_out_total": 441.47,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/13_22_36_721025.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 93,
+          "amount_total": 1740.44,
+          "paid_in_total": 13418.8,
+          "paid_out_total": 11678.36,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/13_27_46_785312.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 93,
+          "amount_total": 1540.44,
+          "paid_in_total": 13318.8,
+          "paid_out_total": 11778.36,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/13_30_26_358664.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 119,
+          "amount_total": -1743.96,
+          "paid_in_total": 13464.97,
+          "paid_out_total": 15208.93,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/13_38_52_354867.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 119,
+          "amount_total": -1743.96,
+          "paid_in_total": 13464.97,
+          "paid_out_total": 15208.93,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/13_41_37_465100.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 106,
+          "amount_total": -2739.04,
+          "paid_in_total": 16170.98,
+          "paid_out_total": 18910.02,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/13_43_18_694762.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 105,
+          "amount_total": 5834.58,
+          "paid_in_total": 20220.36,
+          "paid_out_total": 14385.78,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/13_44_22_679954.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 142,
+          "amount_total": 713.21,
+          "paid_in_total": 16320.0,
+          "paid_out_total": 15606.79,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/13_45_31_135893.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 130,
+          "amount_total": -6478.59,
+          "paid_in_total": 14880.0,
+          "paid_out_total": 21358.59,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/13_47_45_431308.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 117,
+          "amount_total": 1988.1,
+          "paid_in_total": 15509.7,
+          "paid_out_total": 13521.6,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/13_52_58_560589.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 157,
+          "amount_total": -10998.2,
+          "paid_in_total": 12441.84,
+          "paid_out_total": 23440.04,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/13_54_04_720524.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 142,
+          "amount_total": 9043.92,
+          "paid_in_total": 38857.44,
+          "paid_out_total": 29813.52,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/13_54_16_583653.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 157,
+          "amount_total": -10998.2,
+          "paid_in_total": 12441.84,
+          "paid_out_total": 23440.04,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/13_57_55_568267.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 157,
+          "amount_total": -10998.2,
+          "paid_in_total": 12441.84,
+          "paid_out_total": 23440.04,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/14_00_07_831183.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 103,
+          "amount_total": 17962.46,
+          "paid_in_total": 35682.05,
+          "paid_out_total": 17719.59,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/14_05_29_639643.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 135,
+          "amount_total": -12579.98,
+          "paid_in_total": 15145.31,
+          "paid_out_total": 27725.29,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/14_06_44_781573.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 134,
+          "amount_total": 1158.79,
+          "paid_in_total": 20280.0,
+          "paid_out_total": 19121.21,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/14_29_31_160671.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 9,
+          "amount_total": -1263.78,
+          "paid_in_total": 0.0,
+          "paid_out_total": 1263.78,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/14_31_11_948252.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 135,
+          "amount_total": 1544.03,
+          "paid_in_total": 36828.96,
+          "paid_out_total": 35284.93,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/14_32_28_938321.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 138,
+          "amount_total": -4472.31,
+          "paid_in_total": 12114.29,
+          "paid_out_total": 16586.6,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/14_33_58_920442.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 128,
+          "amount_total": -1464.3,
+          "paid_in_total": 24006.0,
+          "paid_out_total": 25470.3,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/14_35_59_020481.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 98,
+          "amount_total": -1163.83,
+          "paid_in_total": 14200.35,
+          "paid_out_total": 15364.18,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/14_37_43_213547.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 121,
+          "amount_total": 2612.96,
+          "paid_in_total": 18543.35,
+          "paid_out_total": 15930.39,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/14_38_36_654585.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 96,
+          "amount_total": -2963.64,
+          "paid_in_total": 13200.0,
+          "paid_out_total": 16163.64,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/14_39_37_125912.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 129,
+          "amount_total": 394.78,
+          "paid_in_total": 22200.0,
+          "paid_out_total": 21805.22,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/14_40_44_409566.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 127,
+          "amount_total": -1105.24,
+          "paid_in_total": 14660.0,
+          "paid_out_total": 15765.24,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/14_42_07_353808.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 125,
+          "amount_total": 12186.85,
+          "paid_in_total": 50782.21,
+          "paid_out_total": 38595.36,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/14_46_59_942508.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 223,
+          "amount_total": -12550.53,
+          "paid_in_total": 21287.26,
+          "paid_out_total": 33837.79,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/07726246/transactions/2019/4/14_48_15_435137.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "07726246",
+          "year": "2019",
+          "month": "4",
+          "row_count": 170,
+          "amount_total": -1068.42,
+          "paid_in_total": 24887.0,
+          "paid_out_total": 25955.42,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "08776214",
+      "csv_file_count": 19,
+      "row_count": 150,
+      "net_amount": 0.0,
+      "paid_in_total": 0.0,
+      "paid_out_total": 0.0,
+      "years_present": [
+        "2019"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_29_46_175321.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 6,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_30_18_837811.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 6,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_40_27_808727.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 5,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_40_49_706364.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 9,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_41_03_710112.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 10,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_41_22_145960.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 9,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_41_41_919172.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 10,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_41_54_343128.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 3,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_42_07_441988.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 3,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_42_22_454369.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 5,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_42_36_392296.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 2,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_42_49_130701.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 3,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_43_01_489114.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 14,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_43_16_056632.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 13,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_43_29_510842.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 14,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_43_44_672644.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 17,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_43_59_513987.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 9,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_44_12_434268.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 6,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08776214/transactions/2019/6/12_44_29_818851.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08776214",
+          "year": "2019",
+          "month": "6",
+          "row_count": 6,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "11078138",
+      "csv_file_count": 16,
+      "row_count": 51158,
+      "net_amount": -1009837.69,
+      "paid_in_total": 378810.17,
+      "paid_out_total": 1325815.98,
+      "years_present": [
+        "2018"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/10/12_17_38_587368.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11078138",
+          "year": "2018",
+          "month": "10",
+          "row_count": 8541,
+          "amount_total": 34166.73,
+          "paid_in_total": 295737.41,
+          "paid_out_total": 261570.68,
+          "first_date": "2018-05-14",
+          "last_date": "2018-07-31",
+          "column_names": [
+            "Date",
+            "Paid In",
+            "Paid Out",
+            "Type",
+            "Description"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/10/12_21_48_764223.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11078138",
+          "year": "2018",
+          "month": "10",
+          "row_count": 8541,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-05-14",
+          "last_date": "2018-07-31",
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/10/12_23_36_352835.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11078138",
+          "year": "2018",
+          "month": "10",
+          "row_count": 8541,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-05-14",
+          "last_date": "2018-07-31",
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/10/12_25_10_461485.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11078138",
+          "year": "2018",
+          "month": "10",
+          "row_count": 8541,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-05-14",
+          "last_date": "2018-07-31",
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/10/12_29_39_661958.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11078138",
+          "year": "2018",
+          "month": "10",
+          "row_count": 8540,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-05-14",
+          "last_date": "2018-07-31",
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/10/12_33_40_242609.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11078138",
+          "year": "2018",
+          "month": "10",
+          "row_count": 546,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-05-14",
+          "last_date": "2018-07-31",
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/10/12_52_24_259597.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11078138",
+          "year": "2018",
+          "month": "10",
+          "row_count": 546,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-05-14",
+          "last_date": "2018-07-31",
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/11/14_27_27_067949.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11078138",
+          "year": "2018",
+          "month": "11",
+          "row_count": 832,
+          "amount_total": -20177.29,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-08-01",
+          "last_date": "2018-11-09",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/11/14_27_54_327789.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11078138",
+          "year": "2018",
+          "month": "11",
+          "row_count": 832,
+          "amount_total": -20177.29,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-08-01",
+          "last_date": "2018-11-09",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/11/14_35_04_373220.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11078138",
+          "year": "2018",
+          "month": "11",
+          "row_count": 832,
+          "amount_total": -504431.73,
+          "paid_in_total": 27690.92,
+          "paid_out_total": 532122.65,
+          "first_date": "2018-08-01",
+          "last_date": "2018-11-09",
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/11/17_10_48_528787.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11078138",
+          "year": "2018",
+          "month": "11",
+          "row_count": 769,
+          "amount_total": -11238.65,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-08-01",
+          "last_date": "2018-10-31",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/11/17_18_04_565978.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11078138",
+          "year": "2018",
+          "month": "11",
+          "row_count": 832,
+          "amount_total": -504431.73,
+          "paid_in_total": 27690.92,
+          "paid_out_total": 532122.65,
+          "first_date": "2018-08-01",
+          "last_date": "2018-11-09",
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/11/17_19_30_092230.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11078138",
+          "year": "2018",
+          "month": "11",
+          "row_count": 832,
+          "amount_total": 27690.92,
+          "paid_in_total": 27690.92,
+          "paid_out_total": 0.0,
+          "first_date": "2018-08-01",
+          "last_date": "2018-11-09",
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid In"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/11/18_26_08_143178.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11078138",
+          "year": "2018",
+          "month": "11",
+          "row_count": 832,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-08-01",
+          "last_date": "2018-11-09",
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/11/18_27_13_395989.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11078138",
+          "year": "2018",
+          "month": "11",
+          "row_count": 832,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-08-01",
+          "last_date": "2018-11-09",
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11078138/transactions/2018/11/18_39_12_552048.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11078138",
+          "year": "2018",
+          "month": "11",
+          "row_count": 769,
+          "amount_total": -11238.65,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-08-01",
+          "last_date": "2018-10-31",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "09750360",
+      "csv_file_count": 14,
+      "row_count": 16736,
+      "net_amount": 0.0,
+      "paid_in_total": 0.0,
+      "paid_out_total": 0.0,
+      "years_present": [
+        "2018",
+        "2019"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2018/10/11_28_59_519286.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09750360",
+          "year": "2018",
+          "month": "10",
+          "row_count": 6310,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2017-11-15",
+          "last_date": "2018-09-28",
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2018/10/11_32_20_185137.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09750360",
+          "year": "2018",
+          "month": "10",
+          "row_count": 6310,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2017-11-15",
+          "last_date": "2018-09-28",
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2018/10/11_35_38_324778.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09750360",
+          "year": "2018",
+          "month": "10",
+          "row_count": 464,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-09-02",
+          "last_date": "2018-09-28",
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2018/12/14_31_15_222035.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09750360",
+          "year": "2018",
+          "month": "12",
+          "row_count": 217,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2018/12/14_32_21_966749.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09750360",
+          "year": "2018",
+          "month": "12",
+          "row_count": 217,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2018/12/14_34_18_587320.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09750360",
+          "year": "2018",
+          "month": "12",
+          "row_count": 217,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2018/12/15_01_35_410559.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09750360",
+          "year": "2018",
+          "month": "12",
+          "row_count": 217,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2018/12/15_05_05_451306.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09750360",
+          "year": "2018",
+          "month": "12",
+          "row_count": 217,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2018/12/17_53_44_732052.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09750360",
+          "year": "2018",
+          "month": "12",
+          "row_count": 130,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2018/12/17_54_25_606577.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09750360",
+          "year": "2018",
+          "month": "12",
+          "row_count": 437,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2018/12/17_54_53_089524.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09750360",
+          "year": "2018",
+          "month": "12",
+          "row_count": 437,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2019/1/14_20_09_162177.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09750360",
+          "year": "2019",
+          "month": "1",
+          "row_count": 8,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2019/1/14_48_01_677507.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09750360",
+          "year": "2019",
+          "month": "1",
+          "row_count": 12,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/09750360/transactions/2019/3/22_04_50_177799.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09750360",
+          "year": "2019",
+          "month": "3",
+          "row_count": 1543,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "11769803",
+      "csv_file_count": 12,
+      "row_count": 3952,
+      "net_amount": 8701.48,
+      "paid_in_total": 10234.28,
+      "paid_out_total": 3356.96,
+      "years_present": [
+        "2019",
+        "2020"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/11769803/transactions/2019/11/15_03_50_263531.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "11769803",
+          "year": "2019",
+          "month": "11",
+          "row_count": 269,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Transaction Date",
+            "Transaction Type",
+            "Sort Code",
+            "Account Number",
+            "Transaction Description",
+            "Debit Amount",
+            "Credit Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/11769803/transactions/2019/11/15_09_12_435284.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "11769803",
+          "year": "2019",
+          "month": "11",
+          "row_count": 51,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            " Transaction Date",
+            "Transaction Type",
+            "Sort Code",
+            "Account Number",
+            "Transaction Description",
+            "Debit Amount",
+            "Credit Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11769803/transactions/2019/11/10_03_58_014370.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11769803",
+          "year": "2019",
+          "month": "11",
+          "row_count": 51,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            " Transaction Date",
+            "Transaction Type",
+            "Sort Code",
+            "Account Number",
+            "Transaction Description",
+            "Debit Amount",
+            "Credit Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11769803/transactions/2019/11/11_13_04_430537.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11769803",
+          "year": "2019",
+          "month": "11",
+          "row_count": 10,
+          "amount_total": 1740.19,
+          "paid_in_total": 3614.15,
+          "paid_out_total": 1873.96,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11769803/transactions/2019/11/11_13_26_543997.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11769803",
+          "year": "2019",
+          "month": "11",
+          "row_count": 8,
+          "amount_total": 2207.1,
+          "paid_in_total": 2207.1,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11769803/transactions/2019/11/11_13_38_797443.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11769803",
+          "year": "2019",
+          "month": "11",
+          "row_count": 20,
+          "amount_total": 2930.03,
+          "paid_in_total": 4413.03,
+          "paid_out_total": 1483.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid Out",
+            "Paid In",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11769803/transactions/2019/11/11_14_40_084735.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11769803",
+          "year": "2019",
+          "month": "11",
+          "row_count": 1,
+          "amount_total": 185.9,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11769803/transactions/2019/11/11_15_57_104249.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11769803",
+          "year": "2019",
+          "month": "11",
+          "row_count": 1,
+          "amount_total": 185.9,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11769803/transactions/2019/11/11_18_21_846629.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11769803",
+          "year": "2019",
+          "month": "11",
+          "row_count": 1,
+          "amount_total": 185.9,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/11769803/transactions/2019/11/15_06_57_983041.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11769803",
+          "year": "2019",
+          "month": "11",
+          "row_count": 51,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Transaction Date",
+            "Transaction Type",
+            "Sort Code",
+            "Account Number",
+            "Transaction Description",
+            "Debit Amount",
+            "Credit Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/11769803/transactions/2019/12/12_00_50_079389.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "11769803",
+          "year": "2019",
+          "month": "12",
+          "row_count": 1701,
+          "amount_total": 1682.74,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-04-05",
+          "last_date": "2019-04-05",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/11769803/transactions/2020/5/09_40_28_905364.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "11769803",
+          "year": "2020",
+          "month": "5",
+          "row_count": 1788,
+          "amount_total": -416.28,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2019-04-08",
+          "last_date": "2020-04-03",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "12127012",
+      "csv_file_count": 5,
+      "row_count": 2794,
+      "net_amount": 466.52,
+      "paid_in_total": 0.0,
+      "paid_out_total": 0.0,
+      "years_present": [
+        "2020"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12127012/transactions/2020/1/16_06_31_981601.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12127012",
+          "year": "2020",
+          "month": "1",
+          "row_count": 316,
+          "amount_total": 233.26,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-04-18",
+          "last_date": "2019-04-05",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12127012/transactions/2020/1/16_13_18_393803.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12127012",
+          "year": "2020",
+          "month": "1",
+          "row_count": 315,
+          "amount_total": 233.26,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-04-18",
+          "last_date": "2019-04-05",
+          "column_names": [
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12127012/transactions/2020/8/08_56_56_272006.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12127012",
+          "year": "2020",
+          "month": "8",
+          "row_count": 721,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Transaction Date",
+            "Transaction Type",
+            "Sort Code",
+            "Account Number",
+            "Transaction Description",
+            "Debit Amount",
+            "Credit Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12127012/transactions/2020/8/08_59_55_082180.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12127012",
+          "year": "2020",
+          "month": "8",
+          "row_count": 721,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Transaction Date",
+            "Transaction Type",
+            "Sort Code",
+            "Account Number",
+            "Transaction Description",
+            "Debit Amount",
+            "Credit Amount",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/12127012/transactions/2020/8/09_10_49_971820.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "12127012",
+          "year": "2020",
+          "month": "8",
+          "row_count": 721,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Transaction Date",
+            "Transaction Type",
+            "Sort Code",
+            "Account Number",
+            "Transaction Description",
+            "Debit Amount",
+            "Credit Amount",
+            "Balance"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "09526995",
+      "csv_file_count": 5,
+      "row_count": 1499,
+      "net_amount": 0.0,
+      "paid_in_total": 0.0,
+      "paid_out_total": 0.0,
+      "years_present": [
+        "2018"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds/09526995/transactions/2018/10/10_31_05_569005.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09526995",
+          "year": "2018",
+          "month": "10",
+          "row_count": 358,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/09526995/transactions/2018/10/10_34_13_393934.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09526995",
+          "year": "2018",
+          "month": "10",
+          "row_count": 308,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/09526995/transactions/2018/10/10_36_02_013170.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09526995",
+          "year": "2018",
+          "month": "10",
+          "row_count": 125,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/09526995/transactions/2018/11/15_50_57_433912.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09526995",
+          "year": "2018",
+          "month": "11",
+          "row_count": 240,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/09526995/transactions/2018/11/15_55_47_758035.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09526995",
+          "year": "2018",
+          "month": "11",
+          "row_count": 468,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "10286464",
+      "csv_file_count": 3,
+      "row_count": 509,
+      "net_amount": 0.0,
+      "paid_in_total": 0.0,
+      "paid_out_total": 0.0,
+      "years_present": [
+        "2018"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds/10286464/transactions/2018/11/16_47_19_871316.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "10286464",
+          "year": "2018",
+          "month": "11",
+          "row_count": 186,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-10-01",
+          "last_date": "2018-10-31",
+          "column_names": [
+            "Date",
+            "Reference",
+            "Transaction Type",
+            "Money In",
+            " Money Out"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/10286464/transactions/2018/11/20_42_19_040887.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "10286464",
+          "year": "2018",
+          "month": "11",
+          "row_count": 167,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-08-01",
+          "last_date": "2018-08-31",
+          "column_names": [
+            "Date",
+            "Reference",
+            "Transaction Type",
+            "Money In",
+            " Money Out"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/10286464/transactions/2018/11/20_42_43_384965.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "10286464",
+          "year": "2018",
+          "month": "11",
+          "row_count": 156,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-09-01",
+          "last_date": "2018-09-29",
+          "column_names": [
+            "Date",
+            "Reference",
+            "Transaction Type",
+            "Money In",
+            " Money Out"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "06829418",
+      "csv_file_count": 2,
+      "row_count": 602,
+      "net_amount": -2.88,
+      "paid_in_total": 0.0,
+      "paid_out_total": 0.0,
+      "years_present": [
+        "2018",
+        "2020"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds/06829418/transactions/2018/11/14_13_52_616513.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "06829418",
+          "year": "2018",
+          "month": "11",
+          "row_count": 84,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-04-03",
+          "last_date": "2018-10-15",
+          "column_names": [
+            "Date",
+            " Type",
+            " Description",
+            " Value",
+            " Balance",
+            " Account Name",
+            " Account Number"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/06829418/transactions/2020/11/09_43_03_933563.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "06829418",
+          "year": "2020",
+          "month": "11",
+          "row_count": 518,
+          "amount_total": -2.88,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2019-04-08",
+          "last_date": "2020-04-03",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "09394829",
+      "csv_file_count": 2,
+      "row_count": 794,
+      "net_amount": 0.0,
+      "paid_in_total": 0.0,
+      "paid_out_total": 0.0,
+      "years_present": [
+        "2019"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds/09394829/transactions/2019/11/13_09_31_478709.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09394829",
+          "year": "2019",
+          "month": "11",
+          "row_count": 397,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2019-02-01",
+          "last_date": "2019-10-31",
+          "column_names": [
+            "Date",
+            " Type",
+            " Description",
+            " Value",
+            " Balance"
+          ]
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/09394829/transactions/2019/11/13_09_37_112525.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "09394829",
+          "year": "2019",
+          "month": "11",
+          "row_count": 397,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2019-02-01",
+          "last_date": "2019-10-31",
+          "column_names": [
+            "Date",
+            " Type",
+            " Description",
+            " Value",
+            " Balance"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "08307204",
+      "csv_file_count": 2,
+      "row_count": 425,
+      "net_amount": 0.0,
+      "paid_in_total": 0.0,
+      "paid_out_total": 0.0,
+      "years_present": [
+        "2019"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds/08307204/transactions/2019/4/19_54_00_139399.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08307204",
+          "year": "2019",
+          "month": "4",
+          "row_count": 213,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": []
+        },
+        {
+          "path": "dumps/s3/mainrd-emeralds/08307204/transactions/2019/4/19_54_43_519128.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08307204",
+          "year": "2019",
+          "month": "4",
+          "row_count": 212,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-04-05",
+          "last_date": "2019-04-01",
+          "column_names": [
+            "Date",
+            " Type",
+            " Description",
+            " Value",
+            " Balance",
+            " Account Name",
+            " Account Number"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "10444306",
+      "csv_file_count": 1,
+      "row_count": 322,
+      "net_amount": 55.75,
+      "paid_in_total": 0.0,
+      "paid_out_total": 0.0,
+      "years_present": [
+        "2018"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10444306/transactions/2018/12/11_48_33_143566.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10444306",
+          "year": "2018",
+          "month": "12",
+          "row_count": 322,
+          "amount_total": 55.75,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2017-11-01",
+          "last_date": "2018-10-31",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "10395240",
+      "csv_file_count": 1,
+      "row_count": 203,
+      "net_amount": -169.53,
+      "paid_in_total": 0.0,
+      "paid_out_total": 0.0,
+      "years_present": [
+        "2018"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10395240/transactions/2018/11/15_42_09_632792.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10395240",
+          "year": "2018",
+          "month": "11",
+          "row_count": 203,
+          "amount_total": -169.53,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2017-10-02",
+          "last_date": "2018-11-12",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "10828615",
+      "csv_file_count": 1,
+      "row_count": 500,
+      "net_amount": 0.0,
+      "paid_in_total": 0.0,
+      "paid_out_total": 0.0,
+      "years_present": [
+        "2019"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds-bs/10828615/transactions/2019/2/16_56_35_439016.csv",
+          "source_bucket": "mainrd-emeralds-bs",
+          "company_number": "10828615",
+          "year": "2019",
+          "month": "2",
+          "row_count": 500,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-06-14",
+          "last_date": "2019-02-15",
+          "column_names": [
+            "Date",
+            "Reference",
+            "Transaction Type",
+            "Money In",
+            " Money Out"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "08438306",
+      "csv_file_count": 1,
+      "row_count": 668,
+      "net_amount": 14523.79,
+      "paid_in_total": 0.0,
+      "paid_out_total": 0.0,
+      "years_present": [
+        "2018"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds/08438306/transactions/2018/10/10_45_28_665855.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "08438306",
+          "year": "2018",
+          "month": "10",
+          "row_count": 668,
+          "amount_total": 14523.79,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-04-03",
+          "last_date": "2018-10-08",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "11579079",
+      "csv_file_count": 1,
+      "row_count": 4,
+      "net_amount": 519.82,
+      "paid_in_total": 0.0,
+      "paid_out_total": 0.0,
+      "years_present": [
+        "2018"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds/11579079/transactions/2018/10/10_29_13_578105.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "11579079",
+          "year": "2018",
+          "month": "10",
+          "row_count": 4,
+          "amount_total": 519.82,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": "2018-10-03",
+          "last_date": "2018-10-19",
+          "column_names": [
+            "Number",
+            "Date",
+            "Account",
+            "Amount",
+            "Subcategory",
+            "Memo"
+          ]
+        }
+      ]
+    },
+    {
+      "company_number": "06320286",
+      "csv_file_count": 1,
+      "row_count": 226,
+      "net_amount": 0.0,
+      "paid_in_total": 0.0,
+      "paid_out_total": 0.0,
+      "years_present": [
+        "2018"
+      ],
+      "files": [
+        {
+          "path": "dumps/s3/mainrd-emeralds/06320286/transactions/2018/11/13_18_50_407894.csv",
+          "source_bucket": "mainrd-emeralds",
+          "company_number": "06320286",
+          "year": "2018",
+          "month": "11",
+          "row_count": 226,
+          "amount_total": 0.0,
+          "paid_in_total": 0.0,
+          "paid_out_total": 0.0,
+          "first_date": null,
+          "last_date": null,
+          "column_names": [
+            "Date",
+            "Type",
+            "Description",
+            "Paid out",
+            "Paid in",
+            "Balance"
+          ]
+        }
+      ]
+    }
+  ]
+};
