@@ -22,7 +22,8 @@ const elements = {
   emptyState: document.getElementById("emptyState"),
   companyPanel: document.getElementById("companyPanel"),
   companyNumber: document.getElementById("companyNumber"),
-  yearChips: document.getElementById("yearChips"),
+  signalBar: document.getElementById("signalBar"),
+  profileList: document.getElementById("profileList"),
   panelMetrics: document.getElementById("panelMetrics"),
   fileTableBody: document.getElementById("fileTableBody"),
 };
@@ -50,17 +51,17 @@ function renderHeader(data) {
 function renderStats() {
   const summary = state.summary;
   const cards = [
-    ["Companies", number.format(summary.distinct_company_numbers), "Distinct company numbers"],
-    ["CSV Files", number.format(summary.transaction_csv_file_count), "Transaction exports in archive"],
-    ["Dump Files", number.format(summary.dump_files.length), "PostgreSQL handover dumps"],
-    ["Years", Object.keys(summary.years_present).join(", "), "Transaction activity detected"],
+    ["Clients", number.format(summary.distinct_company_numbers), "Recovered companies ready for rebuild"],
+    ["Transaction files", number.format(summary.transaction_csv_file_count), "Recovered bank and transaction CSVs"],
+    ["Database dumps", number.format(summary.dump_files.length), "Historic system snapshots"],
+    ["Coverage window", Object.keys(summary.years_present).join(" - "), "Detected activity range"],
   ];
 
   elements.stats.innerHTML = cards
     .map(
       ([label, value, subtext]) => `
         <article class="stat-card">
-          <p class="metric-label">${label}</p>
+          <p class="section-kicker">${label}</p>
           <p class="stat-value">${value}</p>
           <p class="stat-subtext">${subtext}</p>
         </article>
@@ -84,10 +85,9 @@ function renderCompanyList() {
 
   elements.companyList.querySelectorAll(".company-button").forEach((button) => {
     button.addEventListener("click", () => {
-      const company = state.companies.find(
+      state.selectedCompany = state.companies.find(
         (item) => item.company_number === button.dataset.company,
       );
-      state.selectedCompany = company;
       renderCompanyList();
       renderCompanyPanel();
     });
@@ -105,15 +105,56 @@ function renderCompanyPanel() {
   elements.emptyState.classList.add("hidden");
   elements.companyPanel.classList.remove("hidden");
   elements.companyNumber.textContent = company.company_number;
-  elements.yearChips.innerHTML = company.years_present
-    .map((year) => `<span class="year-chip">${year}</span>`)
-    .join("");
+  renderSignalBar(company);
+  renderProfile(company);
+  renderMetrics(company);
+  renderFileTable(company);
+}
 
+function renderSignalBar(company) {
+  const firstFile = company.files[0];
+  const lastFile = company.files[company.files.length - 1];
+  const signals = [
+    ["Coverage years", company.years_present.join(", "), "Historic periods currently detected"],
+    ["Import runway", `${company.csv_file_count} file batches`, "Recovered imports available for rebuild"],
+    ["Earliest trace", firstFile?.first_date || "Not available", "First dated entry seen in the files"],
+    ["Latest trace", lastFile?.last_date || "Not available", "Latest dated entry seen in the files"],
+  ];
+
+  elements.signalBar.innerHTML = signals
+    .map(
+      ([title, value, note]) => `
+        <article class="signal-card">
+          <p class="signal-title">${title}</p>
+          <p class="signal-value">${value}</p>
+          <p class="signal-note">${note}</p>
+        </article>
+      `,
+    )
+    .join("");
+}
+
+function renderProfile(company) {
+  const profileRows = [
+    ["Entity type", "Recovered company workspace"],
+    ["Company number", company.company_number],
+    ["Years detected", company.years_present.join(", ")],
+    ["Source files", number.format(company.csv_file_count)],
+    ["Total rows", number.format(company.row_count)],
+    ["Rebuild status", "Imported archive only"],
+  ];
+
+  elements.profileList.innerHTML = profileRows
+    .map(([label, value]) => `<dt>${label}</dt><dd>${value}</dd>`)
+    .join("");
+}
+
+function renderMetrics(company) {
   const metrics = [
-    ["CSV Files", number.format(company.csv_file_count), "Files linked to this company"],
-    ["Rows", number.format(company.row_count), "Transaction rows detected"],
-    ["Net Movement", formatCurrency(company.net_amount), "Across the available CSVs"],
-    ["Gross Out", formatCurrency(company.paid_out_total), "Paid Out columns where available"],
+    ["Net movement", formatCurrency(company.net_amount), "Estimated from available columns"],
+    ["Paid in", formatCurrency(company.paid_in_total), "Detected on bank-style exports"],
+    ["Paid out", formatCurrency(company.paid_out_total), "Detected on bank-style exports"],
+    ["Transaction rows", number.format(company.row_count), "Across all recovered files"],
   ];
 
   elements.panelMetrics.innerHTML = metrics
@@ -127,14 +168,18 @@ function renderCompanyPanel() {
       `,
     )
     .join("");
+}
 
+function renderFileTable(company) {
   elements.fileTableBody.innerHTML = company.files
     .map(
       (file) => `
         <tr>
-          <td>${file.year}</td>
-          <td>${file.month}</td>
-          <td>${number.format(file.row_count)}<div class="path-cell">${file.path}</div></td>
+          <td class="period-cell">
+            <strong>${file.year} / ${file.month}</strong>
+            <span class="path-cell">${file.path}</span>
+          </td>
+          <td>${number.format(file.row_count)}</td>
           <td class="${amountClass(file.amount_total)}">${formatCurrency(file.amount_total)}</td>
           <td>${formatCurrency(file.paid_in_total)}</td>
           <td>${formatCurrency(file.paid_out_total)}</td>
@@ -172,7 +217,8 @@ elements.companySearch.addEventListener("input", (event) => {
 loadData().catch((error) => {
   elements.emptyState.classList.remove("hidden");
   elements.emptyState.innerHTML = `
-    <h2>Dashboard data unavailable</h2>
+    <p class="section-kicker">Dashboard unavailable</p>
+    <h2>App data could not be loaded.</h2>
     <p>${error.message}</p>
   `;
 });
