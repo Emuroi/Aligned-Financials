@@ -14,12 +14,78 @@ const LEGACY_PROFILES = {
     ],
     legacyStatus: "Matched from legacy screenshots",
   },
+  "12011913": {
+    displayName: "Mooseberry Tech Ltd",
+    legalType: "Private limited company",
+    registrationDate: "22.05.2019",
+    registrationCountry: "England",
+    vatRegistration: "327642007",
+    vatScheme: "Cash Quarterly",
+    bankAccount: "Barclays / Barclays Savings (GBP)",
+    address: "9 Marina Place, Old Bridge St, Hampton Wick, United Kingdom, KT1 4BH",
+    industries: ["62020 - Information technology consultancy activities"],
+    legacyStatus: "Matched from legacy screenshots",
+  },
+  "10534265": {
+    displayName: "Malja Construction Limited",
+    legalType: "Private limited company",
+    registrationDate: "21.12.2016",
+    registrationCountry: "England",
+    vatRegistration: "None",
+    vatScheme: "Not set",
+    bankAccount: "HSBC / HSBC Savings (GBP)",
+    address: "3 Bailey Mews, London, United Kingdom, W4 3PZ",
+    industries: [
+      "43110 - Demolition",
+      "43290 - Other construction installation",
+      "43390 - Other building completion and finishing",
+    ],
+    legacyStatus: "Matched from legacy screenshots",
+  },
 };
+
+const SELF_EMPLOYED_PEOPLE = [
+  "Aleksander Borislavov Karakashev",
+  "Azdha Ridvan Tahir",
+  "Danail Emilov Zyumbyulev",
+  "Daniel Abraha Ghebrat",
+  "Desislava Vasileva Andonova",
+  "Erik Bohlin",
+  "Georgi Delchev Georgiev",
+  "Goergi Zhelyazkov",
+  "Iliyan Banchev",
+  "Iliyana Krasimirova Bancheva",
+  "Ivet Stefanova Kostadinova",
+  "Kristian Plamenov Bonev",
+  "Maria Koleva Georgieva",
+  "Maya Dencheva Koleva",
+  "Milena Angelova Rusinova",
+  "Monika Szemraj",
+  "Nadezhda Petrova",
+  "Natalis Monastyrska",
+  "Nikolina Nedyalkova Mitreva",
+  "Penka Todorova Stancheva",
+  "Pero Barbaric",
+  "Petar Ivanov Georgiev",
+  "Radi Hristev Dinkov",
+  "Radoslav Stanchev",
+  "Reni Ventsisslavova Tosheva Tsareva",
+  "Stanislav Plamenov Denev",
+  "Stefan Zdravkov Stoyanov",
+  "Teodora Doncheva",
+  "Tsvetomir Tsonev",
+  "Valentin Ivanov Georgiev",
+  "Veneta Stoeva Nikolova",
+  "Ventsislava Mitkova Dinkova",
+  "Viktorio Valentinov Slavchev",
+  "Yordan Georgiev Hristov",
+];
 
 const state = {
   companies: [],
   filteredCompanies: [],
   selectedCompany: null,
+  selectedPerson: null,
   summary: null,
 };
 
@@ -37,8 +103,10 @@ const elements = {
   generatedAt: document.getElementById("generatedAt"),
   companySearch: document.getElementById("companySearch"),
   companyList: document.getElementById("companyList"),
+  selfEmployedList: document.getElementById("selfEmployedList"),
   emptyState: document.getElementById("emptyState"),
   companyPanel: document.getElementById("companyPanel"),
+  selfEmployedPanel: document.getElementById("selfEmployedPanel"),
   companyName: document.getElementById("companyName"),
   companyNumber: document.getElementById("companyNumber"),
   signalBar: document.getElementById("signalBar"),
@@ -51,6 +119,9 @@ const elements = {
   unreconciledList: document.getElementById("unreconciledList"),
   reconciledSummary: document.getElementById("reconciledSummary"),
   reconciledList: document.getElementById("reconciledList"),
+  selfPersonName: document.getElementById("selfPersonName"),
+  selfProfileList: document.getElementById("selfProfileList"),
+  selfNotes: document.getElementById("selfNotes"),
   tabs: Array.from(document.querySelectorAll(".tab[data-panel]")),
   panels: Array.from(document.querySelectorAll(".panel-view")),
 };
@@ -69,6 +140,7 @@ async function loadData() {
   renderHeader(data);
   renderStats();
   renderCompanyList();
+  renderSelfEmployedList();
 }
 
 function enrichCompany(company) {
@@ -106,8 +178,8 @@ function renderStats() {
   const summary = state.summary;
   const cards = [
     ["Clients", number.format(summary.distinct_company_numbers), "Recovered companies ready for rebuild"],
+    ["Self employed", number.format(SELF_EMPLOYED_PEOPLE.length), "Separate personal records archive"],
     ["Transaction files", number.format(summary.transaction_csv_file_count), "Recovered bank and transaction CSVs"],
-    ["Database dumps", number.format(summary.dump_files.length), "Historic system snapshots"],
     ["Coverage window", Object.keys(summary.years_present).join(" - "), "Detected activity range"],
   ];
 
@@ -140,13 +212,45 @@ function renderCompanyList() {
 
   elements.companyList.querySelectorAll(".company-button").forEach((button) => {
     button.addEventListener("click", () => {
+      state.selectedPerson = null;
       state.selectedCompany = state.companies.find(
         (item) => item.company_number === button.dataset.company,
       );
       renderCompanyList();
+      renderSelfEmployedList();
       renderCompanyPanel();
     });
   });
+}
+
+function renderSelfEmployedList() {
+  elements.selfEmployedList.innerHTML = SELF_EMPLOYED_PEOPLE
+    .map((person) => {
+      const active = state.selectedPerson === person ? "active" : "";
+      return `
+        <button class="company-button person-button ${active}" data-person="${person}">
+          <strong>${person}</strong>
+          <span>Self employed record</span>
+        </button>
+      `;
+    })
+    .join("");
+
+  elements.selfEmployedList.querySelectorAll(".person-button").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.selectedCompany = null;
+      state.selectedPerson = button.dataset.person;
+      renderCompanyList();
+      renderSelfEmployedList();
+      renderSelfEmployedPanel();
+    });
+  });
+}
+
+function hideAllPanels() {
+  elements.emptyState.classList.add("hidden");
+  elements.companyPanel.classList.add("hidden");
+  elements.selfEmployedPanel.classList.add("hidden");
 }
 
 function renderCompanyPanel() {
@@ -154,10 +258,11 @@ function renderCompanyPanel() {
   if (!company) {
     elements.emptyState.classList.remove("hidden");
     elements.companyPanel.classList.add("hidden");
+    elements.selfEmployedPanel.classList.add("hidden");
     return;
   }
 
-  elements.emptyState.classList.add("hidden");
+  hideAllPanels();
   elements.companyPanel.classList.remove("hidden");
   elements.companyName.textContent = company.displayName;
   elements.companyNumber.textContent = company.company_number;
@@ -171,6 +276,56 @@ function renderCompanyPanel() {
   renderMetrics(company);
   renderFileTable(company);
   renderWorkflow(company);
+}
+
+function renderSelfEmployedPanel() {
+  const person = state.selectedPerson;
+  if (!person) {
+    elements.emptyState.classList.remove("hidden");
+    elements.companyPanel.classList.add("hidden");
+    elements.selfEmployedPanel.classList.add("hidden");
+    return;
+  }
+
+  hideAllPanels();
+  elements.selfEmployedPanel.classList.remove("hidden");
+  elements.selfPersonName.textContent = person;
+  elements.selfProfileList.innerHTML = [
+    ["Record type", "Self employed"],
+    ["Display name", person],
+    ["Source", "Legacy screenshot archive"],
+    ["Accounting treatment", "Personal / sole trader workflow"],
+    ["Import status", "Awaiting dedicated self-employed import mapping"],
+    ["Section split", "Kept separate from limited companies"],
+  ]
+    .map(([label, value]) => `<dt>${label}</dt><dd>${value}</dd>`)
+    .join("");
+
+  const notes = [
+    {
+      title: "Separate workflow",
+      body: "These records should live outside the company workspace because they represent individuals rather than limited companies.",
+    },
+    {
+      title: "Future build path",
+      body: "The next version can give self-employed profiles their own tax, expenses, and submission workflow instead of company accounting tabs.",
+    },
+    {
+      title: "Current source",
+      body: "These names come directly from the legacy SELF EMPLOYED screenshot folder and are being carried into the rebuilt software as a distinct section.",
+    },
+  ];
+
+  elements.selfNotes.innerHTML = notes
+    .map(
+      (note) => `
+        <article class="note-card">
+          <h4>${note.title}</h4>
+          <p>${note.body}</p>
+        </article>
+      `,
+    )
+    .join("");
 }
 
 function renderSignalBar(company) {
@@ -319,7 +474,10 @@ function deriveWorkflow(company) {
   const reconciled = [];
 
   company.files.forEach((file) => {
-    const hasMovement = Math.abs(file.amount_total) > 0 || Math.abs(file.paid_in_total) > 0 || Math.abs(file.paid_out_total) > 0;
+    const hasMovement =
+      Math.abs(file.amount_total) > 0 ||
+      Math.abs(file.paid_in_total) > 0 ||
+      Math.abs(file.paid_out_total) > 0;
     const item = {
       title: `${file.year} / ${file.month}`,
       subtitle: `${number.format(file.row_count)} rows | ${formatDateRange(file.first_date, file.last_date)}`,

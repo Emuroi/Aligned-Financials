@@ -46,6 +46,14 @@
           <label class="search-label" for="companySearch">Search by company number</label>
           <input id="companySearch" class="search" type="search" placeholder="e.g. 12011913">
           <div id="companyList" class="company-list"></div>
+
+          <div class="rail-divider"></div>
+
+          <div class="rail-head compact">
+            <p class="section-kicker">Sole trader desk</p>
+            <h2>Self Employed</h2>
+          </div>
+          <div id="selfEmployedList" class="company-list compact-list"></div>
         </aside>
 
         <section class="workspace-main">
@@ -172,6 +180,38 @@
                   <div id="reconciledList" class="workflow-list"></div>
                 </article>
               </section>
+            </section>
+          </div>
+
+          <div id="selfEmployedPanel" class="company-panel hidden">
+            <header class="entity-header">
+              <div>
+                <p class="section-kicker">Self employed profile</p>
+                <p id="selfPersonName" class="entity-name"></p>
+                <h2>Self Employed</h2>
+              </div>
+              <div class="entity-actions">
+                <button class="action-chip">Open profile</button>
+                <button class="action-chip subtle">Track records</button>
+              </div>
+            </header>
+
+            <section class="details-grid">
+              <article class="glass-card">
+                <div class="card-head">
+                  <p class="section-kicker">Personal record</p>
+                  <h3>Recovered person profile</h3>
+                </div>
+                <dl class="detail-list" id="selfProfileList"></dl>
+              </article>
+
+              <article class="glass-card">
+                <div class="card-head">
+                  <p class="section-kicker">Section purpose</p>
+                  <h3>Why this sits separately</h3>
+                </div>
+                <div id="selfNotes" class="notes-stack"></div>
+              </article>
             </section>
           </div>
         </section>
