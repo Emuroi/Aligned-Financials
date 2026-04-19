@@ -31,7 +31,38 @@ python scripts/analyze_export.py
 
 The script reads the ZIP in `data/raw/` and regenerates the reports in `reports/generated/`.
 
-Then open `app/index.html` in a browser to use the first-pass dashboard.
+Then open `app/index.html` in a browser to use the local workspace.
+
+## Recommended direction
+
+For this project, offline desktop is the better fit than Netlify.
+
+- The software handles sensitive accounting data, client details, and bank statements
+- the current login is designed as a local access gate for one machine
+- local-first use is a better match for private practice software than a public hosted static site
+
+Netlify would only make sense later if you intentionally rebuild this as a secure hosted multi-user product with a real backend, database, encrypted authentication, and role-based access.
+
+## Desktop mode
+
+An Electron desktop shell is included so the workspace can run as a proper local application.
+
+1. Install Node.js
+2. Run `npm install`
+3. Run `npm start`
+
+That opens Aligned Financials as a desktop window loading the local `app/` workspace.
+
+## Local login
+
+The current login system is offline and local-first:
+
+- first run asks you to create a username and password
+- those credentials are stored on that machine in browser storage
+- after sign-in, the workspace opens normally
+- `Lock` returns the app to the sign-in screen
+
+This is the right first step for a private desktop build, but it is not the final security model for a larger multi-user hosted system.
 
 ## First software layer
 

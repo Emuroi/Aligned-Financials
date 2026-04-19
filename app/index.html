@@ -7,7 +7,80 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <main class="shell">
+    <section id="authShell" class="auth-shell">
+      <div class="auth-panel">
+        <div class="auth-brand">
+          <div class="topbar-mark auth-mark" aria-hidden="true">
+            <span class="mark-a">A</span>
+            <span class="mark-f">F</span>
+            <span class="mark-arrow"></span>
+            <span class="mark-bars">
+              <i></i>
+              <i></i>
+              <i></i>
+            </span>
+          </div>
+          <p class="brand-kicker">Aligned Financials</p>
+          <h1 class="auth-title">Private desktop accounting workspace</h1>
+          <p class="auth-copy">
+            This software is designed to run locally on your machine. Sign in to open your private client desk.
+          </p>
+        </div>
+
+        <div class="auth-card">
+          <div id="setupCard" class="auth-mode hidden">
+            <p class="section-kicker">First run</p>
+            <h2>Create local access</h2>
+            <p class="auth-copy">
+              Set the username and password you want to use on this machine for Aligned Financials.
+            </p>
+            <form id="setupForm" class="form-grid auth-form">
+              <label>
+                <span>Username</span>
+                <input name="username" type="text" autocomplete="username">
+              </label>
+              <label>
+                <span>Password</span>
+                <input name="password" type="password" autocomplete="new-password">
+              </label>
+              <label class="full-span">
+                <span>Confirm password</span>
+                <input name="confirmPassword" type="password" autocomplete="new-password">
+              </label>
+            </form>
+            <div class="auth-actions">
+              <button id="createAccessButton" class="action-chip">Create access</button>
+              <p id="authMessage" class="auth-message" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <div id="loginCard" class="auth-mode hidden">
+            <p class="section-kicker">Offline sign in</p>
+            <h2>Open workspace</h2>
+            <p class="auth-copy">
+              Sign in with the local account for this device. No cloud connection is required.
+            </p>
+            <form id="loginForm" class="form-grid auth-form">
+              <label>
+                <span>Username</span>
+                <input name="username" type="text" autocomplete="username">
+              </label>
+              <label>
+                <span>Password</span>
+                <input name="password" type="password" autocomplete="current-password">
+              </label>
+            </form>
+            <div class="auth-actions">
+              <button id="loginButton" class="action-chip">Sign in</button>
+              <button id="resetAccessButton" class="action-chip subtle">Reset local access</button>
+              <p id="loginMessage" class="auth-message" aria-live="polite"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main id="appShell" class="shell hidden">
       <header class="topbar">
         <div class="topbar-brand">
           <div class="topbar-mark" aria-hidden="true">
@@ -30,11 +103,13 @@
           <button id="homeButton" class="nav-chip active">Home</button>
           <button id="companiesButton" class="nav-chip">Companies</button>
           <button id="selfEmployedButton" class="nav-chip">Self Employed</button>
+          <button id="logoutButton" class="nav-chip nav-chip-alert">Lock</button>
         </nav>
 
         <div class="topbar-meta">
           <p class="data-label">Recovered source</p>
           <p id="zipPath" class="data-value">Loading...</p>
+          <p id="activeUser" class="topbar-user"></p>
         </div>
       </header>
 

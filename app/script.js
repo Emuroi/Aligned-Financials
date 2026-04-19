@@ -127,6 +127,7 @@ const SELF_EMPLOYED_PEOPLE = [
 
 const COMPANY_STORAGE_KEY = "aligned-financials-company-records";
 const PERSON_STORAGE_KEY = "aligned-financials-self-employed-records";
+const AUTH_STORAGE_KEY = "aligned-financials-auth";
 
 const state = {
   companies: [],
@@ -136,6 +137,8 @@ const state = {
   companyRecords: {},
   personRecords: {},
   summary: null,
+  authenticated: false,
+  activeUser: "",
 };
 
 const currency = new Intl.NumberFormat("en-GB", {
@@ -148,6 +151,17 @@ const number = new Intl.NumberFormat("en-GB");
 
 const elements = {
   stats: document.getElementById("stats"),
+  authShell: document.getElementById("authShell"),
+  appShell: document.getElementById("appShell"),
+  setupCard: document.getElementById("setupCard"),
+  loginCard: document.getElementById("loginCard"),
+  setupForm: document.getElementById("setupForm"),
+  loginForm: document.getElementById("loginForm"),
+  createAccessButton: document.getElementById("createAccessButton"),
+  loginButton: document.getElementById("loginButton"),
+  resetAccessButton: document.getElementById("resetAccessButton"),
+  authMessage: document.getElementById("authMessage"),
+  loginMessage: document.getElementById("loginMessage"),
   zipPath: document.getElementById("zipPath"),
   generatedAt: document.getElementById("generatedAt"),
   companySearch: document.getElementById("companySearch"),
@@ -160,6 +174,8 @@ const elements = {
   homeButton: document.getElementById("homeButton"),
   companiesButton: document.getElementById("companiesButton"),
   selfEmployedButton: document.getElementById("selfEmployedButton"),
+  logoutButton: document.getElementById("logoutButton"),
+  activeUser: document.getElementById("activeUser"),
   mastheadHomeButton: document.getElementById("mastheadHomeButton"),
   mastheadCompaniesButton: document.getElementById("mastheadCompaniesButton"),
   quickOpenCompanyButton: document.getElementById("quickOpenCompanyButton"),
@@ -213,6 +229,45 @@ function loadSavedRecords(key) {
 
 function saveRecords(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
+}
+
+async function hashPassword(password) {
+  const input = new TextEncoder().encode(password);
+  const digest = await crypto.subtle.digest("SHA-256", input);
+  return Array.from(new Uint8Array(digest))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function loadAuthConfig() {
+  try {
+    return JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY) || "null");
+  } catch {
+    return null;
+  }
+}
+
+function setAuthMessage(element, message) {
+  element.textContent = message;
+}
+
+function showAuth(setupMode) {
+  state.authenticated = false;
+  elements.appShell.classList.add("hidden");
+  elements.authShell.classList.remove("hidden");
+  elements.setupCard.classList.toggle("hidden", !setupMode);
+  elements.loginCard.classList.toggle("hidden", setupMode);
+  setAuthMessage(elements.authMessage, "");
+  setAuthMessage(elements.loginMessage, "");
+}
+
+function unlockWorkspace(username) {
+  state.authenticated = true;
+  state.activeUser = username;
+  elements.activeUser.textContent = `Signed in as ${username}`;
+  elements.authShell.classList.add("hidden");
+  elements.appShell.classList.remove("hidden");
+  showHomePanel();
 }
 
 function companyDefaults(company) {
@@ -456,6 +511,82 @@ function showHomePanel() {
   hideAllPanels();
   elements.homePanel.classList.remove("hidden");
   updatePrimaryNav("home");
+}
+
+async function createLocalAccess() {
+  const formData = new FormData(elements.setupForm);
+  const username = String(formData.get("username") || "").trim();
+  const password = String(formData.get("password") || "");
+  const confirmPassword = String(formData.get("confirmPassword") || "");
+
+  if (!username || !password) {
+    setAuthMessage(elements.authMessage, "Enter a username and password.");
+    return;
+  }
+
+  if (password.length < 8) {
+    setAuthMessage(elements.authMessage, "Use at least 8 characters for the password.");
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    setAuthMessage(elements.authMessage, "The passwords do not match.");
+    return;
+  }
+
+  const passwordHash = await hashPassword(password);
+  saveRecords(AUTH_STORAGE_KEY, {
+    username,
+    passwordHash,
+    createdAt: new Date().toISOString(),
+  });
+  elements.setupForm.reset();
+  setAuthMessage(elements.authMessage, "Local access created. Opening workspace...");
+  unlockWorkspace(username);
+}
+
+async function loginLocalAccess() {
+  const authConfig = loadAuthConfig();
+  const formData = new FormData(elements.loginForm);
+  const username = String(formData.get("username") || "").trim();
+  const password = String(formData.get("password") || "");
+
+  if (!authConfig) {
+    showAuth(true);
+    return;
+  }
+
+  if (username !== authConfig.username) {
+    setAuthMessage(elements.loginMessage, "Username not recognized on this device.");
+    return;
+  }
+
+  const passwordHash = await hashPassword(password);
+  if (passwordHash !== authConfig.passwordHash) {
+    setAuthMessage(elements.loginMessage, "Incorrect password.");
+    return;
+  }
+
+  elements.loginForm.reset();
+  unlockWorkspace(username);
+}
+
+function lockWorkspace() {
+  state.authenticated = false;
+  state.activeUser = "";
+  elements.activeUser.textContent = "";
+  elements.loginForm.reset();
+  showAuth(false);
+}
+
+function resetLocalAccess() {
+  localStorage.removeItem(AUTH_STORAGE_KEY);
+  state.authenticated = false;
+  state.activeUser = "";
+  elements.activeUser.textContent = "";
+  elements.loginForm.reset();
+  elements.setupForm.reset();
+  showAuth(true);
 }
 
 function renderSignalBar(company, record) {
@@ -1117,11 +1248,25 @@ function bindEvents() {
   elements.homeRouteImport.addEventListener("click", () => openFirstCompany("company-bank-import"));
   elements.homeRouteWorkflow.addEventListener("click", () => openFirstCompany("company-workflow"));
   elements.homeLinkButtons.forEach((button) => button.addEventListener("click", showHomePanel));
+  elements.createAccessButton.addEventListener("click", createLocalAccess);
+  elements.loginButton.addEventListener("click", loginLocalAccess);
+  elements.resetAccessButton.addEventListener("click", resetLocalAccess);
+  elements.logoutButton.addEventListener("click", lockWorkspace);
   elements.saveCompanyButton.addEventListener("click", applyCompanyEdits);
   elements.resetCompanyButton.addEventListener("click", resetCurrentCompanyView);
   elements.importBankStatementButton.addEventListener("click", importBankStatement);
   elements.savePersonButton.addEventListener("click", applyPersonEdits);
   elements.resetPersonButton.addEventListener("click", resetCurrentPersonView);
+
+  elements.setupForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    createLocalAccess();
+  });
+
+  elements.loginForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    loginLocalAccess();
+  });
 }
 
 function loadApp() {
@@ -1136,7 +1281,12 @@ function loadApp() {
   renderStats();
   renderCompanyList();
   renderSelfEmployedList();
-  showHomePanel();
+  const authConfig = loadAuthConfig();
+  if (authConfig?.username) {
+    showAuth(false);
+  } else {
+    showAuth(true);
+  }
 }
 
 try {

@@ -1,3 +1,5 @@
 __pycache__/
 *.pyc
 data/extracted/
+node_modules/
+dist/
