@@ -186,7 +186,7 @@ const elements = {
   homeRouteCompanies: document.getElementById("homeRouteCompanies"),
   homeRouteSelf: document.getElementById("homeRouteSelf"),
   homeRouteImport: document.getElementById("homeRouteImport"),
-  homeRouteWorkflow: document.getElementById("homeRouteWorkflow"),
+  homeRouteYears: document.getElementById("homeRouteYears"),
   homeRouteSettings: document.getElementById("homeRouteSettings"),
   settingsPanel: document.getElementById("settingsPanel"),
   changePasswordForm: document.getElementById("changePasswordForm"),
@@ -203,8 +203,8 @@ const elements = {
   companyDetailsForm: document.getElementById("companyDetailsForm"),
   companyImportSummary: document.getElementById("companyImportSummary"),
   companyStatusSummary: document.getElementById("companyStatusSummary"),
-  workflowSummary: document.getElementById("workflowSummary"),
-  workflowTableBody: document.getElementById("workflowTableBody"),
+  yearsSummary: document.getElementById("yearsSummary"),
+  yearsTableBody: document.getElementById("yearsTableBody"),
   bankAccountLabel: document.getElementById("bankAccountLabel"),
   bankStatementFile: document.getElementById("bankStatementFile"),
   bankImportNotes: document.getElementById("bankImportNotes"),
@@ -705,60 +705,50 @@ function renderCompanyDetails(company, record) {
     `This company record is editable and saved locally. Update legal, tax, bank, address, and compliance details as you rebuild the software around the handover data.`;
 }
 
-function renderCompanyWorkflow(company, record) {
-  const workflowEntries = company.files.map((file) => {
-    const saved = record.workflow[file.path] || {
-      status: defaultWorkflowStatus(file),
-      note: "",
-    };
-    return { file, saved };
-  });
+function renderCompanyYears(company) {
+  const years = Object.values(
+    company.files.reduce((accumulator, file) => {
+      const bucket = accumulator[file.year] || {
+        year: file.year,
+        fileCount: 0,
+        rowCount: 0,
+        netAmount: 0,
+        firstDate: null,
+        lastDate: null,
+      };
 
-  const reconciledCount = workflowEntries.filter((entry) => entry.saved.status === "reconciled").length;
-  elements.workflowSummary.textContent =
-    `${reconciledCount} of ${workflowEntries.length} imported file batches are currently marked as reconciled.`;
+      bucket.fileCount += 1;
+      bucket.rowCount += file.row_count || 0;
+      bucket.netAmount += file.amount_total || 0;
+      if (file.first_date && (!bucket.firstDate || file.first_date < bucket.firstDate)) {
+        bucket.firstDate = file.first_date;
+      }
+      if (file.last_date && (!bucket.lastDate || file.last_date > bucket.lastDate)) {
+        bucket.lastDate = file.last_date;
+      }
 
-  elements.workflowTableBody.innerHTML = workflowEntries
+      accumulator[file.year] = bucket;
+      return accumulator;
+    }, {}),
+  ).sort((left, right) => Number(left.year) - Number(right.year));
+
+  elements.yearsSummary.textContent =
+    `${years.length} accounting years are represented in the recovered archive for this company.`;
+
+  elements.yearsTableBody.innerHTML = years
     .map(
-      ({ file, saved }) => `
+      (year) => `
         <tr>
-          <td>
-            <strong>${file.year} / ${file.month}</strong>
-            <span class="path-cell">${file.path}</span>
-          </td>
-          <td>${number.format(file.row_count)}</td>
-          <td class="${amountClass(file.amount_total)}">${formatCurrency(file.amount_total)}</td>
-          <td>
-            <select class="status-select" data-file-path="${escapeAttribute(file.path)}">
-              ${renderStatusOptions(saved.status)}
-            </select>
-          </td>
-          <td>
-            <input class="notes-input" data-file-note="${escapeAttribute(file.path)}" type="text" value="${escapeAttribute(saved.note)}" placeholder="Review note">
-          </td>
+          <td><strong>${year.year}</strong></td>
+          <td>${number.format(year.fileCount)}</td>
+          <td>${number.format(year.rowCount)}</td>
+          <td>${year.firstDate || "Not available"}</td>
+          <td>${year.lastDate || "Not available"}</td>
+          <td class="${amountClass(year.netAmount)}">${formatCurrency(year.netAmount)}</td>
         </tr>
       `,
     )
     .join("");
-
-  elements.workflowTableBody.querySelectorAll(".status-select").forEach((select) => {
-    select.addEventListener("change", () => {
-      updateCompanyRecordField(state.selectedCompanyId, (recordState) => {
-        recordState.workflow[select.dataset.filePath] ??= { status: "", note: "" };
-        recordState.workflow[select.dataset.filePath].status = select.value;
-      });
-      renderCompanyWorkflow(company, getCompanyRecord(state.selectedCompanyId));
-    });
-  });
-
-  elements.workflowTableBody.querySelectorAll(".notes-input").forEach((input) => {
-    input.addEventListener("change", () => {
-      updateCompanyRecordField(state.selectedCompanyId, (recordState) => {
-        recordState.workflow[input.dataset.fileNote] ??= { status: "", note: "" };
-        recordState.workflow[input.dataset.fileNote].note = input.value.trim();
-      });
-    });
-  });
 }
 
 function renderCompanyNotes(record) {
@@ -907,7 +897,7 @@ function renderCompanyPanel(viewId = getActiveCompanyView()) {
   renderSignalBar(company, record);
   renderCompanyOverview(company, record);
   renderCompanyDetails(company, record);
-  renderCompanyWorkflow(company, record);
+  renderCompanyYears(company);
   renderBankImports(record);
   renderCompanyNotes(record);
 }
@@ -938,7 +928,7 @@ function renderSelfEmployedPanel() {
 
   elements.selfNotes.innerHTML = `
     <article class="note-card">
-      <h4>Separate workflow</h4>
+      <h4>Separate section</h4>
       <p>Self employed records sit outside the limited company workspace and can carry their own tax, identity, and notes profile.</p>
     </article>
     <article class="note-card">
@@ -1131,25 +1121,6 @@ function removeBankStatement(statementId) {
 
   renderCompanyPanel("company-bank-import");
   setSaveState(elements.companySaveState, "Statement removed");
-}
-
-function defaultWorkflowStatus(file) {
-  if (Math.abs(file.amount_total) > 0 || Math.abs(file.paid_in_total) > 0 || Math.abs(file.paid_out_total) > 0) {
-    return "reconciled";
-  }
-  return "unreconciled";
-}
-
-function renderStatusOptions(current) {
-  const statuses = [
-    ["unreconciled", "Unreconciled"],
-    ["reconciled", "Reconciled"],
-    ["hold", "On Hold"],
-    ["archived", "Archived"],
-  ];
-  return statuses
-    .map(([value, label]) => `<option value="${value}" ${value === current ? "selected" : ""}>${label}</option>`)
-    .join("");
 }
 
 function amountClass(value) {
@@ -1365,7 +1336,7 @@ function bindEvents() {
   elements.homeRouteCompanies.addEventListener("click", () => openFirstCompany());
   elements.homeRouteSelf.addEventListener("click", openFirstSelfEmployed);
   elements.homeRouteImport.addEventListener("click", () => openFirstCompany("company-bank-import"));
-  elements.homeRouteWorkflow.addEventListener("click", () => openFirstCompany("company-workflow"));
+  elements.homeRouteYears.addEventListener("click", () => openFirstCompany("company-years"));
   elements.homeRouteSettings.addEventListener("click", showSettingsPanel);
   elements.homeLinkButtons.forEach((button) => button.addEventListener("click", showHomePanel));
   elements.createAccessButton.addEventListener("click", createLocalAccess);

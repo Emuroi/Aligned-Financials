@@ -120,7 +120,7 @@
           <h2>High-trust client accounting, rebuilt as a single private workspace.</h2>
           <p class="brand-copy">
             Open the home desk for your full picture, jump into a client in one click, and keep
-            company, sole trader, workflow, statement, and compliance data together in one place.
+            company, sole trader, archive, statement, and compliance data together in one place.
           </p>
           <div class="masthead-actions">
             <button id="mastheadHomeButton" class="action-chip">Open home</button>
@@ -225,12 +225,12 @@
                   <button id="homeRouteImport" class="quick-card">
                     <span class="quick-label">Bank import</span>
                     <strong>Import statement CSVs</strong>
-                    <span>Go directly to the bank import workflow for the selected company.</span>
+                    <span>Go directly to the bank import view for the selected company.</span>
                   </button>
-                  <button id="homeRouteWorkflow" class="quick-card">
-                    <span class="quick-label">Workflow</span>
-                    <strong>Review transaction batches</strong>
-                    <span>Check imported file groups, notes, and reconciliation status from one place.</span>
+                  <button id="homeRouteYears" class="quick-card">
+                    <span class="quick-label">Years</span>
+                    <strong>Review imported years</strong>
+                    <span>Open the yearly archive view to see file coverage, rows, and activity by accounting year.</span>
                   </button>
                   <button id="homeRouteSettings" class="quick-card">
                     <span class="quick-label">Settings</span>
@@ -266,7 +266,7 @@
             <nav class="module-tabs" aria-label="Company modules">
               <button class="tab active" data-view="company-overview">Overview</button>
               <button class="tab" data-view="company-details">Details</button>
-              <button class="tab" data-view="company-workflow">Workflow</button>
+              <button class="tab" data-view="company-years">Years</button>
               <button class="tab" data-view="company-bank-import">Bank Import</button>
               <button class="tab" data-view="company-notes">Notes</button>
             </nav>
@@ -410,25 +410,26 @@
               </section>
             </section>
 
-            <section class="view-panel hidden" id="company-workflow">
+            <section class="view-panel hidden" id="company-years">
               <section class="glass-card">
                 <div class="card-head">
-                  <p class="section-kicker">Posting workflow</p>
-                  <h3>Transaction file review</h3>
+                  <p class="section-kicker">Archive years</p>
+                  <h3>Imported years overview</h3>
                 </div>
-                <p class="workflow-summary" id="workflowSummary"></p>
+                <p class="workflow-summary" id="yearsSummary"></p>
                 <div class="table-scroll">
                   <table>
                     <thead>
                       <tr>
-                        <th>Period</th>
+                        <th>Year</th>
+                        <th>File batches</th>
                         <th>Rows</th>
+                        <th>First trace</th>
+                        <th>Last trace</th>
                         <th>Net</th>
-                        <th>Status</th>
-                        <th>Review note</th>
                       </tr>
                     </thead>
-                    <tbody id="workflowTableBody"></tbody>
+                    <tbody id="yearsTableBody"></tbody>
                   </table>
                 </div>
               </section>
@@ -458,8 +459,8 @@
                       <p>Update fields in any tab, then click `Save company` to persist the record locally.</p>
                     </article>
                     <article class="note-card">
-                      <h4>Workflow</h4>
-                      <p>Each imported file batch can be marked as unreconciled, reconciled, on hold, or archived.</p>
+                      <h4>Years view</h4>
+                      <p>Imported file batches are condensed into year-level summaries so you can review archive coverage before posting anything into Xero.</p>
                     </article>
                     <article class="note-card">
                       <h4>Source-safe rebuild</h4>
@@ -595,7 +596,7 @@
               <article class="glass-card">
                 <div class="card-head">
                   <p class="section-kicker">Section purpose</p>
-                  <h3>Separate sole trader workflow</h3>
+                  <h3>Separate sole trader section</h3>
                 </div>
                 <div id="selfNotes" class="notes-stack"></div>
               </article>
@@ -652,7 +653,7 @@
                 <div class="notes-stack">
                   <article class="note-card">
                     <h4>Encrypted records</h4>
-                    <p>Client records, self employed profiles, workflow notes, and bank statement imports are stored in an encrypted local desktop file.</p>
+                    <p>Client records, self employed profiles, archive notes, and bank statement imports are stored in an encrypted local desktop file.</p>
                   </article>
                   <article class="note-card">
                     <h4>Local access</h4>
