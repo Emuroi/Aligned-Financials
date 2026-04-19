@@ -127,6 +127,8 @@ const SELF_EMPLOYED_PEOPLE = [
 
 const COMPANY_STORAGE_KEY = "aligned-financials-company-records";
 const PERSON_STORAGE_KEY = "aligned-financials-self-employed-records";
+const CUSTOM_COMPANIES_KEY = "aligned-financials-custom-companies";
+const CUSTOM_PEOPLE_KEY = "aligned-financials-custom-people";
 const LEGACY_AUTH_STORAGE_KEY = "aligned-financials-auth";
 
 const state = {
@@ -136,6 +138,8 @@ const state = {
   selectedPersonId: null,
   companyRecords: {},
   personRecords: {},
+  customCompanies: [],
+  customPeople: [],
   summary: null,
   authenticated: false,
   activeUser: "",
@@ -167,7 +171,9 @@ const elements = {
   zipPath: document.getElementById("zipPath"),
   generatedAt: document.getElementById("generatedAt"),
   companySearch: document.getElementById("companySearch"),
+  addCompanyButton: document.getElementById("addCompanyButton"),
   companyList: document.getElementById("companyList"),
+  addSelfEmployedButton: document.getElementById("addSelfEmployedButton"),
   selfEmployedList: document.getElementById("selfEmployedList"),
   homePanel: document.getElementById("homePanel"),
   emptyState: document.getElementById("emptyState"),
@@ -183,6 +189,12 @@ const elements = {
   mastheadCompaniesButton: document.getElementById("mastheadCompaniesButton"),
   quickOpenCompanyButton: document.getElementById("quickOpenCompanyButton"),
   quickOpenSelfButton: document.getElementById("quickOpenSelfButton"),
+  addCompanyForm: document.getElementById("addCompanyForm"),
+  addPersonForm: document.getElementById("addPersonForm"),
+  createCompanyButton: document.getElementById("createCompanyButton"),
+  createPersonButton: document.getElementById("createPersonButton"),
+  createCompanyState: document.getElementById("createCompanyState"),
+  createPersonState: document.getElementById("createPersonState"),
   homeRouteCompanies: document.getElementById("homeRouteCompanies"),
   homeRouteSelf: document.getElementById("homeRouteSelf"),
   homeRouteImport: document.getElementById("homeRouteImport"),
@@ -335,6 +347,26 @@ function personDefaults(fullName) {
   };
 }
 
+function customCompanyDefaults(displayName, companyNumber, note) {
+  return {
+    company_number: companyNumber,
+    csv_file_count: 0,
+    row_count: 0,
+    net_amount: 0,
+    paid_in_total: 0,
+    paid_out_total: 0,
+    years_present: [],
+    files: [],
+    isCustom: true,
+    company_note: note || "",
+    display_name: displayName,
+  };
+}
+
+function getSelfEmployedPeople() {
+  return [...SELF_EMPLOYED_PEOPLE, ...state.customPeople];
+}
+
 function getCompanyRecord(companyId) {
   return state.companyRecords[companyId];
 }
@@ -480,7 +512,7 @@ function renderCompanyList() {
 }
 
 function renderSelfEmployedList() {
-  elements.selfEmployedList.innerHTML = SELF_EMPLOYED_PEOPLE
+  elements.selfEmployedList.innerHTML = getSelfEmployedPeople()
     .map((personId) => {
       const person = state.personRecords[personId];
       const active = state.selectedPersonId === personId ? "active" : "";
@@ -669,6 +701,7 @@ function renderCompanyOverview(company, record) {
     ["VAT scheme", record.vatScheme || "Not set"],
     ["Source files", number.format(company.csv_file_count)],
     ["Imported rows", number.format(company.row_count)],
+    ["Record type", company.isCustom ? "Manually added client" : "Recovered archive client"],
   ]
     .map(([label, value]) => `<dt>${label}</dt><dd>${value}</dd>`)
     .join("");
@@ -1201,7 +1234,7 @@ function openFirstCompany(viewId = "company-overview") {
 }
 
 function openFirstSelfEmployed() {
-  const firstPerson = SELF_EMPLOYED_PEOPLE[0];
+  const firstPerson = getSelfEmployedPeople()[0];
   if (!firstPerson) {
     hideAllPanels();
     elements.emptyState.classList.remove("hidden");
@@ -1231,6 +1264,8 @@ async function hydrateEncryptedData() {
     state.persistedData = {
       [COMPANY_STORAGE_KEY]: JSON.parse(localStorage.getItem(COMPANY_STORAGE_KEY) || "{}"),
       [PERSON_STORAGE_KEY]: JSON.parse(localStorage.getItem(PERSON_STORAGE_KEY) || "{}"),
+      [CUSTOM_COMPANIES_KEY]: JSON.parse(localStorage.getItem(CUSTOM_COMPANIES_KEY) || "[]"),
+      [CUSTOM_PEOPLE_KEY]: JSON.parse(localStorage.getItem(CUSTOM_PEOPLE_KEY) || "[]"),
     };
   } catch {
     state.persistedData = {};
@@ -1284,6 +1319,82 @@ async function changeLocalPassword() {
   setSaveState(elements.settingsSaveState, "Password updated");
 }
 
+function createCompanyRecord() {
+  const formData = new FormData(elements.addCompanyForm);
+  const displayName = String(formData.get("displayName") || "").trim();
+  const suppliedNumber = String(formData.get("companyNumber") || "").trim();
+  const note = String(formData.get("notes") || "").trim();
+
+  if (!displayName) {
+    setSaveState(elements.createCompanyState, "Enter a company name");
+    return;
+  }
+
+  const companyNumber = suppliedNumber || `CUSTOM-${Date.now()}`;
+  if (state.companies.some((company) => company.company_number === companyNumber)) {
+    setSaveState(elements.createCompanyState, "Company number already exists");
+    return;
+  }
+
+  const customCompany = customCompanyDefaults(displayName, companyNumber, note);
+  state.customCompanies.unshift(customCompany);
+  state.persistedData[CUSTOM_COMPANIES_KEY] = structuredClone(state.customCompanies);
+  state.companyRecords[companyNumber] = {
+    ...companyDefaults(customCompany),
+    displayName,
+    legalName: displayName,
+    companyNumber,
+    generalNotes: note,
+  };
+
+  saveRecords(COMPANY_STORAGE_KEY, state.companyRecords);
+  saveRecords(CUSTOM_COMPANIES_KEY, state.customCompanies);
+  state.companies = [...state.customCompanies, ...state.companies.filter((company) => !company.isCustom)];
+  filterCompanies(elements.companySearch.value);
+  elements.addCompanyForm.reset();
+  state.selectedPersonId = null;
+  state.selectedCompanyId = companyNumber;
+  renderCompanyList();
+  renderSelfEmployedList();
+  renderCompanyPanel();
+  setSaveState(elements.createCompanyState, `Created ${displayName}`);
+}
+
+function createPersonRecord() {
+  const formData = new FormData(elements.addPersonForm);
+  const fullName = String(formData.get("fullName") || "").trim();
+  const tradingName = String(formData.get("tradingName") || "").trim();
+  const notes = String(formData.get("notes") || "").trim();
+
+  if (!fullName) {
+    setSaveState(elements.createPersonState, "Enter a full name");
+    return;
+  }
+
+  if (getSelfEmployedPeople().includes(fullName)) {
+    setSaveState(elements.createPersonState, "That self employed record already exists");
+    return;
+  }
+
+  state.customPeople.unshift(fullName);
+  state.persistedData[CUSTOM_PEOPLE_KEY] = structuredClone(state.customPeople);
+  state.personRecords[fullName] = {
+    ...personDefaults(fullName),
+    tradingName,
+    notes,
+  };
+
+  saveRecords(PERSON_STORAGE_KEY, state.personRecords);
+  saveRecords(CUSTOM_PEOPLE_KEY, state.customPeople);
+  elements.addPersonForm.reset();
+  state.selectedCompanyId = null;
+  state.selectedPersonId = fullName;
+  renderCompanyList();
+  renderSelfEmployedList();
+  renderSelfEmployedPanel();
+  setSaveState(elements.createPersonState, `Created ${fullName}`);
+}
+
 function filterCompanies(query) {
   const lowered = query.trim().toLowerCase();
   state.filteredCompanies = state.companies.filter((company) => {
@@ -1301,14 +1412,16 @@ function initializeRecords(data) {
   state.summary = data.summary;
   state.companyRecords = loadSavedRecords(COMPANY_STORAGE_KEY);
   state.personRecords = loadSavedRecords(PERSON_STORAGE_KEY);
+  state.customCompanies = state.persistedData[CUSTOM_COMPANIES_KEY] || [];
+  state.customPeople = state.persistedData[CUSTOM_PEOPLE_KEY] || [];
 
-  state.companies = data.companies;
+  state.companies = [...state.customCompanies, ...data.companies];
   state.companies.forEach((company) => {
     state.companyRecords[company.company_number] ??= companyDefaults(company);
     state.companyRecords[company.company_number].bankImports ??= [];
     state.companyRecords[company.company_number].workflow ??= {};
   });
-  SELF_EMPLOYED_PEOPLE.forEach((person) => {
+  getSelfEmployedPeople().forEach((person) => {
     state.personRecords[person] ??= personDefaults(person);
   });
 
@@ -1325,6 +1438,8 @@ function bindEvents() {
     filterCompanies(event.target.value);
   });
 
+  elements.addCompanyButton.addEventListener("click", showHomePanel);
+  elements.addSelfEmployedButton.addEventListener("click", showHomePanel);
   elements.homeButton.addEventListener("click", showHomePanel);
   elements.companiesButton.addEventListener("click", () => openFirstCompany());
   elements.selfEmployedButton.addEventListener("click", openFirstSelfEmployed);
@@ -1339,6 +1454,8 @@ function bindEvents() {
   elements.homeRouteYears.addEventListener("click", () => openFirstCompany("company-years"));
   elements.homeRouteSettings.addEventListener("click", showSettingsPanel);
   elements.homeLinkButtons.forEach((button) => button.addEventListener("click", showHomePanel));
+  elements.createCompanyButton.addEventListener("click", createCompanyRecord);
+  elements.createPersonButton.addEventListener("click", createPersonRecord);
   elements.createAccessButton.addEventListener("click", createLocalAccess);
   elements.loginButton.addEventListener("click", loginLocalAccess);
   elements.resetAccessButton.addEventListener("click", resetLocalAccess);
@@ -1363,6 +1480,16 @@ function bindEvents() {
   elements.changePasswordForm.addEventListener("submit", (event) => {
     event.preventDefault();
     changeLocalPassword();
+  });
+
+  elements.addCompanyForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    createCompanyRecord();
+  });
+
+  elements.addPersonForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    createPersonRecord();
   });
 }
 

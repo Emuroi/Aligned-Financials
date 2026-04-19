@@ -10,20 +10,11 @@
     <section id="authShell" class="auth-shell">
       <div class="auth-panel">
         <div class="auth-brand">
-          <div class="topbar-mark auth-mark" aria-hidden="true">
-            <span class="mark-a">A</span>
-            <span class="mark-f">F</span>
-            <span class="mark-arrow"></span>
-            <span class="mark-bars">
-              <i></i>
-              <i></i>
-              <i></i>
-            </span>
-          </div>
+          <img class="brand-image auth-mark-image" src="../build/icon.png" alt="Aligned Financials logo">
           <p class="brand-kicker">Aligned Financials</p>
           <h1 class="auth-title">Private desktop accounting workspace</h1>
           <p class="auth-copy">
-            This software is designed to run locally on your machine. Sign in to open your private client desk.
+            Sign in to open your private local workspace for client records, archive years, and statement imports.
           </p>
         </div>
 
@@ -83,16 +74,7 @@
     <main id="appShell" class="shell hidden">
       <header class="topbar">
         <div class="topbar-brand">
-          <div class="topbar-mark" aria-hidden="true">
-            <span class="mark-a">A</span>
-            <span class="mark-f">F</span>
-            <span class="mark-arrow"></span>
-            <span class="mark-bars">
-              <i></i>
-              <i></i>
-              <i></i>
-            </span>
-          </div>
+          <img class="brand-image topbar-logo" src="../build/icon.png" alt="Aligned Financials logo">
           <div>
             <p class="brand-kicker">Aligned Financials</p>
             <h1 class="app-title">Private accounting workspace</h1>
@@ -154,6 +136,7 @@
             <p class="section-kicker">Client ledger</p>
             <h2>Companies</h2>
           </div>
+          <button id="addCompanyButton" class="rail-action">Add company</button>
           <label class="search-label" for="companySearch">Search companies</label>
           <input id="companySearch" class="search" type="search" placeholder="Name or company number">
           <div id="companyList" class="company-list"></div>
@@ -164,6 +147,7 @@
             <p class="section-kicker">Sole trader desk</p>
             <h2>Self Employed</h2>
           </div>
+          <button id="addSelfEmployedButton" class="rail-action">Add self employed</button>
           <div id="selfEmployedList" class="company-list compact-list"></div>
         </aside>
 
@@ -182,6 +166,58 @@
                 <button id="quickOpenCompanyButton" class="action-chip">Open first company</button>
                 <button id="quickOpenSelfButton" class="action-chip subtle">Open self employed</button>
               </div>
+            </section>
+
+            <section class="editor-grid">
+              <article class="glass-card">
+                <div class="card-head">
+                  <p class="section-kicker">Create</p>
+                  <h3>Add new company</h3>
+                </div>
+                <form id="addCompanyForm" class="form-grid">
+                  <label>
+                    <span>Display name</span>
+                    <input name="displayName" type="text" placeholder="Aligned Advisory Ltd">
+                  </label>
+                  <label>
+                    <span>Company number</span>
+                    <input name="companyNumber" type="text" placeholder="Optional if not registered yet">
+                  </label>
+                  <label class="full-span">
+                    <span>Notes</span>
+                    <textarea name="notes" rows="4" placeholder="Initial setup notes for this client"></textarea>
+                  </label>
+                </form>
+                <div class="import-actions">
+                  <button id="createCompanyButton" class="action-chip">Create company</button>
+                  <p id="createCompanyState" class="save-state" aria-live="polite"></p>
+                </div>
+              </article>
+
+              <article class="glass-card">
+                <div class="card-head">
+                  <p class="section-kicker">Create</p>
+                  <h3>Add new self employed</h3>
+                </div>
+                <form id="addPersonForm" class="form-grid">
+                  <label>
+                    <span>Full name</span>
+                    <input name="fullName" type="text" placeholder="Alex Example">
+                  </label>
+                  <label>
+                    <span>Trading name</span>
+                    <input name="tradingName" type="text" placeholder="Optional">
+                  </label>
+                  <label class="full-span">
+                    <span>Notes</span>
+                    <textarea name="notes" rows="4" placeholder="Initial setup notes for this person"></textarea>
+                  </label>
+                </form>
+                <div class="import-actions">
+                  <button id="createPersonButton" class="action-chip">Create self employed</button>
+                  <p id="createPersonState" class="save-state" aria-live="polite"></p>
+                </div>
+              </article>
             </section>
 
             <section class="editor-grid">
