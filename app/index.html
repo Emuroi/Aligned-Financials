@@ -103,6 +103,7 @@
           <button id="homeButton" class="nav-chip active">Home</button>
           <button id="companiesButton" class="nav-chip">Companies</button>
           <button id="selfEmployedButton" class="nav-chip">Self Employed</button>
+          <button id="settingsButton" class="nav-chip">Settings</button>
           <button id="logoutButton" class="nav-chip nav-chip-alert">Lock</button>
         </nav>
 
@@ -230,6 +231,11 @@
                     <span class="quick-label">Workflow</span>
                     <strong>Review transaction batches</strong>
                     <span>Check imported file groups, notes, and reconciliation status from one place.</span>
+                  </button>
+                  <button id="homeRouteSettings" class="quick-card">
+                    <span class="quick-label">Settings</span>
+                    <strong>Manage security</strong>
+                    <span>Change the desktop password and manage local access for this machine.</span>
                   </button>
                 </div>
               </article>
@@ -592,6 +598,71 @@
                   <h3>Separate sole trader workflow</h3>
                 </div>
                 <div id="selfNotes" class="notes-stack"></div>
+              </article>
+            </section>
+          </div>
+
+          <div id="settingsPanel" class="record-panel hidden">
+            <header class="entity-header">
+              <div>
+                <p class="section-kicker">Settings</p>
+                <p class="entity-name">Local desktop security</p>
+                <h2>Workspace settings</h2>
+              </div>
+              <div class="entity-actions">
+                <p id="settingsSaveState" class="save-state" aria-live="polite"></p>
+                <button class="action-chip subtle home-link-button" type="button">Back to home</button>
+              </div>
+            </header>
+
+            <section class="editor-grid details-layout">
+              <article class="glass-card">
+                <div class="card-head">
+                  <p class="section-kicker">Security</p>
+                  <h3>Change local password</h3>
+                </div>
+                <form id="changePasswordForm" class="form-grid">
+                  <label>
+                    <span>Username</span>
+                    <input name="username" type="text" autocomplete="username">
+                  </label>
+                  <label>
+                    <span>Current password</span>
+                    <input name="currentPassword" type="password" autocomplete="current-password">
+                  </label>
+                  <label>
+                    <span>New password</span>
+                    <input name="newPassword" type="password" autocomplete="new-password">
+                  </label>
+                  <label>
+                    <span>Confirm new password</span>
+                    <input name="confirmPassword" type="password" autocomplete="new-password">
+                  </label>
+                </form>
+                <div class="import-actions">
+                  <button id="changePasswordButton" class="action-chip">Update password</button>
+                </div>
+              </article>
+
+              <article class="glass-card">
+                <div class="card-head">
+                  <p class="section-kicker">Storage</p>
+                  <h3>Offline desktop data</h3>
+                </div>
+                <div class="notes-stack">
+                  <article class="note-card">
+                    <h4>Encrypted records</h4>
+                    <p>Client records, self employed profiles, workflow notes, and bank statement imports are stored in an encrypted local desktop file.</p>
+                  </article>
+                  <article class="note-card">
+                    <h4>Local access</h4>
+                    <p>This app is intended to stay offline-first. Your username and password are used to unlock the local workspace on this machine.</p>
+                  </article>
+                  <article class="note-card">
+                    <h4>Installer path</h4>
+                    <p>The desktop shell is prepared for packaged installer builds so the app can run like installed software rather than a browser page.</p>
+                  </article>
+                </div>
               </article>
             </section>
           </div>

@@ -208,6 +208,11 @@ body::before {
   background: rgba(239, 143, 114, 0.08);
 }
 
+.auth-card .form-grid,
+#settingsPanel .form-grid {
+  margin-top: 14px;
+}
+
 .topbar-meta {
   text-align: right;
 }

@@ -53,6 +53,16 @@ An Electron desktop shell is included so the workspace can run as a proper local
 
 That opens Aligned Financials as a desktop window loading the local `app/` workspace.
 
+### Build an installer
+
+To package Windows releases:
+
+```powershell
+npm run dist:win
+```
+
+That produces installer artifacts in `dist/`.
+
 ## Local login
 
 The current login system is offline and local-first:
@@ -63,6 +73,14 @@ The current login system is offline and local-first:
 - `Lock` returns the app to the sign-in screen
 
 This is the right first step for a private desktop build, but it is not the final security model for a larger multi-user hosted system.
+
+## Current security model
+
+- the desktop app keeps local access credentials in the app data folder for that machine
+- operational workspace data is stored in an encrypted local file unlocked by the desktop password
+- the settings screen lets you change the password without rebuilding the data store
+
+This is appropriate for private offline desktop use. If you later want multi-user access, cloud sync, or remote staff access, we should move to a real backend and managed authentication.
 
 ## First software layer
 
