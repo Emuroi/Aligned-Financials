@@ -368,6 +368,15 @@ body::before {
   color: var(--accent);
 }
 
+.entity-name {
+  margin: 0 0 10px;
+  color: var(--gold-strong);
+  font-family: Arial, sans-serif;
+  font-size: 0.98rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 .entity-actions {
   display: flex;
   flex-wrap: wrap;
@@ -449,9 +458,24 @@ body::before {
   background: rgba(214, 168, 78, 0.08);
 }
 
+.tab.muted {
+  opacity: 0.6;
+}
+
+.panel-view {
+  display: block;
+}
+
 .overview-grid {
   display: grid;
   grid-template-columns: 380px minmax(0, 1fr);
+  gap: 18px;
+}
+
+.details-grid,
+.workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
 }
 
@@ -519,6 +543,70 @@ body::before {
   color: var(--muted);
   font-family: Arial, sans-serif;
   font-size: 0.92rem;
+}
+
+.notes-stack,
+.workflow-list {
+  display: grid;
+  gap: 12px;
+}
+
+.note-card,
+.workflow-item {
+  border-radius: 18px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(214, 168, 78, 0.08);
+}
+
+.note-card h4,
+.workflow-item h4 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.note-card p,
+.workflow-item p,
+.workflow-summary {
+  margin: 0;
+  color: var(--muted);
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.workflow-summary {
+  margin-bottom: 14px;
+}
+
+.workflow-item strong,
+.workflow-item span {
+  display: block;
+}
+
+.workflow-item span {
+  margin-top: 6px;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 6px 10px;
+  margin-top: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.status-pill.warning {
+  color: #ffcf96;
+  background: rgba(214, 109, 52, 0.14);
+}
+
+.status-pill.success {
+  color: #a6f0c8;
+  background: rgba(62, 156, 104, 0.14);
 }
 
 .table-card {
@@ -597,6 +685,8 @@ tbody tr:hover {
   .masthead,
   .workspace-shell,
   .overview-grid,
+  .details-grid,
+  .workflow-grid,
   .signal-bar,
   .snapshot-strip {
     grid-template-columns: 1fr;
