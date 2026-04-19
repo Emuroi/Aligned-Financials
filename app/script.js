@@ -1,46 +1,90 @@
+const COMPANY_DIRECTORY_NAMES = {
+  "08564152": "Urban Management Solutions Limited",
+  "12011913": "Mooseberry Tech Ltd",
+  "10534265": "Malja Construction Limited",
+  "07726246": "A115 Limited",
+  "08776214": "Aligned Financials Ltd",
+  "11078138": "HCF Services Ltd",
+  "09750360": "Ram Distribution Ltd",
+  "11769803": "MyBabylonia Ltd",
+  "09526995": "The Handbook Magazine Ltd",
+  "10286464": "Ace Delivery Solutions Ltd",
+  "06829418": "Chris Interiors Limited",
+  "09394829": "Lozno Limited",
+  "08307204": "Slavov Ltd",
+  "08438306": "Emeralds BS Ltd",
+  "06320286": "The Handbook UK Limited",
+};
+
 const LEGACY_PROFILES = {
   "08564152": {
     displayName: "Urban Management Solutions Limited",
-    legalType: "Private limited company",
+    legalName: "Urban Management Solutions Limited",
+    entityType: "Private limited company",
+    companyStatus: "Active",
     registrationDate: "11.06.2013",
     registrationCountry: "England",
     vatRegistration: "316543708",
     vatScheme: "Cash Quarterly",
     bankAccount: "HSBC (GBP)",
     address: "3 Bailey Mews, London, England, W4 3PZ",
-    industries: [
-      "62090 - Other information technology service activities",
-      "78109 - Other activities of employment placement agencies",
-    ],
-    legacyStatus: "Matched from legacy screenshots",
+    industries: "62090 - Other information technology service activities\n78109 - Other activities of employment placement agencies",
+    utr: "",
+    payeReference: "",
+    accountOfficeReference: "",
+    deadlines: {
+      vatDue: "",
+      yearEnd: "",
+      confirmation: "",
+      accountsDue: "",
+    },
+    generalNotes: "",
   },
   "12011913": {
     displayName: "Mooseberry Tech Ltd",
-    legalType: "Private limited company",
+    legalName: "Mooseberry Tech Ltd",
+    entityType: "Private limited company",
+    companyStatus: "Active",
     registrationDate: "22.05.2019",
     registrationCountry: "England",
     vatRegistration: "327642007",
     vatScheme: "Cash Quarterly",
-    bankAccount: "Barclays / Barclays Savings (GBP)",
-    address: "9 Marina Place, Old Bridge St, Hampton Wick, United Kingdom, KT1 4BH",
-    industries: ["62020 - Information technology consultancy activities"],
-    legacyStatus: "Matched from legacy screenshots",
+    bankAccount: "Barclays savings account (GBP)\nBarclays (GBP)",
+    address: "9 Marina Place\nOld Bridge St\nHampton Wick\nUnited Kingdom\nKT1 4BH",
+    industries: "62020 - Information technology consultancy activities",
+    utr: "",
+    payeReference: "",
+    accountOfficeReference: "",
+    deadlines: {
+      vatDue: "",
+      yearEnd: "",
+      confirmation: "",
+      accountsDue: "",
+    },
+    generalNotes: "",
   },
   "10534265": {
     displayName: "Malja Construction Limited",
-    legalType: "Private limited company",
+    legalName: "Malja Construction Limited",
+    entityType: "Private limited company",
+    companyStatus: "Active",
     registrationDate: "21.12.2016",
     registrationCountry: "England",
-    vatRegistration: "None",
+    vatRegistration: "",
     vatScheme: "Not set",
-    bankAccount: "HSBC / HSBC Savings (GBP)",
-    address: "3 Bailey Mews, London, United Kingdom, W4 3PZ",
-    industries: [
-      "43110 - Demolition",
-      "43290 - Other construction installation",
-      "43390 - Other building completion and finishing",
-    ],
-    legacyStatus: "Matched from legacy screenshots",
+    bankAccount: "HSBC savings account (GBP)\nHSBC (GBP)",
+    address: "3 Bailey Mews\nLondon\nUnited Kingdom\nW4 3PZ",
+    industries: "43110 - Demolition\n43290 - Other construction installation\n43390 - Other building completion and finishing",
+    utr: "",
+    payeReference: "",
+    accountOfficeReference: "",
+    deadlines: {
+      vatDue: "",
+      yearEnd: "",
+      confirmation: "",
+      accountsDue: "",
+    },
+    generalNotes: "",
   },
 };
 
@@ -81,11 +125,16 @@ const SELF_EMPLOYED_PEOPLE = [
   "Yordan Georgiev Hristov",
 ];
 
+const COMPANY_STORAGE_KEY = "aligned-financials-company-records";
+const PERSON_STORAGE_KEY = "aligned-financials-self-employed-records";
+
 const state = {
   companies: [],
   filteredCompanies: [],
-  selectedCompany: null,
-  selectedPerson: null,
+  selectedCompanyId: null,
+  selectedPersonId: null,
+  companyRecords: {},
+  personRecords: {},
   summary: null,
 };
 
@@ -109,64 +158,173 @@ const elements = {
   selfEmployedPanel: document.getElementById("selfEmployedPanel"),
   companyName: document.getElementById("companyName"),
   companyNumber: document.getElementById("companyNumber"),
+  saveCompanyButton: document.getElementById("saveCompanyButton"),
+  resetCompanyButton: document.getElementById("resetCompanyButton"),
+  savePersonButton: document.getElementById("savePersonButton"),
+  resetPersonButton: document.getElementById("resetPersonButton"),
   signalBar: document.getElementById("signalBar"),
   profileList: document.getElementById("profileList"),
-  detailsList: document.getElementById("detailsList"),
-  detailsNotes: document.getElementById("detailsNotes"),
-  panelMetrics: document.getElementById("panelMetrics"),
-  fileTableBody: document.getElementById("fileTableBody"),
-  unreconciledSummary: document.getElementById("unreconciledSummary"),
-  unreconciledList: document.getElementById("unreconciledList"),
-  reconciledSummary: document.getElementById("reconciledSummary"),
-  reconciledList: document.getElementById("reconciledList"),
+  companyDetailsForm: document.getElementById("companyDetailsForm"),
+  companyImportSummary: document.getElementById("companyImportSummary"),
+  companyStatusSummary: document.getElementById("companyStatusSummary"),
+  workflowSummary: document.getElementById("workflowSummary"),
+  workflowTableBody: document.getElementById("workflowTableBody"),
+  companyGeneralNotes: document.getElementById("companyGeneralNotes"),
+  deadlineVatDue: document.getElementById("deadlineVatDue"),
+  deadlineYearEnd: document.getElementById("deadlineYearEnd"),
+  deadlineConfirmation: document.getElementById("deadlineConfirmation"),
+  deadlineAccountsDue: document.getElementById("deadlineAccountsDue"),
   selfPersonName: document.getElementById("selfPersonName"),
-  selfProfileList: document.getElementById("selfProfileList"),
+  personDetailsForm: document.getElementById("personDetailsForm"),
   selfNotes: document.getElementById("selfNotes"),
-  tabs: Array.from(document.querySelectorAll(".tab[data-panel]")),
-  panels: Array.from(document.querySelectorAll(".panel-view")),
+  companySaveState: document.getElementById("companySaveState"),
+  personSaveState: document.getElementById("personSaveState"),
+  companyTabs: Array.from(document.querySelectorAll(".tab[data-view]")),
+  companyViews: Array.from(document.querySelectorAll("#companyPanel .view-panel")),
 };
 
-async function loadData() {
-  const data = window.APP_DATA;
-  if (!data) {
-    throw new Error("Run scripts/analyze_export.py to regenerate app/dashboard-data.js.");
+function loadSavedRecords(key) {
+  try {
+    return JSON.parse(localStorage.getItem(key) || "{}");
+  } catch {
+    return {};
   }
-
-  state.summary = data.summary;
-  state.companies = data.companies.map(enrichCompany);
-  state.filteredCompanies = state.companies;
-
-  bindTabs();
-  renderHeader(data);
-  renderStats();
-  renderCompanyList();
-  renderSelfEmployedList();
 }
 
-function enrichCompany(company) {
-  const legacy = LEGACY_PROFILES[company.company_number] || null;
-  const displayName = legacy?.displayName || `Client ${company.company_number}`;
-  const displaySubline = legacy
-    ? "Legacy name recovered from screenshots"
-    : "Legacy client name not yet mapped";
+function saveRecords(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
 
+function companyDefaults(company) {
+  const legacy = LEGACY_PROFILES[company.company_number] || {};
+  const recoveredName = COMPANY_DIRECTORY_NAMES[company.company_number] || "";
   return {
-    ...company,
-    legacy,
-    displayName,
-    displaySubline,
+    id: company.company_number,
+    displayName: legacy.displayName || recoveredName || `Company ${company.company_number}`,
+    legalName: legacy.legalName || recoveredName || "",
+    companyNumber: company.company_number,
+    entityType: legacy.entityType || "Private limited company",
+    companyStatus: legacy.companyStatus || "Not confirmed",
+    registrationDate: legacy.registrationDate || "",
+    registrationCountry: legacy.registrationCountry || "",
+    vatRegistration: legacy.vatRegistration || "",
+    vatScheme: legacy.vatScheme || "",
+    utr: legacy.utr || "",
+    payeReference: legacy.payeReference || "",
+    accountOfficeReference: legacy.accountOfficeReference || "",
+    companiesHouseCode: legacy.companiesHouseCode || "",
+    gatewayId: "",
+    gatewayPassword: "",
+    bankAccount: legacy.bankAccount || "",
+    address: legacy.address || "",
+    industries: legacy.industries || "",
+    deadlines: {
+      vatDue: legacy.deadlines?.vatDue || "",
+      yearEnd: legacy.deadlines?.yearEnd || "",
+      confirmation: legacy.deadlines?.confirmation || "",
+      accountsDue: legacy.deadlines?.accountsDue || "",
+    },
+    generalNotes: legacy.generalNotes || "",
+    workflow: {},
   };
 }
 
-function bindTabs() {
-  elements.tabs.forEach((tab) => {
+function personDefaults(fullName) {
+  return {
+    id: fullName,
+    fullName,
+    tradingName: "",
+    utr: "",
+    nino: "",
+    dateOfBirth: "",
+    nationality: "",
+    gatewayId: "",
+    gatewayPassword: "",
+    address: "",
+    notes: "",
+  };
+}
+
+function getCompanyRecord(companyId) {
+  return state.companyRecords[companyId];
+}
+
+function getSelectedCompany() {
+  return state.companies.find((company) => company.company_number === state.selectedCompanyId) || null;
+}
+
+function getSelectedPersonRecord() {
+  return state.personRecords[state.selectedPersonId] || null;
+}
+
+function bindCompanyTabs() {
+  elements.companyTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      elements.tabs.forEach((item) => item.classList.remove("active"));
-      elements.panels.forEach((panel) => panel.classList.add("hidden"));
+      elements.companyTabs.forEach((item) => item.classList.remove("active"));
+      elements.companyViews.forEach((panel) => panel.classList.add("hidden"));
       tab.classList.add("active");
-      document.getElementById(tab.dataset.panel).classList.remove("hidden");
+      document.getElementById(tab.dataset.view).classList.remove("hidden");
     });
   });
+}
+
+function setDefaultCompanyView() {
+  elements.companyTabs.forEach((tab, index) => tab.classList.toggle("active", index === 0));
+  elements.companyViews.forEach((panel, index) => panel.classList.toggle("hidden", index !== 0));
+}
+
+function collectCompanyFormData() {
+  const formData = new FormData(elements.companyDetailsForm);
+  return {
+    displayName: String(formData.get("displayName") || ""),
+    legalName: String(formData.get("legalName") || ""),
+    companyNumber: String(formData.get("companyNumber") || ""),
+    entityType: String(formData.get("entityType") || ""),
+    companyStatus: String(formData.get("companyStatus") || ""),
+    registrationDate: String(formData.get("registrationDate") || ""),
+    registrationCountry: String(formData.get("registrationCountry") || ""),
+    vatRegistration: String(formData.get("vatRegistration") || ""),
+    vatScheme: String(formData.get("vatScheme") || ""),
+    utr: String(formData.get("utr") || ""),
+    payeReference: String(formData.get("payeReference") || ""),
+    accountOfficeReference: String(formData.get("accountOfficeReference") || ""),
+    companiesHouseCode: String(formData.get("companiesHouseCode") || ""),
+    gatewayId: String(formData.get("gatewayId") || ""),
+    gatewayPassword: String(formData.get("gatewayPassword") || ""),
+    bankAccount: String(formData.get("bankAccount") || ""),
+    address: String(formData.get("address") || ""),
+    industries: String(formData.get("industries") || ""),
+    deadlines: {
+      vatDue: elements.deadlineVatDue.value.trim(),
+      yearEnd: elements.deadlineYearEnd.value.trim(),
+      confirmation: elements.deadlineConfirmation.value.trim(),
+      accountsDue: elements.deadlineAccountsDue.value.trim(),
+    },
+    generalNotes: elements.companyGeneralNotes.value.trim(),
+  };
+}
+
+function collectPersonFormData() {
+  const formData = new FormData(elements.personDetailsForm);
+  return {
+    fullName: String(formData.get("fullName") || ""),
+    tradingName: String(formData.get("tradingName") || ""),
+    utr: String(formData.get("utr") || ""),
+    nino: String(formData.get("nino") || ""),
+    dateOfBirth: String(formData.get("dateOfBirth") || ""),
+    nationality: String(formData.get("nationality") || ""),
+    gatewayId: String(formData.get("gatewayId") || ""),
+    gatewayPassword: String(formData.get("gatewayPassword") || ""),
+    address: String(formData.get("address") || ""),
+    notes: String(formData.get("notes") || ""),
+  };
+}
+
+function updateCompanyRecordField(companyId, updater) {
+  const current = structuredClone(state.companyRecords[companyId]);
+  updater(current);
+  state.companyRecords[companyId] = current;
+  saveRecords(COMPANY_STORAGE_KEY, state.companyRecords);
 }
 
 function renderHeader(data) {
@@ -177,10 +335,10 @@ function renderHeader(data) {
 function renderStats() {
   const summary = state.summary;
   const cards = [
-    ["Clients", number.format(summary.distinct_company_numbers), "Recovered companies ready for rebuild"],
-    ["Self employed", number.format(SELF_EMPLOYED_PEOPLE.length), "Separate personal records archive"],
-    ["Transaction files", number.format(summary.transaction_csv_file_count), "Recovered bank and transaction CSVs"],
-    ["Coverage window", Object.keys(summary.years_present).join(" - "), "Detected activity range"],
+    ["Companies", number.format(summary.distinct_company_numbers), "Recovered company records available"],
+    ["Self employed", number.format(SELF_EMPLOYED_PEOPLE.length), "Separate personal records available"],
+    ["Transaction files", number.format(summary.transaction_csv_file_count), "Imported CSV batches"],
+    ["Coverage", Object.keys(summary.years_present).join(" - "), "Detected archive activity range"],
   ];
 
   elements.stats.innerHTML = cards
@@ -199,11 +357,12 @@ function renderStats() {
 function renderCompanyList() {
   elements.companyList.innerHTML = state.filteredCompanies
     .map((company) => {
-      const active = state.selectedCompany?.company_number === company.company_number ? "active" : "";
+      const record = getCompanyRecord(company.company_number);
+      const active = state.selectedCompanyId === company.company_number ? "active" : "";
       return `
         <button class="company-button ${active}" data-company="${company.company_number}">
-          <strong>${company.displayName}</strong>
-          <span>${company.company_number}</span>
+          <strong>${record.displayName}</strong>
+          <span>${record.companyNumber}</span>
           <span>${number.format(company.csv_file_count)} files | ${number.format(company.row_count)} rows</span>
         </button>
       `;
@@ -212,10 +371,8 @@ function renderCompanyList() {
 
   elements.companyList.querySelectorAll(".company-button").forEach((button) => {
     button.addEventListener("click", () => {
-      state.selectedPerson = null;
-      state.selectedCompany = state.companies.find(
-        (item) => item.company_number === button.dataset.company,
-      );
+      state.selectedPersonId = null;
+      state.selectedCompanyId = button.dataset.company;
       renderCompanyList();
       renderSelfEmployedList();
       renderCompanyPanel();
@@ -225,21 +382,22 @@ function renderCompanyList() {
 
 function renderSelfEmployedList() {
   elements.selfEmployedList.innerHTML = SELF_EMPLOYED_PEOPLE
-    .map((person) => {
-      const active = state.selectedPerson === person ? "active" : "";
+    .map((personId) => {
+      const person = state.personRecords[personId];
+      const active = state.selectedPersonId === personId ? "active" : "";
       return `
-        <button class="company-button person-button ${active}" data-person="${person}">
-          <strong>${person}</strong>
-          <span>Self employed record</span>
+        <button class="company-button ${active}" data-person="${personId}">
+          <strong>${person.fullName}</strong>
+          <span>${person.tradingName || "Self employed record"}</span>
         </button>
       `;
     })
     .join("");
 
-  elements.selfEmployedList.querySelectorAll(".person-button").forEach((button) => {
+  elements.selfEmployedList.querySelectorAll(".company-button").forEach((button) => {
     button.addEventListener("click", () => {
-      state.selectedCompany = null;
-      state.selectedPerson = button.dataset.person;
+      state.selectedCompanyId = null;
+      state.selectedPersonId = button.dataset.person;
       renderCompanyList();
       renderSelfEmployedList();
       renderSelfEmployedPanel();
@@ -253,89 +411,14 @@ function hideAllPanels() {
   elements.selfEmployedPanel.classList.add("hidden");
 }
 
-function renderCompanyPanel() {
-  const company = state.selectedCompany;
-  if (!company) {
-    elements.emptyState.classList.remove("hidden");
-    elements.companyPanel.classList.add("hidden");
-    elements.selfEmployedPanel.classList.add("hidden");
-    return;
-  }
-
-  hideAllPanels();
-  elements.companyPanel.classList.remove("hidden");
-  elements.companyName.textContent = company.displayName;
-  elements.companyNumber.textContent = company.company_number;
-
-  elements.tabs.forEach((tab, index) => tab.classList.toggle("active", index === 0));
-  elements.panels.forEach((panel, index) => panel.classList.toggle("hidden", index !== 0));
-
-  renderSignalBar(company);
-  renderProfile(company);
-  renderDetails(company);
-  renderMetrics(company);
-  renderFileTable(company);
-  renderWorkflow(company);
-}
-
-function renderSelfEmployedPanel() {
-  const person = state.selectedPerson;
-  if (!person) {
-    elements.emptyState.classList.remove("hidden");
-    elements.companyPanel.classList.add("hidden");
-    elements.selfEmployedPanel.classList.add("hidden");
-    return;
-  }
-
-  hideAllPanels();
-  elements.selfEmployedPanel.classList.remove("hidden");
-  elements.selfPersonName.textContent = person;
-  elements.selfProfileList.innerHTML = [
-    ["Record type", "Self employed"],
-    ["Display name", person],
-    ["Source", "Legacy screenshot archive"],
-    ["Accounting treatment", "Personal / sole trader workflow"],
-    ["Import status", "Awaiting dedicated self-employed import mapping"],
-    ["Section split", "Kept separate from limited companies"],
-  ]
-    .map(([label, value]) => `<dt>${label}</dt><dd>${value}</dd>`)
-    .join("");
-
-  const notes = [
-    {
-      title: "Separate workflow",
-      body: "These records should live outside the company workspace because they represent individuals rather than limited companies.",
-    },
-    {
-      title: "Future build path",
-      body: "The next version can give self-employed profiles their own tax, expenses, and submission workflow instead of company accounting tabs.",
-    },
-    {
-      title: "Current source",
-      body: "These names come directly from the legacy SELF EMPLOYED screenshot folder and are being carried into the rebuilt software as a distinct section.",
-    },
-  ];
-
-  elements.selfNotes.innerHTML = notes
-    .map(
-      (note) => `
-        <article class="note-card">
-          <h4>${note.title}</h4>
-          <p>${note.body}</p>
-        </article>
-      `,
-    )
-    .join("");
-}
-
-function renderSignalBar(company) {
+function renderSignalBar(company, record) {
   const firstFile = company.files[0];
   const lastFile = company.files[company.files.length - 1];
   const signals = [
-    ["Client identity", company.displaySubline, "Legacy naming state"],
-    ["Import runway", `${company.csv_file_count} file batches`, "Recovered imports available for rebuild"],
-    ["Earliest trace", firstFile?.first_date || "Not available", "First dated entry seen in the files"],
-    ["Latest trace", lastFile?.last_date || "Not available", "Latest dated entry seen in the files"],
+    ["Display name", record.displayName || company.company_number, "Live saved company label"],
+    ["Imported files", `${company.csv_file_count} file batches`, "Recovered file groups for this record"],
+    ["Earliest trace", firstFile?.first_date || "Not available", "First dated entry seen in the archive"],
+    ["Latest trace", lastFile?.last_date || "Not available", "Latest dated entry seen in the archive"],
   ];
 
   elements.signalBar.innerHTML = signals
@@ -351,160 +434,199 @@ function renderSignalBar(company) {
     .join("");
 }
 
-function renderProfile(company) {
-  const profileRows = [
-    ["Display name", company.displayName],
-    ["Company number", company.company_number],
-    ["Entity type", company.legacy?.legalType || "Recovered company workspace"],
-    ["Years detected", company.years_present.join(", ")],
+function renderCompanyOverview(company, record) {
+  elements.profileList.innerHTML = [
+    ["Display name", record.displayName || ""],
+    ["Legal name", record.legalName || ""],
+    ["Company number", record.companyNumber || ""],
+    ["Company status", record.companyStatus || "Not confirmed"],
+    ["VAT scheme", record.vatScheme || "Not set"],
     ["Source files", number.format(company.csv_file_count)],
-    ["Rebuild status", company.legacy?.legacyStatus || "Waiting for name verification"],
-  ];
-
-  elements.profileList.innerHTML = profileRows
-    .map(([label, value]) => `<dt>${label}</dt><dd>${value}</dd>`)
-    .join("");
-}
-
-function renderDetails(company) {
-  const legacy = company.legacy;
-  const detailRows = [
-    ["Legal name", legacy?.displayName || "Not yet confirmed from source screenshots"],
-    ["Registration country", legacy?.registrationCountry || "Not yet mapped"],
-    ["Date of creation", legacy?.registrationDate || "Not yet mapped"],
-    ["VAT registration", legacy?.vatRegistration || "Not yet mapped"],
-    ["VAT scheme", legacy?.vatScheme || "Not yet mapped"],
-    ["Primary bank", legacy?.bankAccount || "Recovered from CSVs only"],
-    ["Address", legacy?.address || "Legacy address not linked yet"],
-    ["Industries", legacy?.industries?.join(" | ") || "Not yet mapped"],
-  ];
-
-  elements.detailsList.innerHTML = detailRows
+    ["Imported rows", number.format(company.row_count)],
+  ]
     .map(([label, value]) => `<dt>${label}</dt><dd>${value}</dd>`)
     .join("");
 
-  const notes = [
-    {
-      title: "Client name handling",
-      body: legacy
-        ? "This entity has a verified legacy name from the screenshot archive and it is now shown throughout the workspace."
-        : "This entity still needs a screenshot or source-system match before we replace the company number with a verified client name.",
-    },
-    {
-      title: "Security posture",
-      body: "Sensitive credentials from the old system are intentionally excluded from this rebuild view. The new app should use secure storage and role-based access instead.",
-    },
-    {
-      title: "Details page direction",
-      body: "This panel is the first pass of the company details page and is ready to expand with VAT deadlines, bank accounts, notes, and contact records.",
-    },
-  ];
-
-  elements.detailsNotes.innerHTML = notes
-    .map(
-      (note) => `
-        <article class="note-card">
-          <h4>${note.title}</h4>
-          <p>${note.body}</p>
-        </article>
-      `,
-    )
-    .join("");
+  elements.deadlineVatDue.value = record.deadlines.vatDue;
+  elements.deadlineYearEnd.value = record.deadlines.yearEnd;
+  elements.deadlineConfirmation.value = record.deadlines.confirmation;
+  elements.deadlineAccountsDue.value = record.deadlines.accountsDue;
 }
 
-function renderMetrics(company) {
-  const metrics = [
-    ["Net movement", formatCurrency(company.net_amount), "Estimated from available columns"],
-    ["Paid in", formatCurrency(company.paid_in_total), "Detected on bank-style exports"],
-    ["Paid out", formatCurrency(company.paid_out_total), "Detected on bank-style exports"],
-    ["Transaction rows", number.format(company.row_count), "Across all recovered files"],
-  ];
+function renderCompanyDetails(company, record) {
+  elements.companyDetailsForm.elements.displayName.value = record.displayName;
+  elements.companyDetailsForm.elements.legalName.value = record.legalName;
+  elements.companyDetailsForm.elements.companyNumber.value = record.companyNumber;
+  elements.companyDetailsForm.elements.entityType.value = record.entityType;
+  elements.companyDetailsForm.elements.companyStatus.value = record.companyStatus;
+  elements.companyDetailsForm.elements.registrationDate.value = record.registrationDate;
+  elements.companyDetailsForm.elements.registrationCountry.value = record.registrationCountry;
+  elements.companyDetailsForm.elements.vatRegistration.value = record.vatRegistration;
+  elements.companyDetailsForm.elements.vatScheme.value = record.vatScheme;
+  elements.companyDetailsForm.elements.utr.value = record.utr;
+  elements.companyDetailsForm.elements.payeReference.value = record.payeReference;
+  elements.companyDetailsForm.elements.accountOfficeReference.value = record.accountOfficeReference;
+  elements.companyDetailsForm.elements.companiesHouseCode.value = record.companiesHouseCode;
+  elements.companyDetailsForm.elements.gatewayId.value = record.gatewayId;
+  elements.companyDetailsForm.elements.gatewayPassword.value = record.gatewayPassword;
+  elements.companyDetailsForm.elements.bankAccount.value = record.bankAccount;
+  elements.companyDetailsForm.elements.address.value = record.address;
+  elements.companyDetailsForm.elements.industries.value = record.industries;
 
-  elements.panelMetrics.innerHTML = metrics
-    .map(
-      ([label, value, subtext]) => `
-        <article class="metric-card">
-          <p class="metric-label">${label}</p>
-          <p class="metric-value">${value}</p>
-          <p class="metric-subtext">${subtext}</p>
-        </article>
-      `,
-    )
-    .join("");
+  elements.companyImportSummary.textContent =
+    `${company.csv_file_count} file batches and ${number.format(company.row_count)} imported rows are currently attached to this company.`;
+  elements.companyStatusSummary.textContent =
+    `This company record is editable and saved locally. Update legal, tax, bank, address, and compliance details as you rebuild the software around the handover data.`;
 }
 
-function renderFileTable(company) {
-  elements.fileTableBody.innerHTML = company.files
+function renderCompanyWorkflow(company, record) {
+  const workflowEntries = company.files.map((file) => {
+    const saved = record.workflow[file.path] || {
+      status: defaultWorkflowStatus(file),
+      note: "",
+    };
+    return { file, saved };
+  });
+
+  const reconciledCount = workflowEntries.filter((entry) => entry.saved.status === "reconciled").length;
+  elements.workflowSummary.textContent =
+    `${reconciledCount} of ${workflowEntries.length} imported file batches are currently marked as reconciled.`;
+
+  elements.workflowTableBody.innerHTML = workflowEntries
     .map(
-      (file) => `
+      ({ file, saved }) => `
         <tr>
-          <td class="period-cell">
+          <td>
             <strong>${file.year} / ${file.month}</strong>
             <span class="path-cell">${file.path}</span>
           </td>
           <td>${number.format(file.row_count)}</td>
           <td class="${amountClass(file.amount_total)}">${formatCurrency(file.amount_total)}</td>
-          <td>${formatCurrency(file.paid_in_total)}</td>
-          <td>${formatCurrency(file.paid_out_total)}</td>
-          <td>${formatDateRange(file.first_date, file.last_date)}</td>
+          <td>
+            <select class="status-select" data-file-path="${escapeAttribute(file.path)}">
+              ${renderStatusOptions(saved.status)}
+            </select>
+          </td>
+          <td>
+            <input class="notes-input" data-file-note="${escapeAttribute(file.path)}" type="text" value="${escapeAttribute(saved.note)}" placeholder="Review note">
+          </td>
         </tr>
       `,
     )
     .join("");
-}
 
-function renderWorkflow(company) {
-  const workflow = deriveWorkflow(company);
-  elements.unreconciledSummary.textContent =
-    `${workflow.unreconciled.length} file sets need review because they have rows but no usable money movement totals yet.`;
-  elements.reconciledSummary.textContent =
-    `${workflow.reconciled.length} file sets already contain enough structured movement data to carry forward into the next import layer.`;
-
-  elements.unreconciledList.innerHTML = workflow.unreconciled.length
-    ? workflow.unreconciled.map(renderWorkflowItem).join("")
-    : `<article class="workflow-item"><h4>No unreconciled file sets</h4><p>Every recovered file for this client currently looks structured enough for the next step.</p></article>`;
-
-  elements.reconciledList.innerHTML = workflow.reconciled.length
-    ? workflow.reconciled.map(renderWorkflowItem).join("")
-    : `<article class="workflow-item"><h4>No reconciled-ready file sets</h4><p>This client needs more import normalization before reconciliation can begin.</p></article>`;
-}
-
-function deriveWorkflow(company) {
-  const unreconciled = [];
-  const reconciled = [];
-
-  company.files.forEach((file) => {
-    const hasMovement =
-      Math.abs(file.amount_total) > 0 ||
-      Math.abs(file.paid_in_total) > 0 ||
-      Math.abs(file.paid_out_total) > 0;
-    const item = {
-      title: `${file.year} / ${file.month}`,
-      subtitle: `${number.format(file.row_count)} rows | ${formatDateRange(file.first_date, file.last_date)}`,
-      path: file.path,
-      status: hasMovement ? "Ready for reconciliation" : "Needs parsing review",
-      tone: hasMovement ? "success" : "warning",
-    };
-
-    if (hasMovement) {
-      reconciled.push(item);
-    } else {
-      unreconciled.push(item);
-    }
+  elements.workflowTableBody.querySelectorAll(".status-select").forEach((select) => {
+    select.addEventListener("change", () => {
+      updateCompanyRecordField(state.selectedCompanyId, (recordState) => {
+        recordState.workflow[select.dataset.filePath] ??= { status: "", note: "" };
+        recordState.workflow[select.dataset.filePath].status = select.value;
+      });
+      renderCompanyWorkflow(company, getCompanyRecord(state.selectedCompanyId));
+    });
   });
 
-  return { unreconciled, reconciled };
+  elements.workflowTableBody.querySelectorAll(".notes-input").forEach((input) => {
+    input.addEventListener("change", () => {
+      updateCompanyRecordField(state.selectedCompanyId, (recordState) => {
+        recordState.workflow[input.dataset.fileNote] ??= { status: "", note: "" };
+        recordState.workflow[input.dataset.fileNote].note = input.value.trim();
+      });
+    });
+  });
 }
 
-function renderWorkflowItem(item) {
-  return `
-    <article class="workflow-item">
-      <h4>${item.title}</h4>
-      <p>${item.subtitle}</p>
-      <span class="path-cell">${item.path}</span>
-      <span class="status-pill ${item.tone}">${item.status}</span>
+function renderCompanyNotes(record) {
+  elements.companyGeneralNotes.value = record.generalNotes;
+}
+
+function setSaveState(element, message) {
+  element.textContent = message;
+  window.clearTimeout(element._saveTimer);
+  if (!message) return;
+  element._saveTimer = window.setTimeout(() => {
+    element.textContent = "";
+  }, 2800);
+}
+
+function renderCompanyPanel() {
+  const company = getSelectedCompany();
+  if (!company) {
+    elements.emptyState.classList.remove("hidden");
+    elements.companyPanel.classList.add("hidden");
+    elements.selfEmployedPanel.classList.add("hidden");
+    return;
+  }
+
+  const record = getCompanyRecord(company.company_number);
+  hideAllPanels();
+  elements.companyPanel.classList.remove("hidden");
+  elements.companyName.textContent = record.displayName;
+  elements.companyNumber.textContent = record.companyNumber;
+  setDefaultCompanyView();
+  renderSignalBar(company, record);
+  renderCompanyOverview(company, record);
+  renderCompanyDetails(company, record);
+  renderCompanyWorkflow(company, record);
+  renderCompanyNotes(record);
+}
+
+function renderSelfEmployedPanel() {
+  const person = getSelectedPersonRecord();
+  if (!person) {
+    elements.emptyState.classList.remove("hidden");
+    elements.companyPanel.classList.add("hidden");
+    elements.selfEmployedPanel.classList.add("hidden");
+    return;
+  }
+
+  hideAllPanels();
+  elements.selfEmployedPanel.classList.remove("hidden");
+  elements.selfPersonName.textContent = person.fullName;
+
+  elements.personDetailsForm.elements.fullName.value = person.fullName;
+  elements.personDetailsForm.elements.tradingName.value = person.tradingName;
+  elements.personDetailsForm.elements.utr.value = person.utr;
+  elements.personDetailsForm.elements.nino.value = person.nino;
+  elements.personDetailsForm.elements.dateOfBirth.value = person.dateOfBirth;
+  elements.personDetailsForm.elements.nationality.value = person.nationality;
+  elements.personDetailsForm.elements.gatewayId.value = person.gatewayId;
+  elements.personDetailsForm.elements.gatewayPassword.value = person.gatewayPassword;
+  elements.personDetailsForm.elements.address.value = person.address;
+  elements.personDetailsForm.elements.notes.value = person.notes;
+
+  elements.selfNotes.innerHTML = `
+    <article class="note-card">
+      <h4>Separate workflow</h4>
+      <p>Self employed records sit outside the limited company workspace and can carry their own tax, identity, and notes profile.</p>
+    </article>
+    <article class="note-card">
+      <h4>Editable record</h4>
+      <p>Use this page to maintain the person details you need for the rebuild, then click \`Save person\`.</p>
+    </article>
+    <article class="note-card">
+      <h4>Next build path</h4>
+      <p>The next product step can add sole trader expenses, submissions, and year summaries here without mixing them into company records.</p>
     </article>
   `;
+}
+
+function defaultWorkflowStatus(file) {
+  if (Math.abs(file.amount_total) > 0 || Math.abs(file.paid_in_total) > 0 || Math.abs(file.paid_out_total) > 0) {
+    return "reconciled";
+  }
+  return "unreconciled";
+}
+
+function renderStatusOptions(current) {
+  const statuses = [
+    ["unreconciled", "Unreconciled"],
+    ["reconciled", "Reconciled"],
+    ["hold", "On Hold"],
+    ["archived", "Archived"],
+  ];
+  return statuses
+    .map(([value, label]) => `<option value="${value}" ${value === current ? "selected" : ""}>${label}</option>`)
+    .join("");
 }
 
 function amountClass(value) {
@@ -517,25 +639,122 @@ function formatCurrency(value) {
   return currency.format(value || 0);
 }
 
-function formatDateRange(firstDate, lastDate) {
-  if (!firstDate && !lastDate) return "Not available";
-  if (firstDate === lastDate) return firstDate;
-  return `${firstDate || "?"} to ${lastDate || "?"}`;
+function escapeAttribute(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
-elements.companySearch.addEventListener("input", (event) => {
-  const query = event.target.value.trim().toLowerCase();
-  state.filteredCompanies = state.companies.filter((company) =>
-    company.company_number.includes(query) || company.displayName.toLowerCase().includes(query),
-  );
-  renderCompanyList();
-});
+function applyCompanyEdits() {
+  const company = getSelectedCompany();
+  if (!company) return;
 
-loadData().catch((error) => {
+  const current = getCompanyRecord(company.company_number);
+  const edits = collectCompanyFormData();
+  state.companyRecords[company.company_number] = {
+    ...current,
+    ...edits,
+    companyNumber: edits.companyNumber || company.company_number,
+  };
+  saveRecords(COMPANY_STORAGE_KEY, state.companyRecords);
+  renderCompanyList();
+  renderCompanyPanel();
+  setSaveState(elements.companySaveState, `Saved ${state.companyRecords[company.company_number].displayName}`);
+}
+
+function applyPersonEdits() {
+  const personId = state.selectedPersonId;
+  if (!personId) return;
+
+  const current = state.personRecords[personId];
+  const edits = collectPersonFormData();
+  state.personRecords[personId] = {
+    ...current,
+    ...edits,
+  };
+  saveRecords(PERSON_STORAGE_KEY, state.personRecords);
+  renderSelfEmployedList();
+  renderSelfEmployedPanel();
+  setSaveState(elements.personSaveState, `Saved ${state.personRecords[personId].fullName}`);
+}
+
+function resetCurrentCompanyView() {
+  renderCompanyPanel();
+}
+
+function resetCurrentPersonView() {
+  renderSelfEmployedPanel();
+}
+
+function filterCompanies(query) {
+  const lowered = query.trim().toLowerCase();
+  state.filteredCompanies = state.companies.filter((company) => {
+    const record = getCompanyRecord(company.company_number);
+    return (
+      record.displayName.toLowerCase().includes(lowered) ||
+      record.companyNumber.toLowerCase().includes(lowered) ||
+      record.legalName.toLowerCase().includes(lowered)
+    );
+  });
+  renderCompanyList();
+}
+
+function initializeRecords(data) {
+  state.summary = data.summary;
+  state.companyRecords = loadSavedRecords(COMPANY_STORAGE_KEY);
+  state.personRecords = loadSavedRecords(PERSON_STORAGE_KEY);
+
+  state.companies = data.companies;
+  state.companies.forEach((company) => {
+    state.companyRecords[company.company_number] ??= companyDefaults(company);
+  });
+  SELF_EMPLOYED_PEOPLE.forEach((person) => {
+    state.personRecords[person] ??= personDefaults(person);
+  });
+
+  saveRecords(COMPANY_STORAGE_KEY, state.companyRecords);
+  saveRecords(PERSON_STORAGE_KEY, state.personRecords);
+  state.filteredCompanies = state.companies;
+  state.selectedCompanyId = state.companies[0]?.company_number || null;
+}
+
+function bindEvents() {
+  bindCompanyTabs();
+
+  elements.companySearch.addEventListener("input", (event) => {
+    filterCompanies(event.target.value);
+  });
+
+  elements.saveCompanyButton.addEventListener("click", applyCompanyEdits);
+  elements.resetCompanyButton.addEventListener("click", resetCurrentCompanyView);
+  elements.savePersonButton.addEventListener("click", applyPersonEdits);
+  elements.resetPersonButton.addEventListener("click", resetCurrentPersonView);
+}
+
+function loadApp() {
+  const data = window.APP_DATA;
+  if (!data) {
+    throw new Error("Run scripts/analyze_export.py to regenerate app/dashboard-data.js.");
+  }
+
+  initializeRecords(data);
+  bindEvents();
+  renderHeader(data);
+  renderStats();
+  renderCompanyList();
+  renderSelfEmployedList();
+  renderCompanyPanel();
+}
+
+try {
+  loadApp();
+} catch (error) {
   elements.emptyState.classList.remove("hidden");
   elements.emptyState.innerHTML = `
     <p class="section-kicker">Dashboard unavailable</p>
     <h2>App data could not be loaded.</h2>
     <p>${error.message}</p>
   `;
-});
+}

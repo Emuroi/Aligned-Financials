@@ -11,10 +11,10 @@
       <section class="masthead">
         <div class="brand-block">
           <p class="brand-kicker">Aligned Financials</p>
-          <h1>Gold-standard recovery workspace for handover accounting.</h1>
+          <h1>Editable client workspace for the recovered accounting handover.</h1>
           <p class="brand-copy">
-            A redesigned internal cockpit for turning the recovered export into a live accounting
-            system, with client-first navigation and a stronger visual identity.
+            This version is designed to be used, not just previewed. Every company and
+            self-employed record can be opened, edited, and saved locally in the browser.
           </p>
         </div>
 
@@ -32,6 +32,9 @@
           <p class="data-label">Recovered source</p>
           <p id="zipPath" class="data-value">Loading...</p>
           <p id="generatedAt" class="data-meta"></p>
+          <p class="storage-note">
+            Changes are stored in this browser on this machine using local storage.
+          </p>
         </div>
       </section>
 
@@ -41,10 +44,10 @@
         <aside class="client-rail">
           <div class="rail-head">
             <p class="section-kicker">Client ledger</p>
-            <h2>Entities</h2>
+            <h2>Companies</h2>
           </div>
-          <label class="search-label" for="companySearch">Search by company number</label>
-          <input id="companySearch" class="search" type="search" placeholder="e.g. 12011913">
+          <label class="search-label" for="companySearch">Search companies</label>
+          <input id="companySearch" class="search" type="search" placeholder="Name or company number">
           <div id="companyList" class="company-list"></div>
 
           <div class="rail-divider"></div>
@@ -59,69 +62,180 @@
         <section class="workspace-main">
           <div id="emptyState" class="empty-state">
             <p class="section-kicker">Workspace ready</p>
-            <h2>Select a client to open the accounting workspace.</h2>
+            <h2>Select a company or self-employed person to begin editing.</h2>
             <p>
-              This layout takes cues from the original product structure, but reframes it with a
-              sharper, premium brand direction and safer foundations for the rebuild.
+              The software now separates limited companies from self-employed records and lets you
+              edit the live record, deadlines, notes, and workflow status directly in the page.
             </p>
           </div>
 
-          <div id="companyPanel" class="company-panel hidden">
+          <div id="companyPanel" class="record-panel hidden">
             <header class="entity-header">
               <div>
-                <p class="section-kicker">Recovered entity</p>
+                <p class="section-kicker">Company workspace</p>
                 <p id="companyName" class="entity-name"></p>
                 <h2 id="companyNumber"></h2>
               </div>
               <div class="entity-actions">
-                <button class="action-chip">Upload CSV</button>
-                <button class="action-chip">Add transaction</button>
-                <button class="action-chip subtle">Journals</button>
+                <p id="companySaveState" class="save-state" aria-live="polite"></p>
+                <button id="saveCompanyButton" class="action-chip">Save company</button>
+                <button id="resetCompanyButton" class="action-chip subtle">Reset view</button>
               </div>
             </header>
 
-            <section class="signal-bar" id="signalBar"></section>
-
-            <nav class="module-tabs" aria-label="Accounting modules">
-              <button class="tab active" data-panel="overviewPanel">Overview</button>
-              <button class="tab" data-panel="detailsPanel">Details</button>
-              <button class="tab" data-panel="workflowPanel">Workflow</button>
-              <button class="tab muted">Chart of Accounts</button>
-              <button class="tab muted">VAT</button>
-              <button class="tab muted">Profit &amp; Loss</button>
-              <button class="tab muted">Balance Sheet</button>
-              <button class="tab muted">Trial Balance</button>
+            <nav class="module-tabs" aria-label="Company modules">
+              <button class="tab active" data-view="company-overview">Overview</button>
+              <button class="tab" data-view="company-details">Details</button>
+              <button class="tab" data-view="company-workflow">Workflow</button>
+              <button class="tab" data-view="company-notes">Notes</button>
             </nav>
 
-            <section class="panel-view" id="overviewPanel">
-              <section class="overview-grid">
-                <article class="glass-card profile-card">
+            <section class="view-panel" id="company-overview">
+              <section class="signal-bar" id="signalBar"></section>
+
+              <section class="editor-grid">
+                <article class="glass-card">
                   <div class="card-head">
-                    <p class="section-kicker">Profile</p>
-                    <h3>Entity snapshot</h3>
+                    <p class="section-kicker">Deadlines</p>
+                    <h3>Compliance timeline</h3>
+                  </div>
+                  <div class="form-grid compact-form">
+                    <label>
+                      <span>VAT due before</span>
+                      <input id="deadlineVatDue" type="text">
+                    </label>
+                    <label>
+                      <span>Current year end</span>
+                      <input id="deadlineYearEnd" type="text">
+                    </label>
+                    <label>
+                      <span>Confirmation statement due</span>
+                      <input id="deadlineConfirmation" type="text">
+                    </label>
+                    <label>
+                      <span>Accounts due</span>
+                      <input id="deadlineAccountsDue" type="text">
+                    </label>
+                  </div>
+                </article>
+
+                <article class="glass-card">
+                  <div class="card-head">
+                    <p class="section-kicker">Snapshot</p>
+                    <h3>Live company summary</h3>
                   </div>
                   <dl class="detail-list" id="profileList"></dl>
                 </article>
+              </section>
+            </section>
 
-                <article class="glass-card metrics-card">
+            <section class="view-panel hidden" id="company-details">
+              <section class="editor-grid details-layout">
+                <article class="glass-card">
                   <div class="card-head">
-                    <p class="section-kicker">Metrics</p>
-                    <h3>Movement and volume</h3>
+                    <p class="section-kicker">Core profile</p>
+                    <h3>Company details</h3>
                   </div>
-                  <div class="metric-grid" id="panelMetrics"></div>
+                  <form id="companyDetailsForm" class="form-grid">
+                    <label>
+                      <span>Display name</span>
+                      <input name="displayName" type="text">
+                    </label>
+                    <label>
+                      <span>Legal name</span>
+                      <input name="legalName" type="text">
+                    </label>
+                    <label>
+                      <span>Company number</span>
+                      <input name="companyNumber" type="text">
+                    </label>
+                    <label>
+                      <span>Entity type</span>
+                      <input name="entityType" type="text">
+                    </label>
+                    <label>
+                      <span>Company status</span>
+                      <input name="companyStatus" type="text">
+                    </label>
+                    <label>
+                      <span>Registration date</span>
+                      <input name="registrationDate" type="text">
+                    </label>
+                    <label>
+                      <span>Registration country</span>
+                      <input name="registrationCountry" type="text">
+                    </label>
+                    <label>
+                      <span>VAT registration</span>
+                      <input name="vatRegistration" type="text">
+                    </label>
+                    <label>
+                      <span>VAT scheme</span>
+                      <input name="vatScheme" type="text">
+                    </label>
+                    <label>
+                      <span>Company UTR</span>
+                      <input name="utr" type="text">
+                    </label>
+                    <label>
+                      <span>PAYE reference</span>
+                      <input name="payeReference" type="text">
+                    </label>
+                    <label>
+                      <span>Account office reference</span>
+                      <input name="accountOfficeReference" type="text">
+                    </label>
+                    <label>
+                      <span>Companies House code</span>
+                      <input name="companiesHouseCode" type="text">
+                    </label>
+                    <label>
+                      <span>Government gateway ID</span>
+                      <input name="gatewayId" type="text">
+                    </label>
+                    <label>
+                      <span>Government gateway password</span>
+                      <input name="gatewayPassword" type="text">
+                    </label>
+                    <label>
+                      <span>Bank accounts</span>
+                      <textarea name="bankAccount" rows="3"></textarea>
+                    </label>
+                    <label class="full-span">
+                      <span>Address</span>
+                      <textarea name="address" rows="4"></textarea>
+                    </label>
+                    <label class="full-span">
+                      <span>Industries / SIC codes</span>
+                      <textarea name="industries" rows="4"></textarea>
+                    </label>
+                  </form>
+                </article>
+
+                <article class="glass-card">
+                  <div class="card-head">
+                    <p class="section-kicker">Context</p>
+                    <h3>Imported file coverage</h3>
+                  </div>
+                  <div class="note-card stack-card">
+                    <h4>Recovered file batches</h4>
+                    <p id="companyImportSummary"></p>
+                  </div>
+                  <div class="note-card stack-card">
+                    <h4>Live status</h4>
+                    <p id="companyStatusSummary"></p>
+                  </div>
                 </article>
               </section>
+            </section>
 
-              <section class="table-card">
-                <div class="table-head">
-                  <div>
-                    <p class="section-kicker">Import ledger</p>
-                    <h3>Recovered transaction files</h3>
-                  </div>
-                  <p class="table-note">
-                    Net movement is estimated directly from the handed-over CSV files.
-                  </p>
+            <section class="view-panel hidden" id="company-workflow">
+              <section class="glass-card">
+                <div class="card-head">
+                  <p class="section-kicker">Posting workflow</p>
+                  <h3>Transaction file review</h3>
                 </div>
+                <p class="workflow-summary" id="workflowSummary"></p>
                 <div class="table-scroll">
                   <table>
                     <thead>
@@ -129,86 +243,121 @@
                         <th>Period</th>
                         <th>Rows</th>
                         <th>Net</th>
-                        <th>Paid In</th>
-                        <th>Paid Out</th>
-                        <th>Date Range</th>
+                        <th>Status</th>
+                        <th>Review note</th>
                       </tr>
                     </thead>
-                    <tbody id="fileTableBody"></tbody>
+                    <tbody id="workflowTableBody"></tbody>
                   </table>
                 </div>
               </section>
             </section>
 
-            <section class="panel-view hidden" id="detailsPanel">
-              <section class="details-grid">
+            <section class="view-panel hidden" id="company-notes">
+              <section class="editor-grid">
                 <article class="glass-card">
                   <div class="card-head">
-                    <p class="section-kicker">Legacy details</p>
-                    <h3>Recovered entity profile</h3>
+                    <p class="section-kicker">Internal notes</p>
+                    <h3>Company notes and next actions</h3>
                   </div>
-                  <dl class="detail-list" id="detailsList"></dl>
+                  <label class="full-span">
+                    <span class="field-label">General notes</span>
+                    <textarea id="companyGeneralNotes" rows="10"></textarea>
+                  </label>
                 </article>
 
                 <article class="glass-card">
                   <div class="card-head">
-                    <p class="section-kicker">Operational notes</p>
-                    <h3>Secure rebuild guidance</h3>
+                    <p class="section-kicker">Action log</p>
+                    <h3>How to use this record</h3>
                   </div>
-                  <div id="detailsNotes" class="notes-stack"></div>
-                </article>
-              </section>
-            </section>
-
-            <section class="panel-view hidden" id="workflowPanel">
-              <section class="workflow-grid">
-                <article class="glass-card">
-                  <div class="card-head">
-                    <p class="section-kicker">Unreconciled</p>
-                    <h3>Needs review before import</h3>
+                  <div class="notes-stack">
+                    <article class="note-card">
+                      <h4>Editing</h4>
+                      <p>Update fields in any tab, then click `Save company` to persist the record locally.</p>
+                    </article>
+                    <article class="note-card">
+                      <h4>Workflow</h4>
+                      <p>Each imported file batch can be marked as unreconciled, reconciled, on hold, or archived.</p>
+                    </article>
+                    <article class="note-card">
+                      <h4>Source-safe rebuild</h4>
+                      <p>Sensitive credentials from the legacy product are not auto-filled here. Add them only if you explicitly want them in this local browser record.</p>
+                    </article>
                   </div>
-                  <div id="unreconciledSummary" class="workflow-summary"></div>
-                  <div id="unreconciledList" class="workflow-list"></div>
-                </article>
-
-                <article class="glass-card">
-                  <div class="card-head">
-                    <p class="section-kicker">Reconciled-ready</p>
-                    <h3>Structured enough to post forward</h3>
-                  </div>
-                  <div id="reconciledSummary" class="workflow-summary"></div>
-                  <div id="reconciledList" class="workflow-list"></div>
                 </article>
               </section>
             </section>
           </div>
 
-          <div id="selfEmployedPanel" class="company-panel hidden">
+          <div id="selfEmployedPanel" class="record-panel hidden">
             <header class="entity-header">
               <div>
-                <p class="section-kicker">Self employed profile</p>
+                <p class="section-kicker">Self employed workspace</p>
                 <p id="selfPersonName" class="entity-name"></p>
                 <h2>Self Employed</h2>
               </div>
               <div class="entity-actions">
-                <button class="action-chip">Open profile</button>
-                <button class="action-chip subtle">Track records</button>
+                <p id="personSaveState" class="save-state" aria-live="polite"></p>
+                <button id="savePersonButton" class="action-chip">Save person</button>
+                <button id="resetPersonButton" class="action-chip subtle">Reset view</button>
               </div>
             </header>
 
-            <section class="details-grid">
+            <section class="editor-grid details-layout">
               <article class="glass-card">
                 <div class="card-head">
                   <p class="section-kicker">Personal record</p>
-                  <h3>Recovered person profile</h3>
+                  <h3>Editable self employed profile</h3>
                 </div>
-                <dl class="detail-list" id="selfProfileList"></dl>
+                <form id="personDetailsForm" class="form-grid">
+                  <label>
+                    <span>Full name</span>
+                    <input name="fullName" type="text">
+                  </label>
+                  <label>
+                    <span>Trading name</span>
+                    <input name="tradingName" type="text">
+                  </label>
+                  <label>
+                    <span>UTR</span>
+                    <input name="utr" type="text">
+                  </label>
+                  <label>
+                    <span>NINO</span>
+                    <input name="nino" type="text">
+                  </label>
+                  <label>
+                    <span>Date of birth</span>
+                    <input name="dateOfBirth" type="text">
+                  </label>
+                  <label>
+                    <span>Nationality</span>
+                    <input name="nationality" type="text">
+                  </label>
+                  <label>
+                    <span>Gateway ID</span>
+                    <input name="gatewayId" type="text">
+                  </label>
+                  <label>
+                    <span>Gateway password</span>
+                    <input name="gatewayPassword" type="text">
+                  </label>
+                  <label class="full-span">
+                    <span>Address</span>
+                    <textarea name="address" rows="4"></textarea>
+                  </label>
+                  <label class="full-span">
+                    <span>Notes</span>
+                    <textarea name="notes" rows="7"></textarea>
+                  </label>
+                </form>
               </article>
 
               <article class="glass-card">
                 <div class="card-head">
                   <p class="section-kicker">Section purpose</p>
-                  <h3>Why this sits separately</h3>
+                  <h3>Separate sole trader workflow</h3>
                 </div>
                 <div id="selfNotes" class="notes-stack"></div>
               </article>
