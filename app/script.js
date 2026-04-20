@@ -149,6 +149,9 @@ const state = {
   lastRemoteSyncAt: "",
   offlineMode: false,
   supabaseConfigured: false,
+  syncConflict: false,
+  syncMessage: "",
+  syncBusy: false,
   companyWizardStep: "identity",
   personWizardStep: "identity",
 };
@@ -229,6 +232,15 @@ const elements = {
   savePersonButton: document.getElementById("savePersonButton"),
   resetPersonButton: document.getElementById("resetPersonButton"),
   signalBar: document.getElementById("signalBar"),
+  workflowBookkeepingStatus: document.getElementById("workflowBookkeepingStatus"),
+  workflowAccountsStatus: document.getElementById("workflowAccountsStatus"),
+  workflowVatCadence: document.getElementById("workflowVatCadence"),
+  workflowPayrollStatus: document.getElementById("workflowPayrollStatus"),
+  workflowNextVatPeriodEnd: document.getElementById("workflowNextVatPeriodEnd"),
+  workflowCorporationTaxDue: document.getElementById("workflowCorporationTaxDue"),
+  workflowPriority: document.getElementById("workflowPriority"),
+  workflowAssignedTo: document.getElementById("workflowAssignedTo"),
+  workflowNextAction: document.getElementById("workflowNextAction"),
   profileList: document.getElementById("profileList"),
   companyDetailsForm: document.getElementById("companyDetailsForm"),
   companyImportSummary: document.getElementById("companyImportSummary"),
@@ -252,6 +264,13 @@ const elements = {
   selfNotes: document.getElementById("selfNotes"),
   companySaveState: document.getElementById("companySaveState"),
   personSaveState: document.getElementById("personSaveState"),
+  storageModeText: document.getElementById("storageModeText"),
+  syncStatusText: document.getElementById("syncStatusText"),
+  supabaseGuideText: document.getElementById("supabaseGuideText"),
+  syncConflictText: document.getElementById("syncConflictText"),
+  syncNowButton: document.getElementById("syncNowButton"),
+  reloadRemoteButton: document.getElementById("reloadRemoteButton"),
+  overwriteRemoteButton: document.getElementById("overwriteRemoteButton"),
   homeLinkButtons: Array.from(document.querySelectorAll(".home-link-button")),
   companyTabs: Array.from(document.querySelectorAll(".tab[data-view]")),
   companyViews: Array.from(document.querySelectorAll("#companyPanel .view-panel")),
@@ -261,21 +280,147 @@ function loadSavedRecords(key) {
   return structuredClone(state.persistedData[key] || {});
 }
 
-async function persistDesktopData() {
+function formatDateTime(value) {
+  if (!value) return "Not synced yet";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleString("en-GB");
+}
+
+function syncStatusSummary() {
+  if (!window.alignedDesktop?.isDesktop) {
+    return {
+      title: "Browser-only mode",
+      note: "Changes stay in browser storage on this machine.",
+      className: "",
+    };
+  }
+
+  if (!state.supabaseConfigured) {
+    return {
+      title: "Local encrypted mode",
+      note: "Add SUPABASE_URL and SUPABASE_ANON_KEY in a local .env file to enable cloud sync.",
+      className: "",
+    };
+  }
+
+  if (state.syncConflict) {
+    return {
+      title: "Sync conflict detected",
+      note: state.syncMessage || "Another machine saved newer workspace data first.",
+      className: "sync-warning",
+    };
+  }
+
+  if (state.offlineMode) {
+    return {
+      title: "Offline cache active",
+      note: state.syncMessage || "The encrypted local cache is open. Cloud sync will resume when sign-in can reach Supabase.",
+      className: "sync-warning",
+    };
+  }
+
+  return {
+    title: state.lastRemoteSyncAt ? "Cloud sync active" : "Cloud sync ready",
+    note: state.lastRemoteSyncAt
+      ? `Last synced ${formatDateTime(state.lastRemoteSyncAt)}.`
+      : "Signed in with Supabase. The next save will create or refresh the remote workspace snapshot.",
+    className: "sync-ok",
+  };
+}
+
+function refreshSyncSurface() {
+  const summary = syncStatusSummary();
+
+  if (elements.storageModeText) {
+    elements.storageModeText.textContent = !window.alignedDesktop?.isDesktop
+      ? "Client records, self employed profiles, archive notes, and bank statement imports are stored in browser storage on this machine."
+      : state.supabaseConfigured
+        ? "Client records, self employed profiles, archive notes, and bank statement imports are stored in an encrypted local desktop cache with optional Supabase sync."
+        : "Client records, self employed profiles, archive notes, and bank statement imports are stored in an encrypted local desktop file until Supabase is configured.";
+  }
+
+  if (elements.syncStatusText) {
+    elements.syncStatusText.textContent = summary.note;
+  }
+
+  if (elements.supabaseGuideText) {
+    elements.supabaseGuideText.textContent = state.supabaseConfigured
+      ? "Supabase is configured. Keep the anon key in the desktop app, keep RLS enabled, and use the encrypted local cache as the fallback and recovery layer."
+      : "Create a local .env from .env.example, add SUPABASE_URL and SUPABASE_ANON_KEY, run the SQL schema in Supabase, and leave email confirmation off until the desktop callback flow is fully in place.";
+  }
+
+  if (elements.syncConflictText) {
+    elements.syncConflictText.textContent = state.syncConflict
+      ? `${state.syncMessage} Use "Reload cloud copy" to take the latest remote state, or "Overwrite cloud with this copy" only if this machine should win.`
+      : state.lastRemoteSyncAt
+        ? `Last remote sync: ${formatDateTime(state.lastRemoteSyncAt)}.`
+        : "No remote sync has completed yet.";
+  }
+
+  if (elements.syncNowButton) {
+    elements.syncNowButton.disabled = state.syncBusy || !window.alignedDesktop?.isDesktop || !state.activeUser;
+  }
+
+  if (elements.reloadRemoteButton) {
+    elements.reloadRemoteButton.disabled =
+      state.syncBusy ||
+      !window.alignedDesktop?.isDesktop ||
+      !state.activeUser ||
+      !state.supabaseConfigured;
+  }
+
+  if (elements.overwriteRemoteButton) {
+    elements.overwriteRemoteButton.classList.toggle("hidden", !state.syncConflict);
+    elements.overwriteRemoteButton.disabled = state.syncBusy || !state.syncConflict;
+  }
+}
+
+function handleSyncResult(result) {
+  if (!result) {
+    refreshSyncSurface();
+    return;
+  }
+
+  if (result.remoteUpdatedAt) {
+    state.lastRemoteSyncAt = result.remoteUpdatedAt;
+  }
+  if (typeof result.offline === "boolean") {
+    state.offlineMode = result.offline;
+  }
+
+  if (result.conflict) {
+    state.syncConflict = true;
+    state.syncMessage =
+      result.message || "Remote workspace changed on another machine. Local backup was kept.";
+  } else if (result.ok) {
+    state.syncConflict = false;
+    state.syncMessage = result.offline
+      ? result.message || "Saved to the encrypted local cache."
+      : result.source === "remote"
+        ? `Synced to cloud at ${formatDateTime(result.remoteUpdatedAt)}.`
+        : result.message || "";
+  } else if (result.message) {
+    state.syncMessage = result.message;
+  }
+
+  updateActiveUserLabel();
+  refreshSyncSurface();
+}
+
+async function persistDesktopData(options = {}) {
   if (!window.alignedDesktop?.isDesktop || !state.activeUser || !state.activePassword) return;
+  state.syncBusy = true;
+  refreshSyncSurface();
   const result = await window.alignedDesktop.saveData({
     username: state.activeUser,
     password: state.activePassword,
     data: state.persistedData,
     lastKnownRemoteAt: state.lastRemoteSyncAt,
+    force: Boolean(options.force),
   });
-  if (result?.remoteUpdatedAt) {
-    state.lastRemoteSyncAt = result.remoteUpdatedAt;
-  }
-  if (typeof result?.offline === "boolean") {
-    state.offlineMode = result.offline;
-    updateActiveUserLabel();
-  }
+  state.syncBusy = false;
+  handleSyncResult(result);
   return result;
 }
 
@@ -284,10 +429,9 @@ function saveRecords(key, value) {
   if (window.alignedDesktop?.isDesktop && state.activeUser && state.activePassword) {
     void persistDesktopData().then((result) => {
       if (result?.conflict) {
-        setSaveState(
-          elements.settingsSaveState,
-          "Remote workspace changed on another machine. Local backup was kept; review sync before overwriting.",
-        );
+        const message = "Remote workspace changed on another machine. Local backup was kept.";
+        setSaveState(elements.settingsSaveState, message);
+        setSaveState(elements.companySaveState, message);
       }
     });
     return;
@@ -312,12 +456,15 @@ function showAuth(setupMode) {
   state.activePassword = "";
   state.lastRemoteSyncAt = "";
   state.offlineMode = false;
+  state.syncConflict = false;
+  state.syncMessage = "";
   elements.appShell.classList.add("hidden");
   elements.authShell.classList.remove("hidden");
   elements.setupCard.classList.toggle("hidden", !setupMode);
   elements.loginCard.classList.toggle("hidden", setupMode);
   setAuthMessage(elements.authMessage, "");
   setAuthMessage(elements.loginMessage, "");
+  refreshSyncSurface();
 }
 
 function updateActiveUserLabel() {
@@ -340,6 +487,7 @@ function unlockWorkspace(username) {
   if (elements.changePasswordForm) {
     elements.changePasswordForm.elements.username.value = username;
   }
+  refreshSyncSurface();
   showHomePanel();
 }
 
@@ -373,7 +521,7 @@ function companyDefaults(company) {
       accountsDue: legacy.deadlines?.accountsDue || "",
     },
     generalNotes: legacy.generalNotes || "",
-    workflow: {},
+    workflow: defaultWorkflow(),
     bankImports: [],
   };
 }
@@ -416,6 +564,27 @@ function getSelfEmployedPeople() {
 
 function getCompanyRecord(companyId) {
   return state.companyRecords[companyId];
+}
+
+function defaultWorkflow() {
+  return {
+    bookkeepingStatus: "",
+    accountsStatus: "",
+    vatCadence: "",
+    payrollStatus: "",
+    nextVatPeriodEnd: "",
+    corporationTaxDue: "",
+    priority: "",
+    assignedTo: "",
+    nextAction: "",
+  };
+}
+
+function normalizeWorkflow(workflow) {
+  return {
+    ...defaultWorkflow(),
+    ...(workflow || {}),
+  };
 }
 
 function getSelectedCompany() {
@@ -477,6 +646,17 @@ function collectCompanyFormData() {
       yearEnd: elements.deadlineYearEnd.value.trim(),
       confirmation: elements.deadlineConfirmation.value.trim(),
       accountsDue: elements.deadlineAccountsDue.value.trim(),
+    },
+    workflow: {
+      bookkeepingStatus: elements.workflowBookkeepingStatus.value.trim(),
+      accountsStatus: elements.workflowAccountsStatus.value.trim(),
+      vatCadence: elements.workflowVatCadence.value.trim(),
+      payrollStatus: elements.workflowPayrollStatus.value.trim(),
+      nextVatPeriodEnd: elements.workflowNextVatPeriodEnd.value.trim(),
+      corporationTaxDue: elements.workflowCorporationTaxDue.value.trim(),
+      priority: elements.workflowPriority.value.trim(),
+      assignedTo: elements.workflowAssignedTo.value.trim(),
+      nextAction: elements.workflowNextAction.value.trim(),
     },
     generalNotes: elements.companyGeneralNotes.value.trim(),
   };
@@ -671,6 +851,7 @@ function showSettingsPanel() {
   hideAllPanels();
   elements.settingsPanel.classList.remove("hidden");
   updatePrimaryNav("settings");
+  refreshSyncSurface();
 }
 
 function showNewCompanyPanel() {
@@ -732,6 +913,10 @@ async function createLocalAccess() {
   state.activeUser = username;
   state.activePassword = password;
   state.offlineMode = false;
+  state.syncConflict = false;
+  state.syncMessage = state.supabaseConfigured
+    ? "Account created and ready for cloud sync."
+    : "Local encrypted workspace created.";
   await hydrateEncryptedData();
   initializeRecords(window.APP_DATA);
   renderCompanyList();
@@ -782,6 +967,8 @@ function lockWorkspace() {
   state.activePassword = "";
   state.lastRemoteSyncAt = "";
   state.offlineMode = false;
+  state.syncConflict = false;
+  state.syncMessage = "";
   elements.activeUser.textContent = "";
   elements.loginForm.reset();
   showAuth(false);
@@ -798,6 +985,8 @@ async function resetLocalAccess() {
   state.activePassword = "";
   state.lastRemoteSyncAt = "";
   state.offlineMode = false;
+  state.syncConflict = false;
+  state.syncMessage = "";
   state.persistedData = {};
   elements.activeUser.textContent = "";
   elements.loginForm.reset();
@@ -808,20 +997,24 @@ async function resetLocalAccess() {
 function renderSignalBar(company, record) {
   const firstFile = company.files[0];
   const lastFile = company.files[company.files.length - 1];
+  const workflow = normalizeWorkflow(record.workflow);
+  const sync = syncStatusSummary();
   const signals = [
     ["Display name", record.displayName || company.company_number, "Live saved company label"],
     ["Imported files", `${company.csv_file_count} file batches`, "Recovered file groups for this record"],
     ["Earliest trace", firstFile?.first_date || "Not available", "First dated entry seen in the archive"],
     ["Latest trace", lastFile?.last_date || "Not available", "Latest dated entry seen in the archive"],
+    ["Sync", sync.title, sync.note, sync.className],
+    ["Priority", workflow.priority || "Not set", workflow.nextAction || "Add the next action for this client."],
   ];
 
   elements.signalBar.innerHTML = signals
     .map(
-      ([title, value, note]) => `
-        <article class="signal-card">
+      ([title, value, note, className = ""]) => `
+        <article class="signal-card ${className}">
           <p class="signal-title">${title}</p>
-          <p class="signal-value">${value}</p>
-          <p class="signal-note">${note}</p>
+          <p class="signal-value">${escapeHtml(value)}</p>
+          <p class="signal-note">${escapeHtml(note)}</p>
         </article>
       `,
     )
@@ -829,6 +1022,7 @@ function renderSignalBar(company, record) {
 }
 
 function renderCompanyOverview(company, record) {
+  const workflow = normalizeWorkflow(record.workflow);
   elements.profileList.innerHTML = [
     ["Display name", record.displayName || ""],
     ["Legal name", record.legalName || ""],
@@ -837,6 +1031,8 @@ function renderCompanyOverview(company, record) {
     ["VAT scheme", record.vatScheme || "Not set"],
     ["Source files", number.format(company.csv_file_count)],
     ["Imported rows", number.format(company.row_count)],
+    ["Bookkeeping", workflow.bookkeepingStatus || "Not set"],
+    ["Accounts", workflow.accountsStatus || "Not set"],
     ["Record type", company.isCustom ? "Manually added client" : "Recovered archive client"],
   ]
     .map(([label, value]) => `<dt>${label}</dt><dd>${value}</dd>`)
@@ -846,9 +1042,19 @@ function renderCompanyOverview(company, record) {
   elements.deadlineYearEnd.value = record.deadlines.yearEnd;
   elements.deadlineConfirmation.value = record.deadlines.confirmation;
   elements.deadlineAccountsDue.value = record.deadlines.accountsDue;
+  elements.workflowBookkeepingStatus.value = workflow.bookkeepingStatus;
+  elements.workflowAccountsStatus.value = workflow.accountsStatus;
+  elements.workflowVatCadence.value = workflow.vatCadence;
+  elements.workflowPayrollStatus.value = workflow.payrollStatus;
+  elements.workflowNextVatPeriodEnd.value = workflow.nextVatPeriodEnd;
+  elements.workflowCorporationTaxDue.value = workflow.corporationTaxDue;
+  elements.workflowPriority.value = workflow.priority;
+  elements.workflowAssignedTo.value = workflow.assignedTo;
+  elements.workflowNextAction.value = workflow.nextAction;
 }
 
 function renderCompanyDetails(company, record) {
+  const workflow = normalizeWorkflow(record.workflow);
   elements.companyDetailsForm.elements.displayName.value = record.displayName;
   elements.companyDetailsForm.elements.legalName.value = record.legalName;
   elements.companyDetailsForm.elements.companyNumber.value = record.companyNumber;
@@ -871,7 +1077,7 @@ function renderCompanyDetails(company, record) {
   elements.companyImportSummary.textContent =
     `${company.csv_file_count} file batches and ${number.format(company.row_count)} imported rows are currently attached to this company.`;
   elements.companyStatusSummary.textContent =
-    `This company record is editable and saved locally. Update legal, tax, bank, address, and compliance details as you rebuild the software around the handover data.`;
+    `This company record is editable, protected by the encrypted local cache, and ${state.supabaseConfigured ? "ready for Supabase sync" : "ready for local-only use"}. Bookkeeping is ${workflow.bookkeepingStatus || "not set"}, accounts are ${workflow.accountsStatus || "not set"}, and the next action is ${workflow.nextAction || "still to be defined"}.`;
 }
 
 function renderCompanyYears(company) {
@@ -926,14 +1132,17 @@ function renderCompanyNotes(record) {
 
 function renderBankImportSummary(record) {
   const imports = record.bankImports || [];
-  const entries = imports.flatMap((statement) => statement.entries || []);
+  const entries = imports.flatMap((statement) => (statement.entries || []).map(hydrateStatementEntry));
   const moneyIn = entries.reduce((sum, entry) => sum + (entry.moneyIn || 0), 0);
   const moneyOut = entries.reduce((sum, entry) => sum + (entry.moneyOut || 0), 0);
+  const reviewNeeded = entries.filter((entry) => entry.reviewStatus !== "ready").length;
   const cards = [
     ["Statements", number.format(imports.length), "Imported CSV files for this company"],
     ["Rows", number.format(entries.length), "Normalized statement lines saved locally"],
     ["Money in", formatCurrency(moneyIn), "Positive or credit values detected"],
     ["Money out", formatCurrency(moneyOut), "Negative or debit values detected"],
+    ["Review queue", number.format(reviewNeeded), "Entries that still need manual categorisation or checking"],
+    ["Categorised", number.format(entries.length - reviewNeeded), "Entries with a suggested bookkeeping category"],
   ];
 
   elements.bankImportSummary.innerHTML = cards
@@ -950,7 +1159,11 @@ function renderBankImportSummary(record) {
 }
 
 function renderBankImports(record) {
-  const imports = record.bankImports || [];
+  const imports = (record.bankImports || []).map((statement) => ({
+    ...statement,
+    entries: (statement.entries || []).map(hydrateStatementEntry),
+    summary: summarizeStatement((statement.entries || []).map(hydrateStatementEntry)),
+  }));
   renderBankImportSummary(record);
 
   elements.bankImportEmpty.textContent = imports.length
@@ -1003,6 +1216,8 @@ function renderBankImports(record) {
                 <tr>
                   <th>Date</th>
                   <th>Description</th>
+                  <th>Category</th>
+                  <th>Review</th>
                   <th>Amount</th>
                   <th>Money In</th>
                   <th>Money Out</th>
@@ -1016,6 +1231,8 @@ function renderBankImports(record) {
                       <tr>
                         <td>${escapeHtml(entry.date || "")}</td>
                         <td>${escapeHtml(entry.description || "")}</td>
+                        <td>${escapeHtml(entry.category || "Needs review")}</td>
+                        <td>${escapeHtml(entry.reviewStatus || "needs-review")}</td>
                         <td class="${amountClass(entry.amount)}">${formatCurrency(entry.amount)}</td>
                         <td>${formatCurrency(entry.moneyIn)}</td>
                         <td>${formatCurrency(entry.moneyOut)}</td>
@@ -1184,6 +1401,38 @@ function parseAmount(value) {
   return Number.isFinite(numeric) ? numeric : 0;
 }
 
+function categorizeStatementEntry(description, amount) {
+  const text = String(description || "").toLowerCase();
+
+  if (!text) return { category: "Needs review", reviewStatus: "needs-review" };
+  if (text.includes("vat") || text.includes("hmrc")) return { category: "Tax payment", reviewStatus: "ready" };
+  if (text.includes("salary") || text.includes("payroll") || text.includes("wages")) {
+    return { category: "Payroll", reviewStatus: "ready" };
+  }
+  if (text.includes("rent")) return { category: "Rent", reviewStatus: "ready" };
+  if (text.includes("stripe") || text.includes("paypal") || text.includes("sale") || amount > 0) {
+    return { category: "Sales income", reviewStatus: "ready" };
+  }
+  if (text.includes("transfer") || text.includes("faster payment")) {
+    return { category: "Transfer", reviewStatus: "review" };
+  }
+  if (text.includes("fee") || text.includes("charge")) return { category: "Bank charges", reviewStatus: "ready" };
+  if (text.includes("software") || text.includes("google") || text.includes("microsoft") || text.includes("adobe")) {
+    return { category: "Software", reviewStatus: "ready" };
+  }
+
+  return { category: "Needs review", reviewStatus: "needs-review" };
+}
+
+function hydrateStatementEntry(entry) {
+  const categoryInfo = categorizeStatementEntry(entry.description, entry.amount);
+  return {
+    ...entry,
+    category: entry.category || categoryInfo.category,
+    reviewStatus: entry.reviewStatus || categoryInfo.reviewStatus,
+  };
+}
+
 function normalizeStatementRows(rows) {
   return rows
     .map((row, index) => {
@@ -1202,6 +1451,7 @@ function normalizeStatementRows(rows) {
       }
 
       const direction = amount > 0 ? "in" : amount < 0 ? "out" : "zero";
+      const categoryInfo = categorizeStatementEntry(descriptionKey ? row[descriptionKey] : "", amount);
       return {
         id: `entry-${index + 1}`,
         date: dateKey ? row[dateKey] : "",
@@ -1210,6 +1460,8 @@ function normalizeStatementRows(rows) {
         moneyIn: amount > 0 ? Math.abs(amount) : moneyIn,
         moneyOut: amount < 0 ? Math.abs(amount) : moneyOut,
         direction,
+        category: categoryInfo.category,
+        reviewStatus: categoryInfo.reviewStatus,
       };
     })
     .filter((entry) => entry.date || entry.description || entry.amount || entry.moneyIn || entry.moneyOut);
@@ -1218,12 +1470,15 @@ function normalizeStatementRows(rows) {
 function summarizeStatement(entries) {
   return entries.reduce(
     (summary, entry) => {
+      const normalizedEntry = hydrateStatementEntry(entry);
       summary.rowCount += 1;
-      summary.moneyIn += entry.moneyIn || 0;
-      summary.moneyOut += entry.moneyOut || 0;
-      if (entry.direction === "in") summary.positiveCount += 1;
-      if (entry.direction === "out") summary.negativeCount += 1;
-      if (entry.direction === "zero") summary.zeroCount += 1;
+      summary.moneyIn += normalizedEntry.moneyIn || 0;
+      summary.moneyOut += normalizedEntry.moneyOut || 0;
+      if (normalizedEntry.direction === "in") summary.positiveCount += 1;
+      if (normalizedEntry.direction === "out") summary.negativeCount += 1;
+      if (normalizedEntry.direction === "zero") summary.zeroCount += 1;
+      if (normalizedEntry.reviewStatus === "ready") summary.categorizedCount += 1;
+      else summary.reviewNeededCount += 1;
       return summary;
     },
     {
@@ -1233,6 +1488,8 @@ function summarizeStatement(entries) {
       positiveCount: 0,
       negativeCount: 0,
       zeroCount: 0,
+      categorizedCount: 0,
+      reviewNeededCount: 0,
     },
   );
 }
@@ -1323,6 +1580,7 @@ function applyCompanyEdits() {
   state.companyRecords[company.company_number] = {
     ...current,
     ...edits,
+    workflow: normalizeWorkflow(edits.workflow),
     companyNumber: edits.companyNumber || company.company_number,
   };
   saveRecords(COMPANY_STORAGE_KEY, state.companyRecords);
@@ -1395,6 +1653,13 @@ async function hydrateEncryptedData() {
     state.persistedData = result.data || {};
     state.lastRemoteSyncAt = result.remoteUpdatedAt || "";
     state.offlineMode = Boolean(result.offline || result.source === "local");
+    state.syncConflict = false;
+    state.syncMessage = result.offline
+      ? result.message || "Opened the encrypted local cache."
+      : result.remoteUpdatedAt
+        ? `Loaded cloud workspace from ${formatDateTime(result.remoteUpdatedAt)}.`
+        : "";
+    refreshSyncSurface();
     return;
   }
 
@@ -1408,6 +1673,75 @@ async function hydrateEncryptedData() {
   } catch {
     state.persistedData = {};
   }
+  refreshSyncSurface();
+}
+
+function applyLoadedWorkspaceData(data) {
+  const previousCompanyId = state.selectedCompanyId;
+  const previousPersonId = state.selectedPersonId;
+  state.persistedData = data || {};
+  initializeRecords(window.APP_DATA);
+
+  if (previousCompanyId && state.companyRecords[previousCompanyId]) {
+    state.selectedCompanyId = previousCompanyId;
+    state.selectedPersonId = null;
+    renderCompanyList();
+    renderSelfEmployedList();
+    renderCompanyPanel(getActiveCompanyView());
+    return;
+  }
+
+  if (previousPersonId && state.personRecords[previousPersonId]) {
+    state.selectedPersonId = previousPersonId;
+    state.selectedCompanyId = null;
+    renderCompanyList();
+    renderSelfEmployedList();
+    renderSelfEmployedPanel();
+    return;
+  }
+
+  renderCompanyList();
+  renderSelfEmployedList();
+}
+
+async function syncWorkspaceNow(force = false) {
+  if (!window.alignedDesktop?.isDesktop || !state.activeUser || !state.activePassword) return;
+  const result = await persistDesktopData({ force });
+  if (result?.ok) {
+    setSaveState(elements.settingsSaveState, force ? "Cloud workspace overwritten from this machine" : "Workspace synced");
+  } else if (result?.message) {
+    setSaveState(elements.settingsSaveState, result.message);
+  }
+}
+
+async function reloadCloudWorkspace() {
+  if (!window.alignedDesktop?.isDesktop || !state.activeUser || !state.activePassword) return;
+
+  state.syncBusy = true;
+  refreshSyncSurface();
+  const result = await window.alignedDesktop.loadData({
+    username: state.activeUser,
+    password: state.activePassword,
+  });
+  state.syncBusy = false;
+
+  if (!result.ok) {
+    handleSyncResult(result);
+    setSaveState(elements.settingsSaveState, result.message || "Could not reload the workspace");
+    return;
+  }
+
+  applyLoadedWorkspaceData(result.data || {});
+  handleSyncResult({
+    ok: true,
+    source: result.source,
+    offline: Boolean(result.offline || result.source === "local"),
+    remoteUpdatedAt: result.remoteUpdatedAt || "",
+    message: result.offline
+      ? result.message || "Reloaded the encrypted local cache."
+      : "Reloaded the latest cloud workspace.",
+  });
+  setSaveState(elements.settingsSaveState, result.offline ? "Reloaded local cache" : "Reloaded cloud copy");
 }
 
 async function changeLocalPassword() {
@@ -1452,9 +1786,13 @@ async function changeLocalPassword() {
   state.activeUser = username;
   state.activePassword = newPassword;
   updateActiveUserLabel();
+  state.syncMessage = state.supabaseConfigured
+    ? "Password updated for local access and Supabase sign-in."
+    : "Local password updated.";
   elements.changePasswordForm.reset();
   elements.changePasswordForm.elements.username.value = username;
   setSaveState(elements.settingsSaveState, "Password updated");
+  refreshSyncSurface();
 }
 
 function createCompanyRecord() {
@@ -1585,7 +1923,9 @@ function initializeRecords(data) {
   state.companies.forEach((company) => {
     state.companyRecords[company.company_number] ??= companyDefaults(company);
     state.companyRecords[company.company_number].bankImports ??= [];
-    state.companyRecords[company.company_number].workflow ??= {};
+    state.companyRecords[company.company_number].workflow = normalizeWorkflow(
+      state.companyRecords[company.company_number].workflow,
+    );
   });
   getSelfEmployedPeople().forEach((person) => {
     state.personRecords[person] ??= personDefaults(person);
@@ -1595,6 +1935,7 @@ function initializeRecords(data) {
   saveRecords(PERSON_STORAGE_KEY, state.personRecords);
   state.filteredCompanies = state.companies;
   state.selectedCompanyId = state.companies[0]?.company_number || null;
+  refreshSyncSurface();
 }
 
 function bindEvents() {
@@ -1639,6 +1980,15 @@ function bindEvents() {
   elements.resetAccessButton.addEventListener("click", resetLocalAccess);
   elements.logoutButton.addEventListener("click", lockWorkspace);
   elements.changePasswordButton.addEventListener("click", changeLocalPassword);
+  elements.syncNowButton?.addEventListener("click", () => {
+    void syncWorkspaceNow(false);
+  });
+  elements.reloadRemoteButton?.addEventListener("click", () => {
+    void reloadCloudWorkspace();
+  });
+  elements.overwriteRemoteButton?.addEventListener("click", () => {
+    void syncWorkspaceNow(true);
+  });
   elements.saveCompanyButton.addEventListener("click", applyCompanyEdits);
   elements.resetCompanyButton.addEventListener("click", resetCurrentCompanyView);
   elements.importBankStatementButton.addEventListener("click", importBankStatement);
@@ -1685,6 +2035,7 @@ async function loadApp() {
   renderStats();
   renderCompanyList();
   renderSelfEmployedList();
+  refreshSyncSurface();
   if (window.alignedDesktop?.isDesktop) {
     const status = await window.alignedDesktop.authStatus();
     state.supabaseConfigured = Boolean(status.configured);
@@ -1700,6 +2051,7 @@ async function loadApp() {
 
   const authConfig = loadLegacyBrowserAuth();
   showAuth(!authConfig?.username);
+  refreshSyncSurface();
 }
 
 try {

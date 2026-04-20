@@ -1,6 +1,6 @@
 # Supabase Setup Guide
 
-This project is moving from single-machine encrypted storage to a synced desktop model using Supabase.
+This project now has a first synced desktop implementation using Supabase.
 
 The target shape is:
 
@@ -8,6 +8,7 @@ The target shape is:
 - Supabase Auth handles sign-in for the same Aligned Financials user across machines
 - Supabase Postgres stores the shared workspace data
 - Row Level Security protects each user's records
+- the encrypted local desktop cache stays in place as the offline fallback
 
 ## 1. Create the Supabase project
 
@@ -22,6 +23,11 @@ You will need these two values from `Project Settings` -> `API`:
 - `anon` key
 
 Put them into a local `.env` file based on [.env.example](</C:/Users/softb/OneDrive/Documents/GitHub/Alligned-Financials/.env.example>).
+
+Important:
+
+- `.env` is ignored by git and should stay local to each machine
+- `.env.example` should only contain placeholders, never live project values
 
 ## 2. Turn on email and password sign-in
 
@@ -38,7 +44,7 @@ If you keep email confirmation enabled, add the URLs you want Supabase to allow 
 
 For early desktop development, use a temporary web callback page or a custom protocol later when we wire deep-link handling into Electron.
 
-If you want the simplest first rollout, turn off email confirmation until the desktop callback flow is in place.
+If you want the simplest first rollout, turn off email confirmation until the desktop callback flow is in place. That avoids first-run confusion in the desktop app while the confirmation callback flow is still basic.
 
 ## 4. Create the database schema
 
@@ -92,34 +98,48 @@ npm run dist:win
 
 Once the installer exists, you do not open the app with a terminal command anymore. You install it like normal Windows software.
 
-## 7. Recommended implementation path
+## 7. Current implementation status
+
+The desktop code already includes:
+
+- sign-up with Supabase Auth
+- sign-in with Supabase Auth
+- encrypted local cache fallback
+- remote workspace load on sign-in
+- remote workspace save after edits
+- basic conflict detection when another machine saved first
+
+## 8. What to test next
 
 Use this order:
 
-1. Replace local username/password auth with Supabase Auth
-2. Keep the current encrypted local cache only as an offline fallback
-3. Save the workspace JSON snapshot to Supabase after each meaningful edit
-4. On app startup, load the latest remote snapshot for the signed-in user
-5. Add basic conflict handling if two machines edit at the same time
+1. Sign up a fresh test account.
+2. Sign in on machine A and create or edit records.
+3. Confirm those changes appear after sign-in on machine B.
+4. Disconnect the network and confirm the local encrypted cache still opens.
+5. Reconnect and confirm sync resumes cleanly.
+6. Test the conflict path by editing the same workspace on two machines before both save.
 
-## 8. What to build next in code
+## 9. What to build next in code
 
-The next coding step should be:
+The next improvements after the current sync alpha are:
 
-1. Add a Supabase client layer in the Electron app
-2. Create login and signup flows with `signUp()` and `signInWithPassword()`
-3. Replace `data:load` and `data:save` local-only calls with remote sync calls
-4. Keep the current encrypted desktop file as backup/offline recovery
+1. Better sync status in the UI
+2. Clear conflict recovery controls
+3. More structured accounting workflow fields
+4. Normalized Supabase tables for bank imports and workflow tasks later
 
-## 9. Important notes
+See [docs/SUPABASE_ROADMAP.md](/C:/Users/softb/OneDrive/Documents/GitHub/Alligned-Financials/docs/SUPABASE_ROADMAP.md) for the staged database direction.
+
+## 10. Important notes
 
 - Netlify is not the storage solution here
 - never expose the Supabase `service_role` key in the desktop renderer
 - use the `anon` key in the app and rely on RLS
-- the current app is still local-first until the Supabase integration code is added
+- the desktop app now supports Supabase sync, but the encrypted local cache is still retained as a safety layer
 - if more than one staff member will use this later, we should add proper roles and per-client permissions
 
-## 10. Best first production choice
+## 11. Best first production choice
 
 For this app, the best first hosted setup is:
 

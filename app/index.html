@@ -14,7 +14,7 @@
           <p class="brand-kicker">Aligned Financials</p>
           <h1 class="auth-title">Private desktop accounting workspace</h1>
           <p class="auth-copy">
-            Sign in to open your private workspace for client records, archive years, and statement imports.
+            Sign in to open your private workspace for client records, archive years, and statement imports, with encrypted desktop fallback and optional cloud sync.
           </p>
         </div>
 
@@ -47,7 +47,7 @@
           </div>
 
           <div id="loginCard" class="auth-mode hidden">
-            <p class="section-kicker">Offline sign in</p>
+            <p class="section-kicker">Sign in</p>
             <h2>Open workspace</h2>
             <p class="auth-copy">
               Sign in with your Aligned Financials account to unlock the encrypted workspace.
@@ -116,7 +116,7 @@
           <img src="images/aligned-financials-logo.png" alt="Aligned Financials logo" class="brand-image logo-blend brand-showcase-image">
           <p id="generatedAt" class="data-meta"></p>
           <p class="storage-note">
-            Current build keeps the workspace encrypted locally. The next storage step is secure cloud sync for the same user across multiple machines.
+            This build keeps an encrypted desktop cache and can sync the same workspace across multiple machines through Supabase when configured.
           </p>
         </div>
       </section>
@@ -170,15 +170,15 @@
                 <div class="notes-stack">
                   <article class="note-card">
                     <h4>Client management</h4>
-                    <p>Store legal details, tax references, gateway fields, notes, deadlines, and imported files per record.</p>
+                    <p>Store legal details, tax references, workflow status, deadlines, and imported files per record.</p>
                   </article>
                   <article class="note-card">
                     <h4>Bank statement handling</h4>
-                    <p>Import CSV statements per company and auto-sort positives into money in and negatives into money out.</p>
+                    <p>Import CSV statements per company, auto-sort money in and money out, and review categorized transaction lines.</p>
                   </article>
                   <article class="note-card">
                     <h4>Personal operating software</h4>
-                    <p>This is being shaped as a private Aligned Financials desktop-style workspace rather than a public-facing dashboard.</p>
+                    <p>This is being shaped as a private Aligned Financials operating system with sync, workflow tracking, and structured client control.</p>
                   </article>
                 </div>
               </article>
@@ -499,6 +499,51 @@
                     <label>
                       <span>Accounts due</span>
                       <input id="deadlineAccountsDue" type="text">
+                    </label>
+                  </div>
+                </article>
+
+                <article class="glass-card">
+                  <div class="card-head">
+                    <p class="section-kicker">Workflow</p>
+                    <h3>Accounting operations</h3>
+                  </div>
+                  <div class="form-grid compact-form">
+                    <label>
+                      <span>Bookkeeping status</span>
+                      <input id="workflowBookkeepingStatus" type="text" placeholder="In progress / Waiting / Complete">
+                    </label>
+                    <label>
+                      <span>Accounts status</span>
+                      <input id="workflowAccountsStatus" type="text" placeholder="Draft / Reviewing / Filed">
+                    </label>
+                    <label>
+                      <span>VAT cadence</span>
+                      <input id="workflowVatCadence" type="text" placeholder="Quarterly / Monthly / Annual">
+                    </label>
+                    <label>
+                      <span>Payroll status</span>
+                      <input id="workflowPayrollStatus" type="text" placeholder="Not active / Monthly payroll">
+                    </label>
+                    <label>
+                      <span>Next VAT period end</span>
+                      <input id="workflowNextVatPeriodEnd" type="text" placeholder="31 Mar 2026">
+                    </label>
+                    <label>
+                      <span>Corporation tax due</span>
+                      <input id="workflowCorporationTaxDue" type="text" placeholder="01 Jan 2027">
+                    </label>
+                    <label>
+                      <span>Priority</span>
+                      <input id="workflowPriority" type="text" placeholder="Normal / High / Urgent">
+                    </label>
+                    <label>
+                      <span>Assigned to</span>
+                      <input id="workflowAssignedTo" type="text" placeholder="Owner or staff name">
+                    </label>
+                    <label class="full-span">
+                      <span>Next action</span>
+                      <textarea id="workflowNextAction" rows="4" placeholder="What needs doing next for this client"></textarea>
                     </label>
                   </div>
                 </article>
@@ -851,20 +896,29 @@
               <article class="glass-card">
                 <div class="card-head">
                   <p class="section-kicker">Storage</p>
-                  <h3>Encrypted workspace data</h3>
+                  <h3>Sync and recovery</h3>
                 </div>
                 <div class="notes-stack">
                   <article class="note-card">
                     <h4>Current mode</h4>
-                    <p>Client records, self employed profiles, archive notes, and bank statement imports are currently stored in an encrypted local desktop file.</p>
+                    <p id="storageModeText">Client records, self employed profiles, archive notes, and bank statement imports are stored in an encrypted local desktop file.</p>
                   </article>
                   <article class="note-card">
-                    <h4>Shared multi-machine access</h4>
-                    <p>For the same user to open the same data on different machines, this app needs a real hosted backend with authentication and database sync.</p>
+                    <h4>Sync status</h4>
+                    <p id="syncStatusText">Sync status will appear here after sign-in.</p>
                   </article>
                   <article class="note-card">
-                    <h4>Recommended direction</h4>
-                    <p>Netlify alone is not the storage layer. A backend such as Supabase or another hosted database plus auth service is the right next step for secure synced access.</p>
+                    <h4>Supabase guidance</h4>
+                    <p id="supabaseGuideText">Use Supabase Auth with the public anon key in the desktop app, keep RLS enabled, and keep the encrypted local cache as the fallback.</p>
+                  </article>
+                  <article class="note-card">
+                    <h4>Sync actions</h4>
+                    <div class="sync-actions">
+                      <button id="syncNowButton" class="action-chip" type="button">Sync now</button>
+                      <button id="reloadRemoteButton" class="action-chip subtle" type="button">Reload cloud copy</button>
+                      <button id="overwriteRemoteButton" class="action-chip subtle hidden" type="button">Overwrite cloud with this copy</button>
+                    </div>
+                    <p id="syncConflictText" class="workflow-summary"></p>
                   </article>
                 </div>
               </article>
