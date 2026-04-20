@@ -6,7 +6,9 @@
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder",
-    "dist:win": "electron-builder --win nsis portable"
+    "dist:win": "electron-builder --win nsis portable",
+    "dist:installer": "electron-builder --win nsis",
+    "dist:portable": "electron-builder --win portable"
   },
   "build": {
     "appId": "com.alignedfinancials.desktop",
@@ -37,6 +39,9 @@
     "portable": {
       "artifactName": "Aligned-Financials-Portable-${version}.${ext}"
     }
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.8"
   },
   "devDependencies": {
     "electron": "^31.0.0",

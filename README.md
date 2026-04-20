@@ -63,6 +63,20 @@ npm run dist:win
 
 That produces installer artifacts in `dist/`.
 
+For a normal Windows installer only:
+
+```powershell
+npm run dist:installer
+```
+
+For a portable app only:
+
+```powershell
+npm run dist:portable
+```
+
+See [docs/WINDOWS_INSTALLER.md](/C:/Users/softb/OneDrive/Documents/GitHub/Alligned-Financials/docs/WINDOWS_INSTALLER.md) for the clean installer workflow.
+
 ## Local login
 
 The current login system is offline and local-first:
@@ -81,6 +95,21 @@ This is the right first step for a private desktop build, but it is not the fina
 - the settings screen lets you change the password without rebuilding the data store
 
 This is appropriate for private offline desktop use. If you later want multi-user access, cloud sync, or remote staff access, we should move to a real backend and managed authentication.
+
+## Supabase direction
+
+The recommended hosted backend for this desktop app is Supabase.
+
+- use Supabase Auth for the same user across multiple machines
+- use Supabase Postgres for synced workspace storage
+- keep the Electron app as the installed Windows client
+- keep Row Level Security enabled so users only access their own workspace data
+
+Starter files are included here:
+
+- [.env.example](/C:/Users/softb/OneDrive/Documents/GitHub/Alligned-Financials/.env.example)
+- [docs/SUPABASE_SETUP.md](/C:/Users/softb/OneDrive/Documents/GitHub/Alligned-Financials/docs/SUPABASE_SETUP.md)
+- [supabase/schema.sql](/C:/Users/softb/OneDrive/Documents/GitHub/Alligned-Financials/supabase/schema.sql)
 
 ## First software layer
 
