@@ -10,11 +10,11 @@
     <section id="authShell" class="auth-shell">
       <div class="auth-panel">
         <div class="auth-brand">
-          <img src="images/aligned-financials-logo.png" alt="Aligned Financials logo" class="brand-image auth-mark-image">
+          <img src="images/aligned-financials-logo.png" alt="Aligned Financials logo" class="brand-image logo-blend auth-mark-image">
           <p class="brand-kicker">Aligned Financials</p>
           <h1 class="auth-title">Private desktop accounting workspace</h1>
           <p class="auth-copy">
-            Sign in to open your private local workspace for client records, archive years, and statement imports.
+            Sign in to open your private workspace for client records, archive years, and statement imports.
           </p>
         </div>
 
@@ -49,7 +49,7 @@
             <p class="section-kicker">Offline sign in</p>
             <h2>Open workspace</h2>
             <p class="auth-copy">
-              Sign in with the local account for this device. No cloud connection is required.
+              Sign in with your Aligned Financials account to unlock the encrypted workspace.
             </p>
             <form id="loginForm" class="form-grid auth-form">
               <label>
@@ -74,7 +74,7 @@
     <main id="appShell" class="shell hidden">
       <header class="topbar">
         <div class="topbar-brand">
-          <img src="images/aligned-financials-logo.png" alt="Aligned Financials logo" class="brand-image topbar-logo">
+          <img src="images/aligned-financials-logo.png" alt="Aligned Financials logo" class="brand-image logo-blend topbar-logo">
           <div>
             <p class="brand-kicker">Aligned Financials</p>
             <h1 class="app-title">Private accounting workspace</h1>
@@ -111,10 +111,10 @@
         </div>
 
         <div class="brand-mark-card">
-          <img src="images/aligned-financials-logo.png" alt="Aligned Financials logo" class="brand-image brand-showcase-image">
+          <img src="images/aligned-financials-logo.png" alt="Aligned Financials logo" class="brand-image logo-blend brand-showcase-image">
           <p id="generatedAt" class="data-meta"></p>
           <p class="storage-note">
-            Changes are stored in this browser on this machine using local storage.
+            Current build keeps the workspace encrypted locally. The next storage step is secure cloud sync for the same user across multiple machines.
           </p>
         </div>
       </section>
@@ -210,7 +210,7 @@
                   <button id="homeRouteSettings" class="quick-card">
                     <span class="quick-label">Settings</span>
                     <strong>Manage security</strong>
-                    <span>Change the desktop password and manage local access for this machine.</span>
+                    <span>Manage security, storage direction, and the path toward shared access across machines.</span>
                   </button>
                 </div>
               </article>
@@ -695,7 +695,7 @@
                   </div>
                   <div class="import-actions">
                     <button id="importBankStatementButton" class="action-chip">Import statement</button>
-                    <p class="helper-copy">Each import stays attached to the selected company and is saved in this browser on this machine.</p>
+                    <p class="helper-copy">Each import stays attached to the selected company and is saved inside the encrypted workspace data.</p>
                   </div>
                 </article>
 
@@ -849,20 +849,20 @@
               <article class="glass-card">
                 <div class="card-head">
                   <p class="section-kicker">Storage</p>
-                  <h3>Offline desktop data</h3>
+                  <h3>Encrypted workspace data</h3>
                 </div>
                 <div class="notes-stack">
                   <article class="note-card">
-                    <h4>Encrypted records</h4>
-                    <p>Client records, self employed profiles, archive notes, and bank statement imports are stored in an encrypted local desktop file.</p>
+                    <h4>Current mode</h4>
+                    <p>Client records, self employed profiles, archive notes, and bank statement imports are currently stored in an encrypted local desktop file.</p>
                   </article>
                   <article class="note-card">
-                    <h4>Local access</h4>
-                    <p>This app is intended to stay offline-first. Your username and password are used to unlock the local workspace on this machine.</p>
+                    <h4>Shared multi-machine access</h4>
+                    <p>For the same user to open the same data on different machines, this app needs a real hosted backend with authentication and database sync.</p>
                   </article>
                   <article class="note-card">
-                    <h4>Installer path</h4>
-                    <p>The desktop shell is prepared for packaged installer builds so the app can run like installed software rather than a browser page.</p>
+                    <h4>Recommended direction</h4>
+                    <p>Netlify alone is not the storage layer. A backend such as Supabase or another hosted database plus auth service is the right next step for secure synced access.</p>
                   </article>
                 </div>
               </article>

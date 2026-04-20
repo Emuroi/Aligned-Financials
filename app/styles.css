@@ -83,6 +83,11 @@ body::before {
   object-fit: contain;
 }
 
+.logo-blend {
+  mix-blend-mode: screen;
+  isolation: isolate;
+}
+
 .auth-mark-image {
   width: 188px;
   max-width: 100%;
@@ -341,6 +346,7 @@ body::before {
   background:
     linear-gradient(180deg, rgba(214, 168, 78, 0.1), rgba(255, 255, 255, 0.02)),
     rgba(10, 10, 12, 0.96);
+  text-align: center;
 }
 
 .brand-mark {
