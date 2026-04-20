@@ -146,6 +146,9 @@ const state = {
   activeUser: "",
   activePassword: "",
   persistedData: {},
+  lastRemoteSyncAt: "",
+  offlineMode: false,
+  supabaseConfigured: false,
   companyWizardStep: "identity",
   personWizardStep: "identity",
 };
@@ -167,7 +170,9 @@ const elements = {
   setupForm: document.getElementById("setupForm"),
   loginForm: document.getElementById("loginForm"),
   createAccessButton: document.getElementById("createAccessButton"),
+  openLoginButton: document.getElementById("openLoginButton"),
   loginButton: document.getElementById("loginButton"),
+  openSetupButton: document.getElementById("openSetupButton"),
   resetAccessButton: document.getElementById("resetAccessButton"),
   authMessage: document.getElementById("authMessage"),
   loginMessage: document.getElementById("loginMessage"),
@@ -258,17 +263,33 @@ function loadSavedRecords(key) {
 
 async function persistDesktopData() {
   if (!window.alignedDesktop?.isDesktop || !state.activeUser || !state.activePassword) return;
-  await window.alignedDesktop.saveData({
+  const result = await window.alignedDesktop.saveData({
     username: state.activeUser,
     password: state.activePassword,
     data: state.persistedData,
+    lastKnownRemoteAt: state.lastRemoteSyncAt,
   });
+  if (result?.remoteUpdatedAt) {
+    state.lastRemoteSyncAt = result.remoteUpdatedAt;
+  }
+  if (typeof result?.offline === "boolean") {
+    state.offlineMode = result.offline;
+    updateActiveUserLabel();
+  }
+  return result;
 }
 
 function saveRecords(key, value) {
   state.persistedData[key] = structuredClone(value);
   if (window.alignedDesktop?.isDesktop && state.activeUser && state.activePassword) {
-    void persistDesktopData();
+    void persistDesktopData().then((result) => {
+      if (result?.conflict) {
+        setSaveState(
+          elements.settingsSaveState,
+          "Remote workspace changed on another machine. Local backup was kept; review sync before overwriting.",
+        );
+      }
+    });
     return;
   }
   localStorage.setItem(key, JSON.stringify(value));
@@ -289,6 +310,8 @@ function setAuthMessage(element, message) {
 function showAuth(setupMode) {
   state.authenticated = false;
   state.activePassword = "";
+  state.lastRemoteSyncAt = "";
+  state.offlineMode = false;
   elements.appShell.classList.add("hidden");
   elements.authShell.classList.remove("hidden");
   elements.setupCard.classList.toggle("hidden", !setupMode);
@@ -297,10 +320,21 @@ function showAuth(setupMode) {
   setAuthMessage(elements.loginMessage, "");
 }
 
+function updateActiveUserLabel() {
+  if (!state.activeUser) {
+    elements.activeUser.textContent = "";
+    return;
+  }
+
+  elements.activeUser.textContent = state.offlineMode
+    ? `Signed in as ${state.activeUser} (offline cache)`
+    : `Signed in as ${state.activeUser}`;
+}
+
 function unlockWorkspace(username) {
   state.authenticated = true;
   state.activeUser = username;
-  elements.activeUser.textContent = `Signed in as ${username}`;
+  updateActiveUserLabel();
   elements.authShell.classList.add("hidden");
   elements.appShell.classList.remove("hidden");
   if (elements.changePasswordForm) {
@@ -660,7 +694,7 @@ async function createLocalAccess() {
   const confirmPassword = String(formData.get("confirmPassword") || "");
 
   if (!username || !password) {
-    setAuthMessage(elements.authMessage, "Enter a username and password.");
+    setAuthMessage(elements.authMessage, "Enter an email address and password.");
     return;
   }
 
@@ -680,6 +714,13 @@ async function createLocalAccess() {
       setAuthMessage(elements.authMessage, result.message);
       return;
     }
+    if (result.requiresConfirmation) {
+      elements.setupForm.reset();
+      elements.loginForm.elements.username.value = username;
+      showAuth(false);
+      setAuthMessage(elements.loginMessage, result.message);
+      return;
+    }
   } else {
     localStorage.setItem(
       LEGACY_AUTH_STORAGE_KEY,
@@ -687,9 +728,10 @@ async function createLocalAccess() {
     );
   }
   elements.setupForm.reset();
-  setAuthMessage(elements.authMessage, "Local access created. Opening workspace...");
+  setAuthMessage(elements.authMessage, "Account created. Opening workspace...");
   state.activeUser = username;
   state.activePassword = password;
+  state.offlineMode = false;
   await hydrateEncryptedData();
   initializeRecords(window.APP_DATA);
   renderCompanyList();
@@ -707,6 +749,10 @@ async function loginLocalAccess() {
     if (!result.ok) {
       setAuthMessage(elements.loginMessage, result.message);
       return;
+    }
+    state.offlineMode = Boolean(result.offline);
+    if (result.message) {
+      setAuthMessage(elements.loginMessage, result.message);
     }
   } else {
     const authConfig = loadLegacyBrowserAuth();
@@ -734,6 +780,8 @@ function lockWorkspace() {
   state.authenticated = false;
   state.activeUser = "";
   state.activePassword = "";
+  state.lastRemoteSyncAt = "";
+  state.offlineMode = false;
   elements.activeUser.textContent = "";
   elements.loginForm.reset();
   showAuth(false);
@@ -748,6 +796,8 @@ async function resetLocalAccess() {
   state.authenticated = false;
   state.activeUser = "";
   state.activePassword = "";
+  state.lastRemoteSyncAt = "";
+  state.offlineMode = false;
   state.persistedData = {};
   elements.activeUser.textContent = "";
   elements.loginForm.reset();
@@ -1343,6 +1393,8 @@ async function hydrateEncryptedData() {
       throw new Error(result.message);
     }
     state.persistedData = result.data || {};
+    state.lastRemoteSyncAt = result.remoteUpdatedAt || "";
+    state.offlineMode = Boolean(result.offline || result.source === "local");
     return;
   }
 
@@ -1399,7 +1451,7 @@ async function changeLocalPassword() {
 
   state.activeUser = username;
   state.activePassword = newPassword;
-  elements.activeUser.textContent = `Signed in as ${username}`;
+  updateActiveUserLabel();
   elements.changePasswordForm.reset();
   elements.changePasswordForm.elements.username.value = username;
   setSaveState(elements.settingsSaveState, "Password updated");
@@ -1568,6 +1620,8 @@ function bindEvents() {
   elements.homeRouteYears.addEventListener("click", () => openFirstCompany("company-years"));
   elements.homeRouteSettings.addEventListener("click", showSettingsPanel);
   elements.homeLinkButtons.forEach((button) => button.addEventListener("click", showHomePanel));
+  elements.openLoginButton?.addEventListener("click", () => showAuth(false));
+  elements.openSetupButton?.addEventListener("click", () => showAuth(true));
   elements.companyWizardSteps.forEach((button) => {
     button.addEventListener("click", () => setCompanyWizardStep(button.dataset.companyStep));
   });
@@ -1633,7 +1687,11 @@ async function loadApp() {
   renderSelfEmployedList();
   if (window.alignedDesktop?.isDesktop) {
     const status = await window.alignedDesktop.authStatus();
-    showAuth(!status.hasAccess);
+    state.supabaseConfigured = Boolean(status.configured);
+    showAuth(status.configured ? false : !status.hasAccess);
+    if (status.username) {
+      elements.loginForm.elements.username.value = status.username;
+    }
     if (status.username && elements.changePasswordForm) {
       elements.changePasswordForm.elements.username.value = status.username;
     }

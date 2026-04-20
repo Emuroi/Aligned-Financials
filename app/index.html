@@ -21,9 +21,9 @@
         <div class="auth-card">
           <div id="setupCard" class="auth-mode hidden">
             <p class="section-kicker">First run</p>
-            <h2>Create local access</h2>
+            <h2>Create account</h2>
             <p class="auth-copy">
-              Set the username and password you want to use on this machine for Aligned Financials.
+              Create your Aligned Financials account so the same workspace can sync across your machines.
             </p>
             <form id="setupForm" class="form-grid auth-form">
               <label>
@@ -40,7 +40,8 @@
               </label>
             </form>
             <div class="auth-actions">
-              <button id="createAccessButton" class="action-chip">Create access</button>
+              <button id="createAccessButton" class="action-chip">Create account</button>
+              <button id="openLoginButton" class="action-chip subtle" type="button">I already have an account</button>
               <p id="authMessage" class="auth-message" aria-live="polite"></p>
             </div>
           </div>
@@ -63,6 +64,7 @@
             </form>
             <div class="auth-actions">
               <button id="loginButton" class="action-chip">Sign in</button>
+              <button id="openSetupButton" class="action-chip subtle" type="button">Create account</button>
               <button id="resetAccessButton" class="action-chip subtle">Reset local access</button>
               <p id="loginMessage" class="auth-message" aria-live="polite"></p>
             </div>

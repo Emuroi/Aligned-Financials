@@ -21,6 +21,8 @@
       "app/**/*",
       "main.js",
       "preload.js",
+      ".env",
+      ".env.example",
       "package.json",
       "README.md"
     ],
