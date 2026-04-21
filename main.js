@@ -185,6 +185,16 @@ function isLikelyNetworkError(message = "") {
   ].some((pattern) => text.includes(pattern));
 }
 
+function isConfirmationError(message = "") {
+  const text = String(message).toLowerCase();
+  return [
+    "email not confirmed",
+    "email address not authorized",
+    "confirm your email",
+    "signup is disabled",
+  ].some((pattern) => text.includes(pattern));
+}
+
 async function signInOnline(username, password) {
   const client = getSupabaseClient();
   if (!client) {
@@ -437,17 +447,27 @@ ipcMain.handle("auth:create", async (_event, payload) => {
 
   if (!hasSupabaseConfig()) {
     storeLocalAccess(username, password);
-    return { ok: true, username, offlineOnly: true, message: "Local access created. Supabase is not configured yet." };
+    return { ok: true, username, offlineOnly: true, message: "Account created." };
   }
 
   const signup = await signUpOnline(username, password);
   if (!signup.ok) {
+    const login = await signInOnline(username, password);
+    if (login.ok) {
+      storeLocalAccess(username, password, getAuth());
+      return {
+        ok: true,
+        username,
+        offline: false,
+        message: "Account already exists. Logged in successfully.",
+      };
+    }
     return signup;
   }
 
-  if (!signup.requiresConfirmation) {
-    storeLocalAccess(username, password, getAuth());
-  }
+  // Keep the local encrypted access in step with account creation so the user can
+  // reopen the same workspace reliably even if email confirmation is enabled.
+  storeLocalAccess(username, password, getAuth());
 
   return signup;
 });
@@ -464,13 +484,13 @@ ipcMain.handle("auth:login", async (_event, payload) => {
       password,
       authenticated: false,
     };
-    return { ok: true, username, offline: true, message: "Opened local encrypted cache." };
+    return { ok: true, username, offline: true, message: "Logged in successfully." };
   }
 
   const online = await signInOnline(username, password);
   if (online.ok) {
     storeLocalAccess(username, password, getAuth());
-    return { ok: true, username, offline: false, message: "Signed in and ready to sync." };
+    return { ok: true, username, offline: false, message: "Logged in successfully." };
   }
 
   const localFallback = verifyCredentials(username, password);
@@ -484,7 +504,21 @@ ipcMain.handle("auth:login", async (_event, payload) => {
       ok: true,
       username,
       offline: true,
-      message: "Supabase is unavailable right now. Opened the encrypted local cache instead.",
+      message: "Cloud sync is unavailable right now. Opened the saved local workspace instead.",
+    };
+  }
+
+  if (localFallback.ok && isConfirmationError(online.message)) {
+    onlineSession = {
+      username,
+      password,
+      authenticated: false,
+    };
+    return {
+      ok: true,
+      username,
+      offline: true,
+      message: "Email confirmation is still pending. Opened the saved local workspace for now.",
     };
   }
 

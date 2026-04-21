@@ -14,7 +14,7 @@
           <p class="brand-kicker">Aligned Financials</p>
           <h1 class="auth-title">Private desktop accounting workspace</h1>
           <p class="auth-copy">
-            Sign in to open your private workspace for client records, archive years, and statement imports, with encrypted desktop fallback and optional cloud sync.
+            Sign in to open your workspace and continue where you left off.
           </p>
         </div>
 
@@ -23,19 +23,29 @@
             <p class="section-kicker">First run</p>
             <h2>Create account</h2>
             <p class="auth-copy">
-              Create your Aligned Financials account so the same workspace can sync across your machines.
+              Create your login to start using the workspace on this machine.
             </p>
             <form id="setupForm" class="form-grid auth-form">
               <label>
-                <span>Username</span>
+                <span>Email</span>
                 <input name="username" type="text" autocomplete="username">
               </label>
               <label>
-                <span>Password</span>
+                <span class="field-head">
+                  <span>Password</span>
+                  <span class="field-actions">
+                    <button class="field-copy" type="button" data-reveal-field="setup:password">Show</button>
+                  </span>
+                </span>
                 <input name="password" type="password" autocomplete="new-password">
               </label>
               <label class="full-span">
-                <span>Confirm password</span>
+                <span class="field-head">
+                  <span>Confirm password</span>
+                  <span class="field-actions">
+                    <button class="field-copy" type="button" data-reveal-field="setup:confirmPassword">Show</button>
+                  </span>
+                </span>
                 <input name="confirmPassword" type="password" autocomplete="new-password">
               </label>
             </form>
@@ -47,18 +57,23 @@
           </div>
 
           <div id="loginCard" class="auth-mode hidden">
-            <p class="section-kicker">Sign in</p>
+            <p class="section-kicker">Log in</p>
             <h2>Open workspace</h2>
             <p class="auth-copy">
-              Sign in with your Aligned Financials account to unlock the encrypted workspace.
+              Log in with your email and password to open the workspace.
             </p>
             <form id="loginForm" class="form-grid auth-form">
               <label>
-                <span>Username</span>
+                <span>Email</span>
                 <input name="username" type="text" autocomplete="username">
               </label>
               <label>
-                <span>Password</span>
+                <span class="field-head">
+                  <span>Password</span>
+                  <span class="field-actions">
+                    <button class="field-copy" type="button" data-reveal-field="login:password">Show</button>
+                  </span>
+                </span>
                 <input name="password" type="password" autocomplete="current-password">
               </label>
             </form>
@@ -88,12 +103,10 @@
           <button id="companiesButton" class="nav-chip">Companies</button>
           <button id="selfEmployedButton" class="nav-chip">Self Employed</button>
           <button id="settingsButton" class="nav-chip">Settings</button>
-          <button id="logoutButton" class="nav-chip nav-chip-alert">Lock</button>
+          <button id="logoutButton" class="nav-chip nav-chip-alert">Log out</button>
         </nav>
 
         <div class="topbar-meta">
-          <p class="data-label">Recovered source</p>
-          <p id="zipPath" class="data-value">Loading...</p>
           <p id="activeUser" class="topbar-user"></p>
         </div>
       </header>
@@ -101,10 +114,9 @@
       <section class="masthead">
         <div class="brand-block">
           <p class="brand-kicker">Aligned Operating Desk</p>
-          <h2>High-trust client accounting, rebuilt as a single private workspace.</h2>
+          <h2>Client records, workflow, and bank imports in one place.</h2>
           <p class="brand-copy">
-            Open the home desk for your full picture, jump into a client in one click, and keep
-            company, sole trader, archive, statement, and compliance data together in one place.
+            Open a company fast, update the details you need, and keep day-to-day client work tidy.
           </p>
           <div class="masthead-actions">
             <button id="mastheadHomeButton" class="action-chip">Open home</button>
@@ -114,9 +126,8 @@
 
         <div class="brand-mark-card">
           <img src="images/aligned-financials-logo.png" alt="Aligned Financials logo" class="brand-image logo-blend brand-showcase-image">
-          <p id="generatedAt" class="data-meta"></p>
           <p class="storage-note">
-            This build keeps an encrypted desktop cache and can sync the same workspace across multiple machines through Supabase when configured.
+            Built for everyday client admin, workflow tracking, and fresh bank imports.
           </p>
         </div>
       </section>
@@ -149,14 +160,13 @@
             <section class="home-hero glass-card">
               <div class="home-copy">
                 <p class="section-kicker">Home</p>
-                <h2>Aligned Financials control centre</h2>
+                <h2>Open the next piece of work.</h2>
                 <p>
-                  Use this home desk to move between companies, self employed records, bank imports,
-                  and current rebuild work without losing context.
+                  Jump straight into a company, self employed record, bank import, or settings.
                 </p>
               </div>
               <div class="home-actions">
-                <button id="quickOpenCompanyButton" class="action-chip">Open first company</button>
+                <button id="quickOpenCompanyButton" class="action-chip">Open company</button>
                 <button id="quickOpenSelfButton" class="action-chip subtle">Open self employed</button>
               </div>
             </section>
@@ -164,21 +174,21 @@
             <section class="editor-grid">
               <article class="glass-card">
                 <div class="card-head">
-                  <p class="section-kicker">Workspace focus</p>
-                  <h3>What this software does</h3>
+                  <p class="section-kicker">Daily desk</p>
+                  <h3>Main work areas</h3>
                 </div>
                 <div class="notes-stack">
                   <article class="note-card">
-                    <h4>Client management</h4>
-                    <p>Store legal details, tax references, workflow status, deadlines, and imported files per record.</p>
+                    <h4>Companies</h4>
+                    <p>Open a company record, update the details, and keep the workflow moving.</p>
                   </article>
                   <article class="note-card">
-                    <h4>Bank statement handling</h4>
-                    <p>Import CSV statements per company, auto-sort money in and money out, and review categorized transaction lines.</p>
+                    <h4>Self employed</h4>
+                    <p>Keep sole trader records separate and easy to find when you need them.</p>
                   </article>
                   <article class="note-card">
-                    <h4>Personal operating software</h4>
-                    <p>This is being shaped as a private Aligned Financials operating system with sync, workflow tracking, and structured client control.</p>
+                    <h4>Bank imports</h4>
+                    <p>Add fresh statements and review the imported lines for the selected client.</p>
                   </article>
                 </div>
               </article>
@@ -186,33 +196,28 @@
               <article class="glass-card">
                 <div class="card-head">
                   <p class="section-kicker">Quick routes</p>
-                  <h3>Main navigation</h3>
+                  <h3>Open a section</h3>
                 </div>
                 <div class="quick-grid">
                   <button id="homeRouteCompanies" class="quick-card">
                     <span class="quick-label">Companies</span>
-                    <strong>Open company workspace</strong>
-                    <span>Go straight to the limited company desk and select a client.</span>
+                    <strong>Open a company</strong>
+                    <span>Go straight to the company workspace.</span>
                   </button>
                   <button id="homeRouteSelf" class="quick-card">
                     <span class="quick-label">Self employed</span>
-                    <strong>Open sole trader records</strong>
-                    <span>Jump to personal profiles and keep them separate from company accounts.</span>
+                    <strong>Open a sole trader</strong>
+                    <span>Jump to personal records.</span>
                   </button>
                   <button id="homeRouteImport" class="quick-card">
                     <span class="quick-label">Bank import</span>
-                    <strong>Import statement CSVs</strong>
-                    <span>Go directly to the bank import view for the selected company.</span>
-                  </button>
-                  <button id="homeRouteYears" class="quick-card">
-                    <span class="quick-label">Years</span>
-                    <strong>Review imported years</strong>
-                    <span>Open the yearly archive view to see file coverage, rows, and activity by accounting year.</span>
+                    <strong>Import a statement</strong>
+                    <span>Open the bank import view for the selected company.</span>
                   </button>
                   <button id="homeRouteSettings" class="quick-card">
                     <span class="quick-label">Settings</span>
-                    <strong>Manage security</strong>
-                    <span>Manage security, storage direction, and the path toward shared access across machines.</span>
+                    <strong>Open settings</strong>
+                    <span>Check password, storage, and sync status.</span>
                   </button>
                 </div>
               </article>
@@ -329,11 +334,11 @@
                   </article>
                   <article class="note-card">
                     <h4>Works with Xero-led accounting</h4>
-                    <p>This setup is focused on client administration, archive tracking, and statement intake rather than bookkeeping inside the app.</p>
+                    <p>This setup is focused on client administration, workflow tracking, and statement intake rather than bookkeeping inside the app.</p>
                   </article>
                   <article class="note-card">
                     <h4>Expandable later</h4>
-                    <p>You can fill in gateway details, deadlines, bank labels, and archive notes after the company is created.</p>
+                    <p>You can fill in gateway details, deadlines, bank labels, and onboarding notes after the company is created.</p>
                   </article>
                 </div>
               </article>
@@ -461,6 +466,7 @@
               <div class="entity-actions">
                 <p id="companySaveState" class="save-state" aria-live="polite"></p>
                 <button class="action-chip subtle home-link-button" type="button">Back to home</button>
+                <button id="archiveCompanyButton" class="action-chip subtle" type="button">Archive company</button>
                 <button id="saveCompanyButton" class="action-chip">Save company</button>
                 <button id="resetCompanyButton" class="action-chip subtle">Reset view</button>
               </div>
@@ -469,8 +475,10 @@
             <nav class="module-tabs" aria-label="Company modules">
               <button class="tab active" data-view="company-overview">Overview</button>
               <button class="tab" data-view="company-details">Details</button>
-              <button class="tab" data-view="company-years">Years</button>
               <button class="tab" data-view="company-bank-import">Bank Import</button>
+              <button class="tab" data-view="company-chart">Chart of Accounts</button>
+              <button class="tab" data-view="company-vat-report">VAT Report</button>
+              <button class="tab" data-view="company-balance-sheet">Balance Sheet</button>
               <button class="tab" data-view="company-notes">Notes</button>
             </nav>
 
@@ -595,36 +603,36 @@
                       <input name="registrationCountry" type="text">
                     </label>
                     <label>
-                      <span>VAT registration</span>
-                      <input name="vatRegistration" type="text">
+                      <span class="field-head"><span>VAT registration</span><span class="field-actions"><button class="field-copy" type="button" data-reveal-field="company:vatRegistration">Show</button><button class="field-copy" type="button" data-copy-field="company:vatRegistration">Copy</button></span></span>
+                      <input name="vatRegistration" type="password">
                     </label>
                     <label>
                       <span>VAT scheme</span>
                       <input name="vatScheme" type="text">
                     </label>
                     <label>
-                      <span>Company UTR</span>
-                      <input name="utr" type="text">
+                      <span class="field-head"><span>Company UTR</span><span class="field-actions"><button class="field-copy" type="button" data-reveal-field="company:utr">Show</button><button class="field-copy" type="button" data-copy-field="company:utr">Copy</button></span></span>
+                      <input name="utr" type="password">
                     </label>
                     <label>
-                      <span>PAYE reference</span>
-                      <input name="payeReference" type="text">
+                      <span class="field-head"><span>PAYE reference</span><span class="field-actions"><button class="field-copy" type="button" data-reveal-field="company:payeReference">Show</button><button class="field-copy" type="button" data-copy-field="company:payeReference">Copy</button></span></span>
+                      <input name="payeReference" type="password">
                     </label>
                     <label>
-                      <span>Account office reference</span>
-                      <input name="accountOfficeReference" type="text">
+                      <span class="field-head"><span>Account office reference</span><span class="field-actions"><button class="field-copy" type="button" data-reveal-field="company:accountOfficeReference">Show</button><button class="field-copy" type="button" data-copy-field="company:accountOfficeReference">Copy</button></span></span>
+                      <input name="accountOfficeReference" type="password">
                     </label>
                     <label>
-                      <span>Companies House code</span>
-                      <input name="companiesHouseCode" type="text">
+                      <span class="field-head"><span>Companies House code</span><span class="field-actions"><button class="field-copy" type="button" data-reveal-field="company:companiesHouseCode">Show</button><button class="field-copy" type="button" data-copy-field="company:companiesHouseCode">Copy</button></span></span>
+                      <input name="companiesHouseCode" type="password">
                     </label>
                     <label>
-                      <span>Government gateway ID</span>
-                      <input name="gatewayId" type="text">
+                      <span class="field-head"><span>Government gateway ID</span><span class="field-actions"><button class="field-copy" type="button" data-reveal-field="company:gatewayId">Show</button><button class="field-copy" type="button" data-copy-field="company:gatewayId">Copy</button></span></span>
+                      <input name="gatewayId" type="password">
                     </label>
                     <label>
-                      <span>Government gateway password</span>
-                      <input name="gatewayPassword" type="text">
+                      <span class="field-head"><span>Government gateway password</span><span class="field-actions"><button class="field-copy" type="button" data-reveal-field="company:gatewayPassword">Show</button><button class="field-copy" type="button" data-copy-field="company:gatewayPassword">Copy</button></span></span>
+                      <input name="gatewayPassword" type="password">
                     </label>
                     <label>
                       <span>Bank accounts</span>
@@ -644,10 +652,10 @@
                 <article class="glass-card">
                   <div class="card-head">
                     <p class="section-kicker">Context</p>
-                    <h3>Imported file coverage</h3>
+                    <h3>Fresh operating record</h3>
                   </div>
                   <div class="note-card stack-card">
-                    <h4>Recovered file batches</h4>
+                    <h4>Current client profile</h4>
                     <p id="companyImportSummary"></p>
                   </div>
                   <div class="note-card stack-card">
@@ -655,31 +663,6 @@
                     <p id="companyStatusSummary"></p>
                   </div>
                 </article>
-              </section>
-            </section>
-
-            <section class="view-panel hidden" id="company-years">
-              <section class="glass-card">
-                <div class="card-head">
-                  <p class="section-kicker">Archive years</p>
-                  <h3>Imported years overview</h3>
-                </div>
-                <p class="workflow-summary" id="yearsSummary"></p>
-                <div class="table-scroll">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Year</th>
-                        <th>File batches</th>
-                        <th>Rows</th>
-                        <th>First trace</th>
-                        <th>Last trace</th>
-                        <th>Net</th>
-                      </tr>
-                    </thead>
-                    <tbody id="yearsTableBody"></tbody>
-                  </table>
-                </div>
               </section>
             </section>
 
@@ -707,12 +690,8 @@
                       <p>Update fields in any tab, then click `Save company` to persist the record locally.</p>
                     </article>
                     <article class="note-card">
-                      <h4>Years view</h4>
-                      <p>Imported file batches are condensed into year-level summaries so you can review archive coverage before posting anything into Xero.</p>
-                    </article>
-                    <article class="note-card">
                       <h4>Source-safe rebuild</h4>
-                      <p>Sensitive credentials from the legacy product are not auto-filled here. Add them only if you explicitly want them in this local browser record.</p>
+                      <p>Legacy credentials, HMRC references, and deadlines can live in this workspace with reveal and quick-copy controls when you need them.</p>
                     </article>
                   </div>
                 </article>
@@ -720,8 +699,8 @@
             </section>
 
             <section class="view-panel hidden" id="company-bank-import">
-              <section class="editor-grid details-layout">
-                <article class="glass-card">
+              <section class="editor-grid details-layout bank-import-layout">
+                <article class="glass-card bank-import-card">
                   <div class="card-head">
                     <p class="section-kicker">Bank statements</p>
                     <h3>Import statement CSV</h3>
@@ -731,10 +710,14 @@
                       <span>Bank account label</span>
                       <input id="bankAccountLabel" type="text" placeholder="HSBC GBP current account">
                     </label>
-                    <label>
+                    <div class="file-field full-span">
                       <span>Statement CSV file</span>
-                      <input id="bankStatementFile" type="file" accept=".csv,text/csv">
-                    </label>
+                      <label for="bankStatementFile" class="file-picker">
+                        <span class="file-picker-button">Choose CSV</span>
+                        <span id="bankStatementFileName" class="file-picker-name">No file selected</span>
+                      </label>
+                      <input id="bankStatementFile" class="file-input" type="file" accept=".csv,text/csv">
+                    </div>
                     <label class="full-span">
                       <span>Import notes</span>
                       <textarea id="bankImportNotes" rows="3" placeholder="Optional note about this statement import"></textarea>
@@ -746,7 +729,7 @@
                   </div>
                 </article>
 
-                <article class="glass-card">
+                <article class="glass-card bank-summary-card">
                   <div class="card-head">
                     <p class="section-kicker">Auto sorting</p>
                     <h3>Money in and money out</h3>
@@ -765,13 +748,89 @@
                 </article>
               </section>
 
-              <section class="glass-card statement-library">
+              <section class="glass-card statement-library bank-library-card">
                 <div class="card-head">
                   <p class="section-kicker">Imported library</p>
                   <h3>Company bank statements</h3>
                 </div>
                 <p id="bankImportEmpty" class="workflow-summary"></p>
                 <div id="bankStatementList" class="statement-list"></div>
+              </section>
+            </section>
+
+            <section class="view-panel hidden" id="company-chart">
+              <section class="editor-grid">
+                <article class="glass-card">
+                  <div class="card-head">
+                    <p class="section-kicker">Accounting</p>
+                    <h3>Working chart of accounts</h3>
+                  </div>
+                  <p id="companyChartSummary" class="workflow-summary"></p>
+                  <div class="table-scroll">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Code</th>
+                          <th>Account</th>
+                          <th>Type</th>
+                          <th>Debit</th>
+                          <th>Credit</th>
+                          <th>Balance</th>
+                        </tr>
+                      </thead>
+                      <tbody id="companyChartTableBody"></tbody>
+                    </table>
+                  </div>
+                </article>
+
+                <article class="glass-card">
+                  <div class="card-head">
+                    <p class="section-kicker">Review</p>
+                    <h3>Posting notes</h3>
+                  </div>
+                  <div id="companyChartNotes" class="notes-stack"></div>
+                </article>
+              </section>
+            </section>
+
+            <section class="view-panel hidden" id="company-vat-report">
+              <section class="editor-grid">
+                <article class="glass-card">
+                  <div class="card-head">
+                    <p class="section-kicker">Tax</p>
+                    <h3>VAT working report</h3>
+                  </div>
+                  <div id="companyVatCards" class="metric-grid"></div>
+                </article>
+
+                <article class="glass-card">
+                  <div class="card-head">
+                    <p class="section-kicker">VAT notes</p>
+                    <h3>Period position</h3>
+                  </div>
+                  <div id="companyVatNotes" class="notes-stack"></div>
+                </article>
+              </section>
+            </section>
+
+            <section class="view-panel hidden" id="company-balance-sheet">
+              <section class="editor-grid">
+                <article class="glass-card">
+                  <div class="card-head">
+                    <p class="section-kicker">Financials</p>
+                    <h3>Working balance sheet</h3>
+                  </div>
+                  <p id="companyBalanceSummary" class="workflow-summary"></p>
+                  <div class="detail-grid dual-balance" id="companyBalanceSheet"></div>
+                </article>
+
+                <article class="glass-card">
+                  <div class="card-head">
+                    <p class="section-kicker">Position</p>
+                    <h3>Balance sheet notes</h3>
+                  </div>
+                  <div id="companyBalanceNotes" class="notes-stack"></div>
+                </article>
               </section>
             </section>
           </div>
@@ -786,6 +845,7 @@
               <div class="entity-actions">
                 <p id="personSaveState" class="save-state" aria-live="polite"></p>
                 <button class="action-chip subtle home-link-button" type="button">Back to home</button>
+                <button id="archivePersonButton" class="action-chip subtle" type="button">Archive person</button>
                 <button id="savePersonButton" class="action-chip">Save person</button>
                 <button id="resetPersonButton" class="action-chip subtle">Reset view</button>
               </div>
@@ -807,12 +867,12 @@
                     <input name="tradingName" type="text">
                   </label>
                   <label>
-                    <span>UTR</span>
-                    <input name="utr" type="text">
+                    <span class="field-head"><span>UTR</span><span class="field-actions"><button class="field-copy" type="button" data-reveal-field="person:utr">Show</button><button class="field-copy" type="button" data-copy-field="person:utr">Copy</button></span></span>
+                    <input name="utr" type="password">
                   </label>
                   <label>
-                    <span>NINO</span>
-                    <input name="nino" type="text">
+                    <span class="field-head"><span>NINO</span><span class="field-actions"><button class="field-copy" type="button" data-reveal-field="person:nino">Show</button><button class="field-copy" type="button" data-copy-field="person:nino">Copy</button></span></span>
+                    <input name="nino" type="password">
                   </label>
                   <label>
                     <span>Date of birth</span>
@@ -823,12 +883,12 @@
                     <input name="nationality" type="text">
                   </label>
                   <label>
-                    <span>Gateway ID</span>
-                    <input name="gatewayId" type="text">
+                    <span class="field-head"><span>Gateway ID</span><span class="field-actions"><button class="field-copy" type="button" data-reveal-field="person:gatewayId">Show</button><button class="field-copy" type="button" data-copy-field="person:gatewayId">Copy</button></span></span>
+                    <input name="gatewayId" type="password">
                   </label>
                   <label>
-                    <span>Gateway password</span>
-                    <input name="gatewayPassword" type="text">
+                    <span class="field-head"><span>Gateway password</span><span class="field-actions"><button class="field-copy" type="button" data-reveal-field="person:gatewayPassword">Show</button><button class="field-copy" type="button" data-copy-field="person:gatewayPassword">Copy</button></span></span>
+                    <input name="gatewayPassword" type="password">
                   </label>
                   <label class="full-span">
                     <span>Address</span>
@@ -868,7 +928,7 @@
               <article class="glass-card">
                 <div class="card-head">
                   <p class="section-kicker">Security</p>
-                  <h3>Change local password</h3>
+                  <h3>Password</h3>
                 </div>
                 <form id="changePasswordForm" class="form-grid">
                   <label>
@@ -895,30 +955,45 @@
 
               <article class="glass-card">
                 <div class="card-head">
-                  <p class="section-kicker">Storage</p>
-                  <h3>Sync and recovery</h3>
+                  <p class="section-kicker">Workspace</p>
+                  <h3>Storage and sync</h3>
                 </div>
                 <div class="notes-stack">
                   <article class="note-card">
-                    <h4>Current mode</h4>
-                    <p id="storageModeText">Client records, self employed profiles, archive notes, and bank statement imports are stored in an encrypted local desktop file.</p>
+                    <h4>Storage</h4>
+                    <p id="storageModeText">Client records, self employed profiles, notes, and bank statement imports are stored in an encrypted local desktop file.</p>
                   </article>
                   <article class="note-card">
-                    <h4>Sync status</h4>
+                    <h4>Status</h4>
                     <p id="syncStatusText">Sync status will appear here after sign-in.</p>
-                  </article>
-                  <article class="note-card">
-                    <h4>Supabase guidance</h4>
-                    <p id="supabaseGuideText">Use Supabase Auth with the public anon key in the desktop app, keep RLS enabled, and keep the encrypted local cache as the fallback.</p>
-                  </article>
-                  <article class="note-card">
-                    <h4>Sync actions</h4>
-                    <div class="sync-actions">
-                      <button id="syncNowButton" class="action-chip" type="button">Sync now</button>
-                      <button id="reloadRemoteButton" class="action-chip subtle" type="button">Reload cloud copy</button>
-                      <button id="overwriteRemoteButton" class="action-chip subtle hidden" type="button">Overwrite cloud with this copy</button>
-                    </div>
                     <p id="syncConflictText" class="workflow-summary"></p>
+                  </article>
+                  <article class="note-card">
+                    <h4>Sync</h4>
+                    <p id="supabaseGuideText">Changes save automatically. The local encrypted cache stays in place as backup.</p>
+                    <div class="sync-actions">
+                      <button id="reloadRemoteButton" class="action-chip subtle" type="button">Reload latest</button>
+                      <button id="overwriteRemoteButton" class="action-chip subtle hidden" type="button">Use this copy</button>
+                    </div>
+                  </article>
+                </div>
+              </article>
+
+              <article class="glass-card">
+                <div class="card-head">
+                  <p class="section-kicker">Archive</p>
+                  <h3>Archived records</h3>
+                </div>
+                <div class="notes-stack archive-stack">
+                  <article class="note-card">
+                    <h4>Companies</h4>
+                    <p id="archivedCompanyEmpty" class="workflow-summary"></p>
+                    <div id="archivedCompanyList" class="archive-list"></div>
+                  </article>
+                  <article class="note-card">
+                    <h4>Self employed</h4>
+                    <p id="archivedPersonEmpty" class="workflow-summary"></p>
+                    <div id="archivedPersonList" class="archive-list"></div>
                   </article>
                 </div>
               </article>
