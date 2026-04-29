@@ -568,6 +568,17 @@ function normalizeUpdateState(payload) {
   };
 }
 
+function getUpdateStatusLabel(updater) {
+  if (updater.updateDownloaded) return "Update ready to install";
+  if (updater.status === "downloading") return "Downloading update";
+  if (updater.status === "checking" || updater.checking) return "Checking for updates";
+  if (updater.status === "up-to-date") return "Up to date";
+  if (updater.status === "disabled") return "Updates unavailable in this mode";
+  if (updater.status === "error") return "Update check unavailable";
+  if (updater.updateAvailable) return "Update available";
+  return "Ready to check for updates";
+}
+
 function isSensitiveFieldName(fieldName) {
   return SENSITIVE_FIELD_NAMES.has(String(fieldName || ""));
 }
@@ -620,16 +631,13 @@ function refreshAboutSurface() {
   }
 
   if (elements.updateStatusText) {
-    elements.updateStatusText.textContent = updater.message;
+    elements.updateStatusText.textContent = getUpdateStatusLabel(updater);
   }
 
   if (elements.updateDetailText) {
-    const details = [];
-    if (updater.availableVersion) details.push(`Available: ${updater.availableVersion}`);
-    if (updater.downloadedVersion) details.push(`Ready: ${updater.downloadedVersion}`);
-    if (updater.percent && updater.status === "downloading") details.push(`Downloaded ${updater.percent}%`);
-    if (updater.lastCheckedAt) details.push(`Last checked ${formatDateTime(updater.lastCheckedAt)}`);
-    elements.updateDetailText.textContent = details.join(" | ") || "No update check has completed in this session yet.";
+    elements.updateDetailText.textContent = updater.lastCheckedAt
+      ? `Last checked ${formatDateTime(updater.lastCheckedAt)}`
+      : "No update check has completed yet.";
   }
 
   if (elements.configPathText) {
