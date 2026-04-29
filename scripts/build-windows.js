@@ -23,7 +23,14 @@ if (!fs.existsSync(builder)) {
   process.exit(1);
 }
 
-const child = spawn(builder, args, {
+const command = process.platform === "win32"
+  ? "cmd.exe"
+  : builder;
+const spawnArgs = process.platform === "win32"
+  ? ["/c", builder, ...args]
+  : args;
+
+const child = spawn(command, spawnArgs, {
   cwd: root,
   env,
   stdio: "inherit",
