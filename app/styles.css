@@ -812,7 +812,7 @@ textarea {
 }
 
 #settingsPanel .details-layout {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: start;
   gap: 14px;
 }
@@ -853,10 +853,7 @@ textarea {
 }
 
 #settingsPanel .note-card {
-  display: grid;
-  grid-template-columns: 130px minmax(0, 1fr);
-  gap: 6px 14px;
-  align-items: start;
+  display: block;
   padding: 12px 14px;
   border-radius: 14px;
 }
@@ -890,26 +887,16 @@ textarea {
 
 #settingsPanel .note-card p,
 #settingsPanel .note-card .workflow-summary {
-  margin: 0;
-}
-
-#settingsPanel .sync-actions,
-#settingsPanel .note-card .archive-list {
-  grid-column: 2;
+  margin: 6px 0 0;
 }
 
 #settingsPanel .sync-actions {
   gap: 8px;
-  margin-top: 2px;
+  margin-top: 10px;
 }
 
 #settingsPanel .archive-stack {
   gap: 10px;
-}
-
-#settingsPanel .archive-stack > .note-card,
-#settingsPanel .audit-log-card {
-  grid-template-columns: 1fr;
 }
 
 #settingsPanel .archive-stack > .note-card h4,
@@ -924,7 +911,7 @@ textarea {
 
 #settingsPanel .glass-card:last-child,
 #settingsPanel .glass-card:nth-last-child(2) {
-  grid-column: span 3;
+  grid-column: span 2;
 }
 
 .home-panel {
@@ -1856,12 +1843,12 @@ button:disabled {
   }
 
   #settingsPanel .details-layout {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
   }
 
   #settingsPanel .glass-card:last-child,
   #settingsPanel .glass-card:nth-last-child(2) {
-    grid-column: span 2;
+    grid-column: span 1;
   }
 }
 
@@ -1906,15 +1893,6 @@ button:disabled {
   #settingsPanel .glass-card:nth-last-child(2) {
     grid-template-columns: 1fr;
     grid-column: span 1;
-  }
-
-  #settingsPanel .note-card {
-    grid-template-columns: 1fr;
-  }
-
-  #settingsPanel .sync-actions,
-  #settingsPanel .note-card .archive-list {
-    grid-column: 1;
   }
 
   .statement-head {
