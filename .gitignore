@@ -4,3 +4,5 @@ data/extracted/
 node_modules/
 dist/
 .env
+.secrets/*.json
+!.secrets/*.example.json

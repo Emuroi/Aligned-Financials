@@ -28,6 +28,7 @@ Important:
 
 - `.env` is ignored by git and should stay local to each machine
 - `.env.example` should only contain placeholders, never live project values
+- Installed desktop builds read an external `.env` instead of bundling secrets into the app package
 
 ## 2. Turn on email and password sign-in
 

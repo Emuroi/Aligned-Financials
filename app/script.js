@@ -37,527 +37,7 @@ const COMPANY_DIRECTORY_NAMES = {
   "12776349": "RCKY Limited",
 };
 
-const LEGACY_PROFILES = {
-  "08564152": {
-    displayName: "Urban Management Solutions Limited",
-    legalName: "Urban Management Solutions Limited",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "11.06.2013",
-    registrationCountry: "England",
-    vatRegistration: "316543708",
-    vatScheme: "Cash Quarterly",
-    bankAccount: "HSBC (GBP)",
-    address: "3 Bailey Mews, London, England, W4 3PZ",
-    industries: "62090 - Other information technology service activities\n78109 - Other activities of employment placement agencies",
-    utr: "623/7325306396",
-    payeReference: "",
-    accountOfficeReference: "",
-    companiesHouseCode: "",
-    gatewayId: "565964467335",
-    gatewayPassword: "Spetrova47m",
-    deadlines: {
-      vatDue: "",
-      yearEnd: "",
-      confirmation: "",
-      accountsDue: "",
-    },
-    generalNotes: "",
-  },
-  "12011913": {
-    displayName: "Mooseberry Tech Ltd",
-    legalName: "Mooseberry Tech Ltd",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "22.05.2019",
-    registrationCountry: "England",
-    vatRegistration: "327642007",
-    vatScheme: "Cash Quarterly",
-    bankAccount: "Barclays savings account (GBP)\nBarclays (GBP)",
-    address: "9 Marina Place\nOld Bridge St\nHampton Wick\nUnited Kingdom\nKT1 4BH",
-    industries: "62020 - Information technology consultancy activities",
-    utr: "623/7991827431",
-    payeReference: "120/ZE01863",
-    accountOfficeReference: "120PE01934246",
-    companiesHouseCode: "DKEGL3",
-    gatewayId: "167734964362",
-    gatewayPassword: "Adriana1985",
-    deadlines: {
-      vatDue: "",
-      yearEnd: "",
-      confirmation: "",
-      accountsDue: "",
-    },
-    generalNotes: "",
-  },
-  "10534265": {
-    displayName: "Malja Construction Limited",
-    legalName: "Malja Construction Limited",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "21.12.2016",
-    registrationCountry: "England",
-    vatRegistration: "",
-    vatScheme: "Not set",
-    bankAccount: "HSBC savings account (GBP)\nHSBC (GBP)",
-    address: "3 Bailey Mews\nLondon\nUnited Kingdom\nW4 3PZ",
-    industries: "43110 - Demolition\n43290 - Other construction installation\n43390 - Other building completion and finishing",
-    utr: "",
-    payeReference: "",
-    accountOfficeReference: "",
-    companiesHouseCode: "",
-    gatewayId: "",
-    gatewayPassword: "",
-    deadlines: {
-      vatDue: "",
-      yearEnd: "",
-      confirmation: "",
-      accountsDue: "",
-    },
-    generalNotes: "",
-  },
-  "11239133": {
-    displayName: "Axiv Limited",
-    legalName: "Axiv Limited",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "07.03.2018",
-    registrationCountry: "England",
-    vatRegistration: "",
-    vatScheme: "Not set",
-    bankAccount: "",
-    address: "3 Conolly Road\nLondon\nEngland\nW7 3JW",
-    industries: "59112 - Video production activities",
-    utr: "623/2529107302",
-    payeReference: "120/ZB83450",
-    accountOfficeReference: "120PZ01697673",
-    companiesHouseCode: "A45204",
-    gatewayId: "772362822984",
-    gatewayPassword: "Terziev1980",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "12707615": {
-    displayName: "Radi Group Limited",
-    legalName: "Radi Group Limited",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "30.06.2020",
-    registrationCountry: "England",
-    vatRegistration: "",
-    vatScheme: "Not set",
-    bankAccount: "Lloyds (GBP)\nMetro Bank current account (GBP)",
-    address: "441a Uxbridge Road\nSouthall\nEngland\nUB1 3ET",
-    industries: "81299 - Other cleaning services",
-    utr: "623/1273927823",
-    payeReference: "120/GE40713",
-    accountOfficeReference: "120PD02526914",
-    companiesHouseCode: "Y699P9",
-    gatewayId: "902257073940",
-    gatewayPassword: "dinkov2007",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "12708357": {
-    displayName: "Stef Group Limited",
-    legalName: "Stef Group Limited",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "30.06.2020",
-    registrationCountry: "England",
-    vatRegistration: "",
-    vatScheme: "Not set",
-    bankAccount: "Lloyds (GBP)",
-    address: "441a Uxbridge Road\nSouthall\nEngland\nUB1 3ET",
-    industries: "81299 - Other cleaning services",
-    utr: "623/4635100935",
-    payeReference: "475/LE66860",
-    accountOfficeReference: "475PQ01678440",
-    companiesHouseCode: "UD2K2D",
-    gatewayId: "644245942540",
-    gatewayPassword: "stoyanov2007",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "12883607": {
-    displayName: "Valentinom Ltd",
-    legalName: "Valentinom Ltd",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "16.09.2020",
-    registrationCountry: "England",
-    vatRegistration: "413083139",
-    vatScheme: "Cash Quarterly",
-    bankAccount: "Tide (GBP)",
-    address: "3 Conolly Road\nLondon\nEngland\nW7 3JW",
-    industries: "43390 - Other building completion and finishing\n43999 - Other specialised construction activities not elsewhere classified\n81210 - General cleaning of buildings\n81221 - Window cleaning services",
-    utr: "623/1468117533",
-    payeReference: "475/AE20988",
-    accountOfficeReference: "475PL01542853",
-    companiesHouseCode: "XYM2QD",
-    gatewayId: "733361022473",
-    gatewayPassword: "valentin2007",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "13466441": {
-    displayName: "NBNG Ltd",
-    legalName: "NBNG Ltd",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "20.06.2021",
-    registrationCountry: "England",
-    vatRegistration: "466574551",
-    vatScheme: "Cash Quarterly",
-    bankAccount: "",
-    address: "107 Alexander Square\nEastleigh\nEngland\nSO50 4BX",
-    industries: "49410 - Freight transport by road\n52290 - Other transportation support activities",
-    utr: "623/3184115855",
-    payeReference: "120/SE59901",
-    accountOfficeReference: "120PJ02861611",
-    companiesHouseCode: "CHGXCP",
-    gatewayId: "997701879336",
-    gatewayPassword: "TSVETOMIR@NBNGLTD",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "13699791": {
-    displayName: "Automed Ltd",
-    legalName: "Automed Ltd",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "23.10.2021",
-    registrationCountry: "England",
-    vatRegistration: "",
-    vatScheme: "Not set",
-    bankAccount: "",
-    address: "68 George Street\nWeston-Super-Mare\nEngland\nBS23 3AS",
-    industries: "45112 - Sale of used cars and light motor vehicles\n45200 - Maintenance and repair of motor vehicles",
-    utr: "623/5936228962",
-    payeReference: "120/KE89885",
-    accountOfficeReference: "120PZ03384914",
-    companiesHouseCode: "62GCYF",
-    gatewayId: "373474152574",
-    gatewayPassword: "Rado_850928.",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "13995186": {
-    displayName: "Denev Limited",
-    legalName: "Denev Limited",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "22.03.2022",
-    registrationCountry: "England",
-    vatRegistration: "",
-    vatScheme: "Not set",
-    bankAccount: "Other (not listed) current account (GBP)",
-    address: "3 Bailey Mews\nLondon\nEngland\nW4 3PZ",
-    industries: "49410 - Freight transport by road",
-    utr: "623/5353812435",
-    payeReference: "120/YE49600",
-    accountOfficeReference: "120PD02680522",
-    companiesHouseCode: "TU68X3",
-    gatewayId: "196724926567",
-    gatewayPassword: "plamenov2007",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "14185697": {
-    displayName: "Yellow Stone Technologies Ltd",
-    legalName: "Yellow Stone Technologies Ltd",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "21.06.2022",
-    registrationCountry: "England",
-    vatRegistration: "417743781",
-    vatScheme: "Cash Quarterly",
-    bankAccount: "HSBC current account (GBP)\nTide current account (GBP)",
-    address: "Flat 25 Marie Lloyd House\nMurray Grove\nLondon\nEngland\nN1 7PU",
-    industries: "62020 - Information technology consultancy activities",
-    utr: "623/1122620747",
-    payeReference: "120/SE51007",
-    accountOfficeReference: "120PE02704864",
-    companiesHouseCode: "26M93H",
-    gatewayId: "753216276921",
-    gatewayPassword: "Ghebrat2007",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "14518528": {
-    displayName: "VNS Drivers Limited",
-    legalName: "VNS Drivers Limited",
-    entityType: "Private limited company",
-    companyStatus: "Liquidation",
-    registrationDate: "01.12.2022",
-    registrationCountry: "England",
-    vatRegistration: "437406985",
-    vatScheme: "Cash Quarterly",
-    bankAccount: "Barclays current account (GBP)",
-    address: "C/O Inquesta Corporate Recovery & Insolvency\nSt John's Terrace\n11-15 New Road\nManchester\nM26 1LS",
-    industries: "49410 - Freight transport by road",
-    utr: "623/4312327588",
-    payeReference: "120/TE57964",
-    accountOfficeReference: "120PY02827256",
-    companiesHouseCode: "2RLB2B",
-    gatewayId: "539742550044",
-    gatewayPassword: "Viktorio2007",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "14782597": {
-    displayName: "Choit Ltd",
-    legalName: "Choit Ltd",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "05.04.2023",
-    registrationCountry: "England",
-    vatRegistration: "",
-    vatScheme: "Not set",
-    bankAccount: "",
-    address: "7 Angelica Drive\nBridgwater\nEngland\nTA5 2GL",
-    industries: "47910 - Retail sale via mail order houses or via Internet\n47990 - Other retail sale not in stores, stalls or markets\n56290 - Other food services\n90030 - Artistic creation",
-    utr: "623/4819813959",
-    payeReference: "",
-    accountOfficeReference: "",
-    companiesHouseCode: "YKJ4UG",
-    gatewayId: "380751080981",
-    gatewayPassword: "KOSTADINOVA2007",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "15002181": {
-    displayName: "Croxio Limited",
-    legalName: "Croxio Limited",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "13.07.2023",
-    registrationCountry: "England",
-    vatRegistration: "446851763",
-    vatScheme: "Cash Quarterly",
-    bankAccount: "Other (not listed) current account (GBP)",
-    address: "12 Myrtle Road\nLondon\nEngland\nW3 6EA",
-    industries: "62012 - Business and domestic software development\n62020 - Information technology consultancy activities",
-    utr: "623/8677424387",
-    payeReference: "",
-    accountOfficeReference: "",
-    companiesHouseCode: "D7JHBJ",
-    gatewayId: "892695860030",
-    gatewayPassword: "maitland2007",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "15492410": {
-    displayName: "DZPRO Limited",
-    legalName: "DZPRO Limited",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "15.02.2024",
-    registrationCountry: "England",
-    vatRegistration: "465447859",
-    vatScheme: "Cash Quarterly",
-    bankAccount: "",
-    address: "Flat 1 77 Bath Road\nBridgwater\nUnited Kingdom\nTA6 4PN",
-    industries: "49410 - Freight transport by road",
-    utr: "623/4666429076",
-    payeReference: "",
-    accountOfficeReference: "",
-    companiesHouseCode: "WH66BV",
-    gatewayId: "232309668146",
-    gatewayPassword: "Lgcinema3d",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "15607035": {
-    displayName: "7/8 Delivery Ltd",
-    legalName: "7/8 Delivery Ltd",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "31.03.2024",
-    registrationCountry: "England",
-    vatRegistration: "466490364",
-    vatScheme: "Cash Quarterly",
-    bankAccount: "HSBC (GBP)",
-    address: "50 Princes Street\nIpswich\nEngland\nIP1 1RJ",
-    industries: "49410 - Freight transport by road",
-    utr: "623/4116621702",
-    payeReference: "475/WE78857",
-    accountOfficeReference: "475PM01711086",
-    companiesHouseCode: "U8XKU9",
-    gatewayId: "270760753172",
-    gatewayPassword: "powerboss1980",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "15727305": {
-    displayName: "Nextwave Delivery Ltd",
-    legalName: "Nextwave Delivery Ltd",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "18.05.2024",
-    registrationCountry: "England",
-    vatRegistration: "467630862",
-    vatScheme: "Cash Quarterly",
-    bankAccount: "Other (not listed) current account (GBP)",
-    address: "441a Uxbridge Road\nSouthall\nEngland\nUB1 3ET",
-    industries: "49410 - Freight transport by road",
-    utr: "623/7565601402",
-    payeReference: "",
-    accountOfficeReference: "",
-    companiesHouseCode: "",
-    gatewayId: "389945157378",
-    gatewayPassword: "gutenmorgen",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "15728507": {
-    displayName: "Next Day Ninja Limited",
-    legalName: "Next Day Ninja Limited",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "18.05.2024",
-    registrationCountry: "England",
-    vatRegistration: "467539840",
-    vatScheme: "Cash Quarterly",
-    bankAccount: "Other (not listed) current account (GBP)",
-    address: "30 Spencer Road\nLondon\nEngland\nW4 3SP",
-    industries: "49410 - Freight transport by road",
-    utr: "623/4138721856",
-    payeReference: "120/YF05166",
-    accountOfficeReference: "120PW03668043",
-    companiesHouseCode: "VYB8H9",
-    gatewayId: "553838918419",
-    gatewayPassword: "",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "15805017": {
-    displayName: "GR First Class Clean Ltd",
-    legalName: "GR First Class Clean Ltd",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "26.06.2024",
-    registrationCountry: "England",
-    vatRegistration: "",
-    vatScheme: "Not set",
-    bankAccount: "",
-    address: "441a Uxbridge Road\nSouthall\nEngland\nUB1 3ET",
-    industries: "81210 - General cleaning of buildings",
-    utr: "623/9101113836",
-    payeReference: "120/VE89614",
-    accountOfficeReference: "120PY03379843",
-    companiesHouseCode: "4VPMM7",
-    gatewayId: "648635298471",
-    gatewayPassword: "dinkov2024",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "15969006": {
-    displayName: "Imperial Palace Ltd",
-    legalName: "Imperial Palace Ltd",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "20.09.2024",
-    registrationCountry: "England",
-    vatRegistration: "",
-    vatScheme: "Not set",
-    bankAccount: "",
-    address: "190a Bushey Mill Lane\nWatford\nEngland\nWD24 7PE",
-    industries: "64306 - Activities of real estate investment trusts\n68310 - Real estate agencies\n68320 - Management of real estate on a fee or contract basis",
-    utr: "",
-    payeReference: "",
-    accountOfficeReference: "",
-    companiesHouseCode: "V6TP4M",
-    gatewayId: "",
-    gatewayPassword: "",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "16024660": {
-    displayName: "Berk Logistics Ltd",
-    legalName: "Berk Logistics Ltd",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "17.10.2024",
-    registrationCountry: "England",
-    vatRegistration: "478275152",
-    vatScheme: "Cash Quarterly",
-    bankAccount: "Other (not listed) current account (GBP)",
-    address: "12 Pymmes Close\nLondon\nUnited Kingdom\nN13 4NJ",
-    industries: "49410 - Freight transport by road",
-    utr: "623/2032502642",
-    payeReference: "120/JE87737",
-    accountOfficeReference: "120PK03344972",
-    companiesHouseCode: "LMMR8M",
-    gatewayId: "731966837539",
-    gatewayPassword: "angelov2007",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "16429224": {
-    displayName: "Precision Transport Solutions Ltd",
-    legalName: "Precision Transport Solutions Ltd",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "05.05.2025",
-    registrationCountry: "England",
-    vatRegistration: "",
-    vatScheme: "Not set",
-    bankAccount: "",
-    address: "44 Abingdon Street\nBurnham-On-Sea\nEngland\nTA8 1PJ",
-    industries: "52290 - Other transportation support activities",
-    utr: "",
-    payeReference: "",
-    accountOfficeReference: "",
-    companiesHouseCode: "",
-    gatewayId: "778244435074",
-    gatewayPassword: "jonjodunne2007",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "16521065": {
-    displayName: "Valeri Ltd",
-    legalName: "Valeri Ltd",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "16.06.2025",
-    registrationCountry: "England",
-    vatRegistration: "",
-    vatScheme: "Not set",
-    bankAccount: "",
-    address: "66 Grove Road\nHounslow\nEngland\nTW3 3PT",
-    industries: "96020 - Hairdressing and other beauty treatment",
-    utr: "",
-    payeReference: "120/UE99586",
-    accountOfficeReference: "120PQ03563629",
-    companiesHouseCode: "",
-    gatewayId: "964357931023",
-    gatewayPassword: "dimitrova2007",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-  "12776349": {
-    displayName: "RCKY Limited",
-    legalName: "RCKY Limited",
-    entityType: "Private limited company",
-    companyStatus: "Active",
-    registrationDate: "29.07.2020",
-    registrationCountry: "England",
-    vatRegistration: "354894065",
-    vatScheme: "Cash Quarterly",
-    bankAccount: "",
-    address: "6 Rembrandt Court\nEpsom\nEngland\nKT19 0SB",
-    industries: "53202 - Unlicensed carrier",
-    utr: "623/1701901794",
-    payeReference: "120/BE18163",
-    accountOfficeReference: "120PS02164772",
-    companiesHouseCode: "FE29B4",
-    gatewayId: "534217554883",
-    gatewayPassword: "payrollbonev2025",
-    deadlines: { vatDue: "", yearEnd: "", confirmation: "", accountsDue: "" },
-    generalNotes: "",
-  },
-};
+const LEGACY_PROFILES = window.LEGACY_PROFILES_PUBLIC || {};
 
 const SELF_EMPLOYED_PEOPLE = [
   "Aleksander Borislavov Karakashev",
@@ -600,8 +80,61 @@ const COMPANY_STORAGE_KEY = "aligned-financials-company-records";
 const PERSON_STORAGE_KEY = "aligned-financials-self-employed-records";
 const CUSTOM_COMPANIES_KEY = "aligned-financials-custom-companies";
 const CUSTOM_PEOPLE_KEY = "aligned-financials-custom-people";
+const SETTINGS_STORAGE_KEY = "aligned-financials-settings";
+const AUDIT_LOG_STORAGE_KEY = "aligned-financials-audit-log";
 const LEGACY_AUTH_STORAGE_KEY = "aligned-financials-auth";
 const WIZARD_STEPS = ["identity", "tax", "contacts", "notes"];
+const SENSITIVE_FIELD_NAMES = new Set([
+  "vatRegistration",
+  "utr",
+  "payeReference",
+  "accountOfficeReference",
+  "companiesHouseCode",
+  "gatewayId",
+  "gatewayPassword",
+  "nino",
+  "password",
+  "confirmPassword",
+  "currentPassword",
+  "newPassword",
+]);
+const COMPANY_SECRET_FIELDS = [
+  "vatRegistration",
+  "utr",
+  "payeReference",
+  "accountOfficeReference",
+  "companiesHouseCode",
+  "gatewayId",
+  "gatewayPassword",
+];
+const PERSON_SECRET_FIELDS = [
+  "utr",
+  "nino",
+  "gatewayId",
+  "gatewayPassword",
+];
+const BOOKKEEPING_CATEGORIES = [
+  "Needs review",
+  "Sales income",
+  "Other income",
+  "Tax payment",
+  "Payroll",
+  "Rent",
+  "Software",
+  "Bank charges",
+  "Transfer",
+  "General admin expense",
+];
+const REVIEW_STATUS_OPTIONS = [
+  "needs-review",
+  "review",
+  "ready",
+];
+const ROLE_ACCESS = {
+  owner: 3,
+  staff: 2,
+  viewer: 1,
+};
 
 const state = {
   companies: [],
@@ -610,6 +143,10 @@ const state = {
   selectedPersonId: null,
   companyRecords: {},
   personRecords: {},
+  activeCompanySecrets: {},
+  activeCompanySecretsId: "",
+  activePersonSecrets: {},
+  activePersonSecretsId: "",
   customCompanies: [],
   customPeople: [],
   summary: null,
@@ -623,8 +160,27 @@ const state = {
   syncConflict: false,
   syncMessage: "",
   syncBusy: false,
+  appMeta: null,
+  updateState: null,
   companyWizardStep: "identity",
   personWizardStep: "identity",
+  removeUpdateListener: null,
+  settings: {},
+  auditLog: [],
+  companyFilters: {
+    query: "",
+    status: "all",
+    bookkeeping: "all",
+    archive: "active",
+  },
+  bankFilters: {
+    search: "",
+    review: "all",
+    reconciled: "all",
+  },
+  sessionTimers: {
+    autoLock: 0,
+  },
 };
 
 const currency = new Intl.NumberFormat("en-GB", {
@@ -653,6 +209,9 @@ const elements = {
   zipPath: document.getElementById("zipPath"),
   generatedAt: document.getElementById("generatedAt"),
   companySearch: document.getElementById("companySearch"),
+  companyStatusFilter: document.getElementById("companyStatusFilter"),
+  companyBookkeepingFilter: document.getElementById("companyBookkeepingFilter"),
+  companyArchiveFilter: document.getElementById("companyArchiveFilter"),
   addCompanyButton: document.getElementById("addCompanyButton"),
   companyList: document.getElementById("companyList"),
   addSelfEmployedButton: document.getElementById("addSelfEmployedButton"),
@@ -694,7 +253,23 @@ const elements = {
   settingsPanel: document.getElementById("settingsPanel"),
   changePasswordForm: document.getElementById("changePasswordForm"),
   changePasswordButton: document.getElementById("changePasswordButton"),
+  saveSecuritySettingsButton: document.getElementById("saveSecuritySettingsButton"),
+  autoLockMinutes: document.getElementById("autoLockMinutes"),
+  requirePasswordReveal: document.getElementById("requirePasswordReveal"),
+  permissionRole: document.getElementById("permissionRole"),
+  exportBackupButton: document.getElementById("exportBackupButton"),
+  importBackupButton: document.getElementById("importBackupButton"),
+  backupStatusText: document.getElementById("backupStatusText"),
+  auditEmptyText: document.getElementById("auditEmptyText"),
+  auditLogList: document.getElementById("auditLogList"),
   settingsSaveState: document.getElementById("settingsSaveState"),
+  appVersionText: document.getElementById("appVersionText"),
+  appPackageText: document.getElementById("appPackageText"),
+  updateStatusText: document.getElementById("updateStatusText"),
+  updateDetailText: document.getElementById("updateDetailText"),
+  configPathText: document.getElementById("configPathText"),
+  checkUpdatesButton: document.getElementById("checkUpdatesButton"),
+  installUpdateButton: document.getElementById("installUpdateButton"),
   companyName: document.getElementById("companyName"),
   companyNumber: document.getElementById("companyNumber"),
   saveCompanyButton: document.getElementById("saveCompanyButton"),
@@ -725,15 +300,45 @@ const elements = {
   bankImportSummary: document.getElementById("bankImportSummary"),
   bankImportEmpty: document.getElementById("bankImportEmpty"),
   bankStatementList: document.getElementById("bankStatementList"),
+  bankEntrySearch: document.getElementById("bankEntrySearch"),
+  bankReviewFilter: document.getElementById("bankReviewFilter"),
+  bankReconciledFilter: document.getElementById("bankReconciledFilter"),
   companyGeneralNotes: document.getElementById("companyGeneralNotes"),
   companyChartSummary: document.getElementById("companyChartSummary"),
   companyChartTableBody: document.getElementById("companyChartTableBody"),
   companyChartNotes: document.getElementById("companyChartNotes"),
+  chartPresetSelect: document.getElementById("chartPresetSelect"),
+  mapSalesIncome: document.getElementById("mapSalesIncome"),
+  mapOtherIncome: document.getElementById("mapOtherIncome"),
+  mapTaxPayment: document.getElementById("mapTaxPayment"),
+  mapPayroll: document.getElementById("mapPayroll"),
+  mapRent: document.getElementById("mapRent"),
+  mapSoftware: document.getElementById("mapSoftware"),
+  mapBankCharges: document.getElementById("mapBankCharges"),
+  mapTransfer: document.getElementById("mapTransfer"),
+  mapGeneralAdminExpense: document.getElementById("mapGeneralAdminExpense"),
   companyVatCards: document.getElementById("companyVatCards"),
   companyVatNotes: document.getElementById("companyVatNotes"),
+  vatTreatmentSelect: document.getElementById("vatTreatmentSelect"),
+  vatRateOverride: document.getElementById("vatRateOverride"),
+  vatManualDueOverride: document.getElementById("vatManualDueOverride"),
   companyBalanceSummary: document.getElementById("companyBalanceSummary"),
   companyBalanceSheet: document.getElementById("companyBalanceSheet"),
   companyBalanceNotes: document.getElementById("companyBalanceNotes"),
+  balanceBankClass: document.getElementById("balanceBankClass"),
+  directorFundingOverride: document.getElementById("directorFundingOverride"),
+  balanceExtraAssetLabel: document.getElementById("balanceExtraAssetLabel"),
+  balanceExtraAssetValue: document.getElementById("balanceExtraAssetValue"),
+  balanceExtraLiabilityLabel: document.getElementById("balanceExtraLiabilityLabel"),
+  balanceExtraLiabilityValue: document.getElementById("balanceExtraLiabilityValue"),
+  exportCompanyDetailsCsvButton: document.getElementById("exportCompanyDetailsCsvButton"),
+  exportCompanyDetailsPdfButton: document.getElementById("exportCompanyDetailsPdfButton"),
+  exportBankActivityCsvButton: document.getElementById("exportBankActivityCsvButton"),
+  exportBankActivityPdfButton: document.getElementById("exportBankActivityPdfButton"),
+  exportVatCsvButton: document.getElementById("exportVatCsvButton"),
+  exportVatPdfButton: document.getElementById("exportVatPdfButton"),
+  exportBalanceCsvButton: document.getElementById("exportBalanceCsvButton"),
+  exportBalancePdfButton: document.getElementById("exportBalancePdfButton"),
   deadlineVatDue: document.getElementById("deadlineVatDue"),
   deadlineYearEnd: document.getElementById("deadlineYearEnd"),
   deadlineConfirmation: document.getElementById("deadlineConfirmation"),
@@ -761,6 +366,141 @@ const elements = {
 
 function loadSavedRecords(key) {
   return structuredClone(state.persistedData[key] || {});
+}
+
+function defaultSecuritySettings() {
+  return {
+    autoLockMinutes: 15,
+    requirePasswordReveal: false,
+    permissionRole: "owner",
+  };
+}
+
+function defaultAccountingOverrides() {
+  return {
+    chartPreset: "default",
+    accountMappings: {},
+    vatTreatment: "auto",
+    vatRateOverride: "",
+    vatManualDueOverride: "",
+    balanceBankClass: "current-asset",
+    directorFundingOverride: "",
+    extraAssetLabel: "",
+    extraAssetValue: "",
+    extraLiabilityLabel: "",
+    extraLiabilityValue: "",
+  };
+}
+
+function normalizeSettings(settings) {
+  return {
+    security: {
+      ...defaultSecuritySettings(),
+      ...(settings?.security || {}),
+    },
+  };
+}
+
+function normalizeAccountingOverrides(overrides) {
+  return {
+    ...defaultAccountingOverrides(),
+    ...(overrides || {}),
+    accountMappings: {
+      ...(defaultAccountingOverrides().accountMappings),
+      ...(overrides?.accountMappings || {}),
+    },
+  };
+}
+
+function userRoleLevel() {
+  return ROLE_ACCESS[state.settings?.security?.permissionRole] || ROLE_ACCESS.owner;
+}
+
+function canRevealSensitiveFields() {
+  return userRoleLevel() >= ROLE_ACCESS.staff;
+}
+
+function canEditWorkspace() {
+  return userRoleLevel() >= ROLE_ACCESS.staff;
+}
+
+function formatAuditChanges(changes) {
+  if (!changes || !changes.length) return "No field detail recorded.";
+  return changes.slice(0, 4).map((change) => `${change.label}: ${change.from} -> ${change.to}`).join(" | ");
+}
+
+function recordAuditEvent(entry) {
+  state.auditLog.unshift({
+    id: `audit-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    at: new Date().toISOString(),
+    actor: state.activeUser || "local-user",
+    ...entry,
+  });
+  state.auditLog = state.auditLog.slice(0, 200);
+  saveRecords(AUDIT_LOG_STORAGE_KEY, state.auditLog);
+  if (elements.settingsPanel && !elements.settingsPanel.classList.contains("hidden")) {
+    renderAuditLog();
+  }
+}
+
+function diffFields(before, after, labels) {
+  return Object.entries(labels).reduce((changes, [field, label]) => {
+    const from = String(before?.[field] ?? "").trim();
+    const to = String(after?.[field] ?? "").trim();
+    if (from !== to) {
+      changes.push({ field, label, from: from || "blank", to: to || "blank" });
+    }
+    return changes;
+  }, []);
+}
+
+function noteActivityReset() {
+  window.clearTimeout(state.sessionTimers.autoLock);
+  const minutes = Number(state.settings?.security?.autoLockMinutes || 0);
+  if (!state.authenticated || !minutes) return;
+  state.sessionTimers.autoLock = window.setTimeout(() => {
+    setSaveState(elements.loginMessage, "Workspace locked after inactivity.");
+    lockWorkspace();
+  }, minutes * 60 * 1000);
+}
+
+function applySettingsToUi() {
+  const security = normalizeSettings(state.settings).security;
+  if (elements.autoLockMinutes) elements.autoLockMinutes.value = security.autoLockMinutes;
+  if (elements.requirePasswordReveal) elements.requirePasswordReveal.checked = Boolean(security.requirePasswordReveal);
+  if (elements.permissionRole) elements.permissionRole.value = security.permissionRole;
+  const readOnly = !canEditWorkspace();
+  [
+    elements.saveCompanyButton,
+    elements.savePersonButton,
+    elements.archiveCompanyButton,
+    elements.archivePersonButton,
+    elements.importBankStatementButton,
+    elements.createCompanyButton,
+    elements.createPersonButton,
+  ].forEach((button) => {
+    if (button) button.disabled = readOnly;
+  });
+  noteActivityReset();
+}
+
+function persistSettings() {
+  saveRecords(SETTINGS_STORAGE_KEY, state.settings);
+  applySettingsToUi();
+}
+
+function renderAuditLog() {
+  if (!elements.auditLogList || !elements.auditEmptyText) return;
+  elements.auditEmptyText.textContent = state.auditLog.length ? "" : "No recent changes have been recorded yet.";
+  elements.auditLogList.innerHTML = state.auditLog.slice(0, 20).map((entry) => `
+    <article class="archive-item">
+      <div>
+        <strong>${escapeHtml(entry.title || entry.action || "Workspace change")}</strong>
+        <p>${escapeHtml(formatAuditChanges(entry.changes || []))}</p>
+        <span>${escapeHtml(formatDateTime(entry.at))}</span>
+      </div>
+    </article>
+  `).join("");
 }
 
 function formatDateTime(value) {
@@ -812,6 +552,108 @@ function syncStatusSummary() {
   };
 }
 
+function normalizeUpdateState(payload) {
+  return {
+    currentVersion: state.appMeta?.version || "",
+    availableVersion: "",
+    downloadedVersion: "",
+    status: "idle",
+    message: "Updates check automatically when the installed desktop app opens.",
+    percent: 0,
+    checking: false,
+    updateAvailable: false,
+    updateDownloaded: false,
+    lastCheckedAt: "",
+    ...(payload || {}),
+  };
+}
+
+function isSensitiveFieldName(fieldName) {
+  return SENSITIVE_FIELD_NAMES.has(String(fieldName || ""));
+}
+
+function maskSensitiveValue(value) {
+  const text = String(value ?? "").trim();
+  if (!text) return "";
+  if (text.length <= 4) return "Hidden";
+  return `${"*".repeat(Math.max(4, text.length - 2))}${text.slice(-2)}`;
+}
+
+function getLegacyProfile(companyId) {
+  return LEGACY_PROFILES[companyId] || {};
+}
+
+function getCompanySecretSnapshot(record, companyId = state.selectedCompanyId) {
+  const fromState = state.activeCompanySecretsId === companyId ? state.activeCompanySecrets : {};
+  return COMPANY_SECRET_FIELDS.reduce((accumulator, field) => {
+    accumulator[field] = String(fromState[field] || record?.[field] || "");
+    return accumulator;
+  }, {});
+}
+
+function getPersonSecretSnapshot(person, personId = state.selectedPersonId) {
+  const fromState = state.activePersonSecretsId === personId ? state.activePersonSecrets : {};
+  return PERSON_SECRET_FIELDS.reduce((accumulator, field) => {
+    accumulator[field] = String(fromState[field] || person?.[field] || "");
+    return accumulator;
+  }, {});
+}
+
+function refreshAboutSurface() {
+  const meta = state.appMeta;
+  const updater = normalizeUpdateState(state.updateState);
+
+  if (elements.appVersionText) {
+    elements.appVersionText.textContent = meta?.version
+      ? `Version ${meta.version}`
+      : "Version information will appear here once the desktop app is connected.";
+  }
+
+  if (elements.appPackageText) {
+    if (!window.alignedDesktop?.isDesktop) {
+      elements.appPackageText.textContent = "Browser mode does not expose installer update details.";
+    } else if (meta?.packaged) {
+      elements.appPackageText.textContent = "Installed desktop build. Auto-update checks run on launch and can be checked manually here.";
+    } else {
+      elements.appPackageText.textContent = "Development build. Auto-update becomes active after installing the packaged app.";
+    }
+  }
+
+  if (elements.updateStatusText) {
+    elements.updateStatusText.textContent = updater.message;
+  }
+
+  if (elements.updateDetailText) {
+    const details = [];
+    if (updater.availableVersion) details.push(`Available: ${updater.availableVersion}`);
+    if (updater.downloadedVersion) details.push(`Ready: ${updater.downloadedVersion}`);
+    if (updater.percent && updater.status === "downloading") details.push(`Downloaded ${updater.percent}%`);
+    if (updater.lastCheckedAt) details.push(`Last checked ${formatDateTime(updater.lastCheckedAt)}`);
+    elements.updateDetailText.textContent = details.join(" | ") || "No update check has completed in this session yet.";
+  }
+
+  if (elements.configPathText) {
+    if (!window.alignedDesktop?.isDesktop) {
+      elements.configPathText.textContent = "Desktop Supabase config paths are only shown in the desktop app.";
+    } else if (meta?.hasExternalConfig) {
+      elements.configPathText.textContent = "External Supabase config is loaded on this machine.";
+    } else if (meta?.configured) {
+      elements.configPathText.textContent = "Supabase config is available for this desktop build.";
+    } else {
+      elements.configPathText.textContent = "No external Supabase config is loaded yet. Add an .env next to the installed app or in the desktop data folder.";
+    }
+  }
+
+  if (elements.checkUpdatesButton) {
+    elements.checkUpdatesButton.disabled = !window.alignedDesktop?.isDesktop || updater.checking;
+  }
+
+  if (elements.installUpdateButton) {
+    elements.installUpdateButton.classList.toggle("hidden", !updater.updateDownloaded);
+    elements.installUpdateButton.disabled = !updater.updateDownloaded;
+  }
+}
+
 function refreshSyncSurface() {
   const summary = syncStatusSummary();
 
@@ -819,8 +661,8 @@ function refreshSyncSurface() {
     elements.storageModeText.textContent = !window.alignedDesktop?.isDesktop
       ? "Client records, self employed profiles, notes, and bank statement imports are stored in browser storage on this machine."
       : state.supabaseConfigured
-        ? "Client records, self employed profiles, notes, and bank statement imports are stored in an encrypted local desktop cache with optional Supabase sync."
-        : "Client records, self employed profiles, notes, and bank statement imports are stored in an encrypted local desktop file until Supabase is configured.";
+        ? "Client records, self employed profiles, notes, and bank statement imports are stored in an encrypted local desktop cache with optional cloud sync."
+        : "Client records, self employed profiles, notes, and bank statement imports are stored in an encrypted local desktop file until external Supabase config is added.";
   }
 
   if (elements.syncStatusText) {
@@ -855,6 +697,7 @@ function refreshSyncSurface() {
   }
 
   renderArchivedRecords();
+  refreshAboutSurface();
 }
 
 function handleSyncResult(result) {
@@ -887,6 +730,43 @@ function handleSyncResult(result) {
 
   updateActiveUserLabel();
   refreshSyncSurface();
+}
+
+function handleUpdateState(payload) {
+  state.updateState = normalizeUpdateState(payload);
+  refreshAboutSurface();
+}
+
+async function hydrateDesktopMeta() {
+  if (!window.alignedDesktop?.isDesktop) {
+    state.appMeta = null;
+    state.updateState = normalizeUpdateState();
+    refreshAboutSurface();
+    return;
+  }
+
+  const meta = await window.alignedDesktop.appMeta();
+  state.appMeta = meta;
+  state.updateState = normalizeUpdateState(meta?.updateState);
+  refreshAboutSurface();
+}
+
+async function checkForUpdatesNow() {
+  if (!window.alignedDesktop?.isDesktop) return;
+  const result = await window.alignedDesktop.checkForUpdates();
+  if (!result.ok && result.message) {
+    setSaveState(elements.settingsSaveState, result.message);
+  } else {
+    setSaveState(elements.settingsSaveState, "Checking for updates");
+  }
+}
+
+async function installDownloadedUpdate() {
+  if (!window.alignedDesktop?.isDesktop) return;
+  const result = await window.alignedDesktop.installUpdateNow();
+  if (!result.ok && result.message) {
+    setSaveState(elements.settingsSaveState, result.message);
+  }
 }
 
 async function persistDesktopData(options = {}) {
@@ -970,12 +850,13 @@ function unlockWorkspace(username) {
   if (elements.changePasswordForm) {
     elements.changePasswordForm.elements.username.value = username;
   }
+  applySettingsToUi();
   refreshSyncSurface();
   showHomePanel();
 }
 
 function companyDefaults(company) {
-  const legacy = LEGACY_PROFILES[company.company_number] || {};
+  const legacy = getLegacyProfile(company.company_number);
   const recoveredName = COMPANY_DIRECTORY_NAMES[company.company_number] || "";
   return {
     id: company.company_number,
@@ -1012,7 +893,7 @@ function companyDefaults(company) {
 }
 
 function applyLegacyCompanyBackfill(companyId, record) {
-  const legacy = LEGACY_PROFILES[companyId] || {};
+  const legacy = getLegacyProfile(companyId);
   if (!record || !legacy) return record;
 
   const nextRecord = { ...record };
@@ -1077,12 +958,8 @@ function personDefaults(fullName) {
     id: fullName,
     fullName,
     tradingName: "",
-    utr: "",
-    nino: "",
     dateOfBirth: "",
     nationality: "",
-    gatewayId: "",
-    gatewayPassword: "",
     address: "",
     archivedAt: "",
     archivedReason: "",
@@ -1188,6 +1065,14 @@ function getArchivedSelfEmployedPeople() {
   return getSelfEmployedPeople().filter((personId) => isPersonArchived(personId));
 }
 
+function getStatementCategoryOptions() {
+  return BOOKKEEPING_CATEGORIES;
+}
+
+function getReviewStatusOptions() {
+  return REVIEW_STATUS_OPTIONS;
+}
+
 function getStatementEntries(record) {
   return (record.bankImports || [])
     .flatMap((statement) => (statement.entries || []).map(hydrateStatementEntry));
@@ -1216,15 +1101,38 @@ function getChartAccountDefinitions() {
   };
 }
 
-function resolveChartAccountKey(entry) {
+function getAccountMappings(record) {
+  const overrides = normalizeAccountingOverrides(record?.accountingOverrides);
+  const presetMappings = {
+    default: {},
+    conservative: {
+      "Other income": "suspense",
+      "Transfer": "transfer",
+    },
+    "cash-heavy": {
+      "Other income": "sales",
+      "General admin expense": "adminExpense",
+    },
+  };
+  return {
+    ...presetMappings[overrides.chartPreset || "default"],
+    ...(overrides.accountMappings || {}),
+  };
+}
+
+function resolveChartAccountKey(entry, record) {
   const category = String(entry.category || "").trim();
+  const mapping = getAccountMappings(record)[category];
+  if (mapping) return mapping;
   if (category === "Sales income") return "sales";
+  if (category === "Other income") return "otherIncome";
   if (category === "Tax payment") return "vatControl";
   if (category === "Payroll") return "payroll";
   if (category === "Rent") return "rent";
   if (category === "Software") return "software";
   if (category === "Bank charges") return "bankCharges";
   if (category === "Transfer") return "transfer";
+  if (category === "General admin expense") return "adminExpense";
   if (category === "Needs review") return "suspense";
   return entry.amount > 0 ? "otherIncome" : "adminExpense";
 }
@@ -1266,7 +1174,7 @@ function buildCompanyChart(record) {
   getStatementEntries(record).forEach((entry) => {
     if (!entry.amount) return;
     postAmount(accounts.bank, entry.amount);
-    postAmount(accounts[resolveChartAccountKey(entry)], entry.amount);
+    postAmount(accounts[resolveChartAccountKey(entry, record)], entry.amount);
   });
 
   return Object.values(accounts)
@@ -1279,19 +1187,29 @@ function parseVatRate(vatScheme) {
   return match ? Number(match[1]) / 100 : null;
 }
 
-function buildVatReport(record) {
+function buildVatReport(record, secrets = {}) {
+  const overrides = normalizeAccountingOverrides(record?.accountingOverrides);
   const entries = getStatementEntries(record);
   const taxableSales = entries
-    .filter((entry) => entry.category === "Sales income" && entry.amount > 0)
+    .filter((entry) => entry.category === "Sales income" && entry.amount > 0 && entry.reviewStatus === "ready")
     .reduce((sum, entry) => sum + entry.amount, 0);
   const taxPayments = entries
-    .filter((entry) => entry.category === "Tax payment" && entry.amount < 0)
+    .filter((entry) => entry.category === "Tax payment" && entry.amount < 0 && entry.reviewStatus === "ready")
     .reduce((sum, entry) => sum + Math.abs(entry.amount), 0);
-  const isRegistered = Boolean(String(record.vatRegistration || "").trim());
+  const isRegistered = overrides.vatTreatment === "registered"
+    ? true
+    : overrides.vatTreatment === "not-registered"
+      ? false
+      : Boolean(String(secrets.vatRegistration || "").trim());
   const isFlatRate = String(record.vatScheme || "").toLowerCase().includes("flat");
   const flatRate = parseVatRate(record.vatScheme);
-  const workingRate = isFlatRate ? (flatRate || 0) : (isRegistered ? (1 / 6) : 0);
-  const estimatedVatDue = taxableSales * workingRate;
+  const overrideRate = Number(overrides.vatRateOverride || 0);
+  const workingRate = overrideRate > 0
+    ? overrideRate / 100
+    : isFlatRate
+      ? (flatRate || 0)
+      : (isRegistered ? (1 / 6) : 0);
+  const estimatedVatDue = Number(overrides.vatManualDueOverride || 0) || (taxableSales * workingRate);
   const position = estimatedVatDue - taxPayments;
 
   return {
@@ -1302,13 +1220,16 @@ function buildVatReport(record) {
     taxPayments,
     estimatedVatDue,
     position,
+    reconciledCount: entries.filter((entry) => entry.reconciled).length,
+    reviewQueueCount: entries.filter((entry) => entry.reviewStatus !== "ready").length,
   };
 }
 
-function buildBalanceSheet(record) {
+function buildBalanceSheet(record, secrets = {}) {
+  const overrides = normalizeAccountingOverrides(record?.accountingOverrides);
   const entries = getStatementEntries(record);
   const chart = buildCompanyChart(record);
-  const vat = buildVatReport(record);
+  const vat = buildVatReport(record, secrets);
   const netCash = entries.reduce((sum, entry) => sum + (entry.amount || 0), 0);
   const income = chart
     .filter((account) => account.type === "Income")
@@ -1318,18 +1239,24 @@ function buildBalanceSheet(record) {
     .reduce((sum, account) => sum + account.balance, 0);
   const tradingResult = income - expenses;
   const currentAssets = [
-    ["Bank current accounts", Math.max(netCash, 0)],
+    ["Bank current accounts", overrides.balanceBankClass === "current-liability" ? 0 : Math.max(netCash, 0)],
     ["VAT receivable", Math.max(vat.taxPayments - vat.estimatedVatDue, 0)],
   ];
   const currentLiabilities = [
-    ["Bank overdraft", Math.max(-netCash, 0)],
+    ["Bank overdraft", overrides.balanceBankClass === "current-liability" ? Math.max(Math.abs(netCash), 0) : Math.max(-netCash, 0)],
     ["VAT payable", Math.max(vat.estimatedVatDue - vat.taxPayments, 0)],
   ];
+  if (overrides.extraAssetLabel && Number(overrides.extraAssetValue || 0)) {
+    currentAssets.push([overrides.extraAssetLabel, Number(overrides.extraAssetValue || 0)]);
+  }
+  if (overrides.extraLiabilityLabel && Number(overrides.extraLiabilityValue || 0)) {
+    currentLiabilities.push([overrides.extraLiabilityLabel, Number(overrides.extraLiabilityValue || 0)]);
+  }
   const totalAssets = currentAssets.reduce((sum, [, value]) => sum + value, 0);
   const totalLiabilities = currentLiabilities.reduce((sum, [, value]) => sum + value, 0);
   const equityLines = [
     ["Current period result", tradingResult],
-    ["Director / owner funding", totalAssets - totalLiabilities - tradingResult],
+    ["Director / owner funding", Number(overrides.directorFundingOverride || 0) || (totalAssets - totalLiabilities - tradingResult)],
   ];
   const totalEquity = equityLines.reduce((sum, [, value]) => sum + value, 0);
 
@@ -1380,14 +1307,7 @@ function collectCompanyFormData() {
     companyStatus: String(formData.get("companyStatus") || ""),
     registrationDate: String(formData.get("registrationDate") || ""),
     registrationCountry: String(formData.get("registrationCountry") || ""),
-    vatRegistration: String(formData.get("vatRegistration") || ""),
     vatScheme: String(formData.get("vatScheme") || ""),
-    utr: String(formData.get("utr") || ""),
-    payeReference: String(formData.get("payeReference") || ""),
-    accountOfficeReference: String(formData.get("accountOfficeReference") || ""),
-    companiesHouseCode: String(formData.get("companiesHouseCode") || ""),
-    gatewayId: String(formData.get("gatewayId") || ""),
-    gatewayPassword: String(formData.get("gatewayPassword") || ""),
     bankAccount: String(formData.get("bankAccount") || ""),
     address: String(formData.get("address") || ""),
     industries: String(formData.get("industries") || ""),
@@ -1412,19 +1332,92 @@ function collectCompanyFormData() {
   };
 }
 
+function collectCompanySecretData() {
+  const formData = new FormData(elements.companyDetailsForm);
+  return {
+    vatRegistration: String(formData.get("vatRegistration") || ""),
+    utr: String(formData.get("utr") || ""),
+    payeReference: String(formData.get("payeReference") || ""),
+    accountOfficeReference: String(formData.get("accountOfficeReference") || ""),
+    companiesHouseCode: String(formData.get("companiesHouseCode") || ""),
+    gatewayId: String(formData.get("gatewayId") || ""),
+    gatewayPassword: String(formData.get("gatewayPassword") || ""),
+  };
+}
+
+function collectAccountingOverridesData() {
+  return normalizeAccountingOverrides({
+    chartPreset: elements.chartPresetSelect?.value || "default",
+    accountMappings: {
+      "Sales income": elements.mapSalesIncome?.value || "",
+      "Other income": elements.mapOtherIncome?.value || "",
+      "Tax payment": elements.mapTaxPayment?.value || "",
+      Payroll: elements.mapPayroll?.value || "",
+      Rent: elements.mapRent?.value || "",
+      Software: elements.mapSoftware?.value || "",
+      "Bank charges": elements.mapBankCharges?.value || "",
+      Transfer: elements.mapTransfer?.value || "",
+      "General admin expense": elements.mapGeneralAdminExpense?.value || "",
+    },
+    vatTreatment: elements.vatTreatmentSelect?.value || "auto",
+    vatRateOverride: elements.vatRateOverride?.value || "",
+    vatManualDueOverride: elements.vatManualDueOverride?.value || "",
+    balanceBankClass: elements.balanceBankClass?.value || "current-asset",
+    directorFundingOverride: elements.directorFundingOverride?.value || "",
+    extraAssetLabel: elements.balanceExtraAssetLabel?.value || "",
+    extraAssetValue: elements.balanceExtraAssetValue?.value || "",
+    extraLiabilityLabel: elements.balanceExtraLiabilityLabel?.value || "",
+    extraLiabilityValue: elements.balanceExtraLiabilityValue?.value || "",
+  });
+}
+
+function renderAccountingOverrides(record) {
+  const overrides = normalizeAccountingOverrides(record?.accountingOverrides);
+  const accounts = getChartAccountDefinitions();
+  const renderOptions = (selected) => Object.entries(accounts)
+    .map(([key, account]) => `<option value="${escapeAttribute(key)}" ${selected === key ? "selected" : ""}>${escapeHtml(`${account.code} ${account.name}`)}</option>`)
+    .join("");
+
+  if (elements.chartPresetSelect) elements.chartPresetSelect.value = overrides.chartPreset;
+  if (elements.mapSalesIncome) elements.mapSalesIncome.innerHTML = renderOptions(overrides.accountMappings["Sales income"] || "sales");
+  if (elements.mapOtherIncome) elements.mapOtherIncome.innerHTML = renderOptions(overrides.accountMappings["Other income"] || "otherIncome");
+  if (elements.mapTaxPayment) elements.mapTaxPayment.innerHTML = renderOptions(overrides.accountMappings["Tax payment"] || "vatControl");
+  if (elements.mapPayroll) elements.mapPayroll.innerHTML = renderOptions(overrides.accountMappings.Payroll || "payroll");
+  if (elements.mapRent) elements.mapRent.innerHTML = renderOptions(overrides.accountMappings.Rent || "rent");
+  if (elements.mapSoftware) elements.mapSoftware.innerHTML = renderOptions(overrides.accountMappings.Software || "software");
+  if (elements.mapBankCharges) elements.mapBankCharges.innerHTML = renderOptions(overrides.accountMappings["Bank charges"] || "bankCharges");
+  if (elements.mapTransfer) elements.mapTransfer.innerHTML = renderOptions(overrides.accountMappings.Transfer || "transfer");
+  if (elements.mapGeneralAdminExpense) elements.mapGeneralAdminExpense.innerHTML = renderOptions(overrides.accountMappings["General admin expense"] || "adminExpense");
+  if (elements.vatTreatmentSelect) elements.vatTreatmentSelect.value = overrides.vatTreatment;
+  if (elements.vatRateOverride) elements.vatRateOverride.value = overrides.vatRateOverride;
+  if (elements.vatManualDueOverride) elements.vatManualDueOverride.value = overrides.vatManualDueOverride;
+  if (elements.balanceBankClass) elements.balanceBankClass.value = overrides.balanceBankClass;
+  if (elements.directorFundingOverride) elements.directorFundingOverride.value = overrides.directorFundingOverride;
+  if (elements.balanceExtraAssetLabel) elements.balanceExtraAssetLabel.value = overrides.extraAssetLabel;
+  if (elements.balanceExtraAssetValue) elements.balanceExtraAssetValue.value = overrides.extraAssetValue;
+  if (elements.balanceExtraLiabilityLabel) elements.balanceExtraLiabilityLabel.value = overrides.extraLiabilityLabel;
+  if (elements.balanceExtraLiabilityValue) elements.balanceExtraLiabilityValue.value = overrides.extraLiabilityValue;
+}
+
 function collectPersonFormData() {
   const formData = new FormData(elements.personDetailsForm);
   return {
     fullName: String(formData.get("fullName") || ""),
     tradingName: String(formData.get("tradingName") || ""),
-    utr: String(formData.get("utr") || ""),
-    nino: String(formData.get("nino") || ""),
     dateOfBirth: String(formData.get("dateOfBirth") || ""),
     nationality: String(formData.get("nationality") || ""),
-    gatewayId: String(formData.get("gatewayId") || ""),
-    gatewayPassword: String(formData.get("gatewayPassword") || ""),
     address: String(formData.get("address") || ""),
     notes: String(formData.get("notes") || ""),
+  };
+}
+
+function collectPersonSecretData() {
+  const formData = new FormData(elements.personDetailsForm);
+  return {
+    utr: String(formData.get("utr") || ""),
+    nino: String(formData.get("nino") || ""),
+    gatewayId: String(formData.get("gatewayId") || ""),
+    gatewayPassword: String(formData.get("gatewayPassword") || ""),
   };
 }
 
@@ -1445,6 +1438,13 @@ function renderHeader(data) {
 }
 
 function copyFieldValue(scope, fieldName) {
+  if (!canRevealSensitiveFields()) {
+    setSaveState(
+      scope === "company" ? elements.companySaveState : elements.personSaveState,
+      "Your current role cannot copy sensitive fields.",
+    );
+    return;
+  }
   const form = getFormForScope(scope);
   const input = form?.elements?.[fieldName];
   const value = String(input?.value || "").trim();
@@ -1475,6 +1475,13 @@ function copyFieldValue(scope, fieldName) {
     });
 }
 
+function confirmSensitiveReveal() {
+  if (!state.settings?.security?.requirePasswordReveal) return true;
+  const confirmation = window.prompt("Re-enter the workspace password to reveal this field.");
+  if (confirmation === null) return false;
+  return confirmation === state.activePassword;
+}
+
 function getFormForScope(scope) {
   switch (scope) {
     case "company":
@@ -1491,13 +1498,44 @@ function getFormForScope(scope) {
 }
 
 function toggleSensitiveField(scope, fieldName, button) {
+  if (!canRevealSensitiveFields()) {
+    setSaveState(
+      scope === "company" ? elements.companySaveState : elements.personSaveState,
+      "Your current role cannot reveal sensitive fields.",
+    );
+    return;
+  }
   const form = getFormForScope(scope);
   const input = form?.elements?.[fieldName];
   if (!input) return;
 
   const isHidden = input.type === "password";
+  if (isHidden && !confirmSensitiveReveal()) {
+    setSaveState(
+      scope === "company" ? elements.companySaveState : elements.personSaveState,
+      "Password confirmation did not match.",
+    );
+    return;
+  }
+  window.clearTimeout(input._hideTimer);
   input.type = isHidden ? "text" : "password";
   button.textContent = isHidden ? "Hide" : "Show";
+
+  if (!input.dataset.hideBound) {
+    input.addEventListener("blur", () => {
+      input.type = "password";
+      const revealButton = form.querySelector(`[data-reveal-field="${scope}:${fieldName}"]`);
+      if (revealButton) revealButton.textContent = "Show";
+    });
+    input.dataset.hideBound = "true";
+  }
+
+  if (isHidden) {
+    input._hideTimer = window.setTimeout(() => {
+      input.type = "password";
+      button.textContent = "Show";
+    }, 15000);
+  }
 }
 
 function resetSensitiveFields(form, scope) {
@@ -1507,6 +1545,7 @@ function resetSensitiveFields(form, scope) {
     const [, fieldName] = String(button.dataset.revealField || "").split(":");
     const input = fieldName ? form.elements?.[fieldName] : null;
     if (!input) return;
+    window.clearTimeout(input._hideTimer);
     input.type = "password";
     button.textContent = "Show";
   });
@@ -1516,6 +1555,14 @@ function updateBankStatementFileName() {
   if (!elements.bankStatementFileName) return;
   const file = elements.bankStatementFile.files?.[0];
   elements.bankStatementFileName.textContent = file ? file.name : "No file selected";
+}
+
+function hardenSensitiveInputs() {
+  document.querySelectorAll('input[type="password"]').forEach((input) => {
+    input.autocomplete = "off";
+    input.spellcheck = false;
+    input.autocapitalize = "off";
+  });
 }
 
 function renderStats() {
@@ -1627,11 +1674,7 @@ function renderSelfEmployedList() {
 
   elements.selfEmployedList.querySelectorAll(".company-button").forEach((button) => {
     button.addEventListener("click", () => {
-      state.selectedCompanyId = null;
-      state.selectedPersonId = button.dataset.person;
-      renderCompanyList();
-      renderSelfEmployedList();
-      renderSelfEmployedPanel();
+      openPersonRecord(button.dataset.person);
     });
   });
 }
@@ -1782,6 +1825,8 @@ function showSettingsPanel() {
   updatePrimaryNav("settings");
   refreshSyncSurface();
   renderArchivedRecords();
+  applySettingsToUi();
+  renderAuditLog();
 }
 
 function showNewCompanyPanel() {
@@ -1850,7 +1895,10 @@ async function createLocalAccess() {
     ? "Account created and ready to save."
     : "Account created.";
   await hydrateEncryptedData();
+  await hydrateLegacySecrets();
   initializeRecords(window.APP_DATA);
+  await migrateStoredCompanySecrets();
+  await migrateStoredPersonSecrets();
   renderCompanyList();
   renderSelfEmployedList();
   unlockWorkspace(username);
@@ -1888,7 +1936,10 @@ async function loginLocalAccess() {
   state.activeUser = username;
   state.activePassword = password;
   await hydrateEncryptedData();
+  await hydrateLegacySecrets();
   initializeRecords(window.APP_DATA);
+  await migrateStoredCompanySecrets();
+  await migrateStoredPersonSecrets();
   renderCompanyList();
   renderSelfEmployedList();
   unlockWorkspace(username);
@@ -1898,10 +1949,15 @@ function lockWorkspace() {
   state.authenticated = false;
   state.activeUser = "";
   state.activePassword = "";
+  state.activeCompanySecrets = {};
+  state.activeCompanySecretsId = "";
+  state.activePersonSecrets = {};
+  state.activePersonSecretsId = "";
   state.lastRemoteSyncAt = "";
   state.offlineMode = false;
   state.syncConflict = false;
   state.syncMessage = "";
+  window.clearTimeout(state.sessionTimers.autoLock);
   elements.activeUser.textContent = "";
   elements.loginForm.reset();
   resetSensitiveFields(elements.loginForm, "login");
@@ -1917,6 +1973,10 @@ async function resetLocalAccess() {
   state.authenticated = false;
   state.activeUser = "";
   state.activePassword = "";
+  state.activeCompanySecrets = {};
+  state.activeCompanySecretsId = "";
+  state.activePersonSecrets = {};
+  state.activePersonSecretsId = "";
   state.lastRemoteSyncAt = "";
   state.offlineMode = false;
   state.syncConflict = false;
@@ -1989,6 +2049,7 @@ function renderCompanyOverview(company, record) {
 function renderCompanyDetails(company, record) {
   const workflow = normalizeWorkflow(record.workflow);
   const latestImport = (record.bankImports || [])[0] || null;
+  const activeSecrets = state.activeCompanySecretsId === company.company_number ? state.activeCompanySecrets : {};
   elements.companyDetailsForm.elements.displayName.value = record.displayName;
   elements.companyDetailsForm.elements.legalName.value = record.legalName;
   elements.companyDetailsForm.elements.companyNumber.value = record.companyNumber;
@@ -1996,14 +2057,14 @@ function renderCompanyDetails(company, record) {
   elements.companyDetailsForm.elements.companyStatus.value = record.companyStatus;
   elements.companyDetailsForm.elements.registrationDate.value = record.registrationDate;
   elements.companyDetailsForm.elements.registrationCountry.value = record.registrationCountry;
-  elements.companyDetailsForm.elements.vatRegistration.value = record.vatRegistration;
+  elements.companyDetailsForm.elements.vatRegistration.value = activeSecrets.vatRegistration || "";
   elements.companyDetailsForm.elements.vatScheme.value = record.vatScheme;
-  elements.companyDetailsForm.elements.utr.value = record.utr;
-  elements.companyDetailsForm.elements.payeReference.value = record.payeReference;
-  elements.companyDetailsForm.elements.accountOfficeReference.value = record.accountOfficeReference;
-  elements.companyDetailsForm.elements.companiesHouseCode.value = record.companiesHouseCode;
-  elements.companyDetailsForm.elements.gatewayId.value = record.gatewayId;
-  elements.companyDetailsForm.elements.gatewayPassword.value = record.gatewayPassword;
+  elements.companyDetailsForm.elements.utr.value = activeSecrets.utr || "";
+  elements.companyDetailsForm.elements.payeReference.value = activeSecrets.payeReference || "";
+  elements.companyDetailsForm.elements.accountOfficeReference.value = activeSecrets.accountOfficeReference || "";
+  elements.companyDetailsForm.elements.companiesHouseCode.value = activeSecrets.companiesHouseCode || "";
+  elements.companyDetailsForm.elements.gatewayId.value = activeSecrets.gatewayId || "";
+  elements.companyDetailsForm.elements.gatewayPassword.value = activeSecrets.gatewayPassword || "";
   elements.companyDetailsForm.elements.bankAccount.value = record.bankAccount;
   elements.companyDetailsForm.elements.address.value = record.address;
   elements.companyDetailsForm.elements.industries.value = record.industries;
@@ -2027,6 +2088,7 @@ function renderCompanyNotes(record) {
 function renderCompanyChart(record) {
   const accounts = buildCompanyChart(record);
   const reviewQueue = getStatementEntries(record).filter((entry) => entry.reviewStatus !== "ready").length;
+  renderAccountingOverrides(record);
 
   elements.companyChartSummary.textContent = accounts.length > 1
     ? `Working postings built from imported bank activity. ${number.format(reviewQueue)} entries still sit outside a clean bookkeeping finish.`
@@ -2046,24 +2108,29 @@ function renderCompanyChart(record) {
   elements.companyChartNotes.innerHTML = `
     <article class="note-card">
       <h4>How this is built</h4>
-      <p>The chart is generated from imported statement lines, suggested categories, and a working bank control line for the selected company.</p>
+      <p>The chart is generated from imported statement lines, saved category edits, and a working bank control line for the selected company.</p>
     </article>
     <article class="note-card">
       <h4>What still needs review</h4>
       <p>${reviewQueue ? `${number.format(reviewQueue)} imported entries are still in review or suspense.` : "The imported lines currently map cleanly into the working chart."}</p>
     </article>
+    <article class="note-card">
+      <h4>Mapping mode</h4>
+      <p>${escapeHtml(normalizeAccountingOverrides(record.accountingOverrides).chartPreset)} mapping is active for this company.</p>
+    </article>
   `;
 }
 
 function renderVatReport(record) {
-  const vat = buildVatReport(record);
+  const secrets = getCompanySecretSnapshot(record);
+  const vat = buildVatReport(record, secrets);
   const effectiveRate = vat.isFlatRate
     ? `${((vat.flatRate || 0) * 100).toFixed(2)}% flat rate`
     : vat.isRegistered
       ? "Standard-rate estimate"
       : "Not VAT registered";
   const cards = [
-    ["VAT registration", record.vatRegistration || "Not set", "Registration number on file"],
+    ["VAT registration", secrets.vatRegistration || "Not set", "Registration number on file"],
     ["Scheme", record.vatScheme || "Not set", "Current VAT method"],
     ["Next period end", normalizeWorkflow(record.workflow).nextVatPeriodEnd || "Not set", "Workflow planning field"],
     ["Due before", record.deadlines.vatDue || "Not set", "Deadline in the compliance timeline"],
@@ -2071,6 +2138,8 @@ function renderVatReport(record) {
     ["Working VAT due", formatCurrency(vat.estimatedVatDue), effectiveRate],
     ["VAT payments found", formatCurrency(vat.taxPayments), "HMRC and VAT-tagged payments in imported activity"],
     ["Estimated position", formatCurrency(vat.position), vat.position > 0 ? "Still due" : vat.position < 0 ? "Paid ahead" : "Currently even"],
+    ["Reconciled lines", number.format(vat.reconciledCount), "Imported entries marked as matched"],
+    ["Review queue", number.format(vat.reviewQueueCount), "Imported entries still not marked ready"],
   ];
 
   elements.companyVatCards.innerHTML = cards
@@ -2089,13 +2158,17 @@ function renderVatReport(record) {
     </article>
     <article class="note-card">
       <h4>Suggested next step</h4>
-      <p>${vat.taxableSales ? "Review the sales lines and VAT payments before using this figure in any submission work." : "Import or categorise statement activity to build the VAT position."}</p>
+      <p>${vat.taxableSales ? "Review the sales lines, mark matched entries as reconciled, and confirm VAT payments before using this figure in any submission work." : "Import or categorise statement activity to build the VAT position."}</p>
+    </article>
+    <article class="note-card">
+      <h4>Override mode</h4>
+      <p>${escapeHtml(normalizeAccountingOverrides(record.accountingOverrides).vatTreatment === "auto" ? "Using saved company defaults." : "VAT treatment is being overridden for this working report.")}</p>
     </article>
   `;
 }
 
 function renderBalanceSheet(record) {
-  const sheet = buildBalanceSheet(record);
+  const sheet = buildBalanceSheet(record, getCompanySecretSnapshot(record));
   const renderLines = (lines, emptyLabel) => lines
     .filter(([, value]) => value)
     .map(([label, value]) => `<div class="balance-line"><dt>${escapeHtml(label)}</dt><dd class="${amountClass(value)}">${formatCurrency(value)}</dd></div>`)
@@ -2130,6 +2203,10 @@ function renderBalanceSheet(record) {
       <h4>Balance sheet scope</h4>
       <p>This is a working balance sheet from imported bank movements only. It does not yet include debtors, creditors, fixed assets, or journals outside the workspace.</p>
     </article>
+    <article class="note-card">
+      <h4>Override mode</h4>
+      <p>${escapeHtml(normalizeAccountingOverrides(record.accountingOverrides).directorFundingOverride ? "A director funding override is applied." : "No manual balance sheet override is currently applied.")}</p>
+    </article>
   `;
 }
 
@@ -2139,13 +2216,15 @@ function renderBankImportSummary(record) {
   const moneyIn = entries.reduce((sum, entry) => sum + (entry.moneyIn || 0), 0);
   const moneyOut = entries.reduce((sum, entry) => sum + (entry.moneyOut || 0), 0);
   const reviewNeeded = entries.filter((entry) => entry.reviewStatus !== "ready").length;
+  const reconciled = entries.filter((entry) => entry.reconciled).length;
   const cards = [
     ["Statements", number.format(imports.length), "Imported CSV files for this company"],
     ["Rows", number.format(entries.length), "Normalized statement lines saved locally"],
     ["Money in", formatCurrency(moneyIn), "Positive or credit values detected"],
     ["Money out", formatCurrency(moneyOut), "Negative or debit values detected"],
     ["Review queue", number.format(reviewNeeded), "Entries that still need manual categorisation or checking"],
-    ["Categorised", number.format(entries.length - reviewNeeded), "Entries with a suggested bookkeeping category"],
+    ["Categorised", number.format(entries.length - reviewNeeded), "Entries with a suggested or confirmed bookkeeping category"],
+    ["Reconciled", number.format(reconciled), "Entries marked as matched against the working file"],
   ];
 
   elements.bankImportSummary.innerHTML = cards
@@ -2175,7 +2254,7 @@ function renderBankImports(record) {
 
   elements.bankStatementList.innerHTML = imports
     .map((statement) => {
-      const previewRows = statement.entries.slice(0, 12);
+      const visibleEntries = statement.entries.filter(statementMatchesFilters);
       return `
         <article class="statement-card">
           <div class="statement-head">
@@ -2184,10 +2263,11 @@ function renderBankImports(record) {
               <p class="statement-meta">
                 ${escapeHtml(statement.fileName)} | Imported ${escapeHtml(
                   new Date(statement.importedAt).toLocaleString("en-GB"),
-                )}${statement.note ? ` | ${escapeHtml(statement.note)}` : ""}
+                )}${statement.note ? ` | ${escapeHtml(statement.note)}` : ""}${statement.closedAt ? ` | Closed ${escapeHtml(formatDateTime(statement.closedAt))}` : ""}
               </p>
             </div>
             <div class="statement-actions">
+              <button class="mini-button" data-close-statement="${escapeAttribute(statement.id)}">${statement.closedAt ? "Reopen period" : "Close period"}</button>
               <button class="mini-button danger" data-remove-statement="${escapeAttribute(statement.id)}">Remove</button>
             </div>
           </div>
@@ -2212,6 +2292,16 @@ function renderBankImports(record) {
               <p class="metric-value">${number.format(statement.summary.zeroCount)}</p>
               <p class="metric-subtext">Rows with no signed amount</p>
             </article>
+            <article class="metric-card">
+              <p class="metric-label">Reconciled</p>
+              <p class="metric-value">${number.format(statement.summary.reconciledCount || 0)}</p>
+              <p class="metric-subtext">Lines marked as matched</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-label">Review queue</p>
+              <p class="metric-value">${number.format(statement.summary.reviewNeededCount || 0)}</p>
+              <p class="metric-subtext">Lines still needing bookkeeping review</p>
+            </article>
           </div>
           <div class="statement-preview">
             <table>
@@ -2221,6 +2311,7 @@ function renderBankImports(record) {
                   <th>Description</th>
                   <th>Category</th>
                   <th>Review</th>
+                  <th>Reconciled</th>
                   <th>Amount</th>
                   <th>Money In</th>
                   <th>Money Out</th>
@@ -2228,14 +2319,33 @@ function renderBankImports(record) {
                 </tr>
               </thead>
               <tbody>
-                ${previewRows
+                ${statement.entries
+                  .filter(statementMatchesFilters)
                   .map(
                     (entry) => `
                       <tr>
                         <td>${escapeHtml(entry.date || "")}</td>
                         <td>${escapeHtml(entry.description || "")}</td>
-                        <td>${escapeHtml(entry.category || "Needs review")}</td>
-                        <td>${escapeHtml(entry.reviewStatus || "needs-review")}</td>
+                        <td>
+                          <select class="table-select" data-entry-category="${escapeAttribute(statement.id)}::${escapeAttribute(entry.id)}">
+                            ${getStatementCategoryOptions()
+                              .map((option) => `<option value="${escapeAttribute(option)}" ${entry.category === option ? "selected" : ""}>${escapeHtml(option)}</option>`)
+                              .join("")}
+                          </select>
+                        </td>
+                        <td>
+                          <select class="table-select" data-entry-review="${escapeAttribute(statement.id)}::${escapeAttribute(entry.id)}">
+                            ${getReviewStatusOptions()
+                              .map((option) => `<option value="${escapeAttribute(option)}" ${entry.reviewStatus === option ? "selected" : ""}>${escapeHtml(option)}</option>`)
+                              .join("")}
+                          </select>
+                        </td>
+                        <td>
+                          <label class="reconcile-toggle">
+                            <input type="checkbox" data-entry-reconciled="${escapeAttribute(statement.id)}::${escapeAttribute(entry.id)}" ${entry.reconciled ? "checked" : ""}>
+                            <span>${entry.reconciled ? "Matched" : "Open"}</span>
+                          </label>
+                        </td>
                         <td class="${amountClass(entry.amount)}">${formatCurrency(entry.amount)}</td>
                         <td>${formatCurrency(entry.moneyIn)}</td>
                         <td>${formatCurrency(entry.moneyOut)}</td>
@@ -2246,15 +2356,42 @@ function renderBankImports(record) {
                   .join("")}
               </tbody>
             </table>
+            ${!visibleEntries.length ? `<p class="workflow-summary">No imported rows match the current filters for this statement.</p>` : ""}
           </div>
         </article>
       `;
     })
     .join("");
 
+  elements.bankStatementList.querySelectorAll("[data-close-statement]").forEach((button) => {
+    button.addEventListener("click", () => {
+      toggleStatementClosed(button.dataset.closeStatement);
+    });
+  });
   elements.bankStatementList.querySelectorAll("[data-remove-statement]").forEach((button) => {
     button.addEventListener("click", () => {
       removeBankStatement(button.dataset.removeStatement);
+    });
+  });
+  elements.bankStatementList.querySelectorAll("[data-entry-category]").forEach((select) => {
+    select.addEventListener("change", () => {
+      const [statementId, entryId] = String(select.dataset.entryCategory || "").split("::");
+      if (!statementId || !entryId) return;
+      updateStatementEntryField(statementId, entryId, "category", select.value);
+    });
+  });
+  elements.bankStatementList.querySelectorAll("[data-entry-review]").forEach((select) => {
+    select.addEventListener("change", () => {
+      const [statementId, entryId] = String(select.dataset.entryReview || "").split("::");
+      if (!statementId || !entryId) return;
+      updateStatementEntryField(statementId, entryId, "reviewStatus", select.value);
+    });
+  });
+  elements.bankStatementList.querySelectorAll("[data-entry-reconciled]").forEach((input) => {
+    input.addEventListener("change", () => {
+      const [statementId, entryId] = String(input.dataset.entryReconciled || "").split("::");
+      if (!statementId || !entryId) return;
+      updateStatementEntryField(statementId, entryId, "reconciled", input.checked);
     });
   });
 }
@@ -2291,6 +2428,11 @@ function renderCompanyPanel(viewId = getActiveCompanyView()) {
   renderVatReport(record);
   renderBalanceSheet(record);
   renderCompanyNotes(record);
+
+  void loadCompanySecrets(company.company_number).then(() => {
+    if (state.selectedCompanyId !== company.company_number) return;
+    renderCompanyDetails(company, getCompanyRecord(company.company_number));
+  });
 }
 
 function renderSelfEmployedPanel() {
@@ -2305,15 +2447,16 @@ function renderSelfEmployedPanel() {
   elements.selfEmployedPanel.classList.remove("hidden");
   updatePrimaryNav("self");
   elements.selfPersonName.textContent = person.fullName;
+  const activeSecrets = state.activePersonSecretsId === person.fullName ? state.activePersonSecrets : {};
 
   elements.personDetailsForm.elements.fullName.value = person.fullName;
   elements.personDetailsForm.elements.tradingName.value = person.tradingName;
-  elements.personDetailsForm.elements.utr.value = person.utr;
-  elements.personDetailsForm.elements.nino.value = person.nino;
+  elements.personDetailsForm.elements.utr.value = activeSecrets.utr || "";
+  elements.personDetailsForm.elements.nino.value = activeSecrets.nino || "";
   elements.personDetailsForm.elements.dateOfBirth.value = person.dateOfBirth;
   elements.personDetailsForm.elements.nationality.value = person.nationality;
-  elements.personDetailsForm.elements.gatewayId.value = person.gatewayId;
-  elements.personDetailsForm.elements.gatewayPassword.value = person.gatewayPassword;
+  elements.personDetailsForm.elements.gatewayId.value = activeSecrets.gatewayId || "";
+  elements.personDetailsForm.elements.gatewayPassword.value = activeSecrets.gatewayPassword || "";
   elements.personDetailsForm.elements.address.value = person.address;
   elements.personDetailsForm.elements.notes.value = person.notes;
   resetSensitiveFields(elements.personDetailsForm, "person");
@@ -2437,8 +2580,10 @@ function hydrateStatementEntry(entry) {
   const categoryInfo = categorizeStatementEntry(entry.description, entry.amount);
   return {
     ...entry,
+    id: entry.id || `entry-${Math.random().toString(36).slice(2, 10)}`,
     category: entry.category || categoryInfo.category,
     reviewStatus: entry.reviewStatus || categoryInfo.reviewStatus,
+    reconciled: Boolean(entry.reconciled),
   };
 }
 
@@ -2471,6 +2616,7 @@ function normalizeStatementRows(rows) {
         direction,
         category: categoryInfo.category,
         reviewStatus: categoryInfo.reviewStatus,
+        reconciled: false,
       };
     })
     .filter((entry) => entry.date || entry.description || entry.amount || entry.moneyIn || entry.moneyOut);
@@ -2486,6 +2632,7 @@ function summarizeStatement(entries) {
       if (normalizedEntry.direction === "in") summary.positiveCount += 1;
       if (normalizedEntry.direction === "out") summary.negativeCount += 1;
       if (normalizedEntry.direction === "zero") summary.zeroCount += 1;
+      if (normalizedEntry.reconciled) summary.reconciledCount += 1;
       if (normalizedEntry.reviewStatus === "ready") summary.categorizedCount += 1;
       else summary.reviewNeededCount += 1;
       return summary;
@@ -2497,13 +2644,33 @@ function summarizeStatement(entries) {
       positiveCount: 0,
       negativeCount: 0,
       zeroCount: 0,
+      reconciledCount: 0,
       categorizedCount: 0,
       reviewNeededCount: 0,
     },
   );
 }
 
+function statementMatchesFilters(entry) {
+  const search = String(state.bankFilters.search || "").trim().toLowerCase();
+  const reviewFilter = state.bankFilters.review || "all";
+  const reconciledFilter = state.bankFilters.reconciled || "all";
+
+  if (search) {
+    const haystack = `${entry.date || ""} ${entry.description || ""} ${entry.category || ""}`.toLowerCase();
+    if (!haystack.includes(search)) return false;
+  }
+  if (reviewFilter !== "all" && entry.reviewStatus !== reviewFilter) return false;
+  if (reconciledFilter === "open" && entry.reconciled) return false;
+  if (reconciledFilter === "matched" && !entry.reconciled) return false;
+  return true;
+}
+
 async function importBankStatement() {
+  if (!canEditWorkspace()) {
+    setSaveState(elements.companySaveState, "Your current role cannot import statements.");
+    return;
+  }
   const company = getSelectedCompany();
   const file = elements.bankStatementFile.files?.[0];
   if (!company || !file) {
@@ -2542,6 +2709,13 @@ async function importBankStatement() {
     updateBankStatementFileName();
     renderStats();
     renderCompanyPanel("company-bank-import");
+    recordAuditEvent({
+      action: "statement-import",
+      title: `Imported ${file.name}`,
+      entityType: "company",
+      entityId: company.company_number,
+      changes: [{ label: "Statement", from: "not imported", to: file.name }],
+    });
     setSaveState(elements.companySaveState, `Imported ${file.name}`);
   } catch (error) {
     setSaveState(elements.companySaveState, error.message);
@@ -2549,6 +2723,10 @@ async function importBankStatement() {
 }
 
 function removeBankStatement(statementId) {
+  if (!canEditWorkspace()) {
+    setSaveState(elements.companySaveState, "Your current role cannot remove statements.");
+    return;
+  }
   const company = getSelectedCompany();
   if (!company) return;
 
@@ -2558,7 +2736,561 @@ function removeBankStatement(statementId) {
 
   renderStats();
   renderCompanyPanel("company-bank-import");
+  recordAuditEvent({
+    action: "statement-remove",
+    title: "Bank statement removed",
+    entityType: "company",
+    entityId: company.company_number,
+    changes: [{ label: "Statement", from: statementId, to: "removed" }],
+  });
   setSaveState(elements.companySaveState, "Statement removed");
+}
+
+function toggleStatementClosed(statementId) {
+  if (!canEditWorkspace()) {
+    setSaveState(elements.companySaveState, "Your current role cannot close statement periods.");
+    return;
+  }
+  const company = getSelectedCompany();
+  if (!company) return;
+  updateCompanyRecordField(company.company_number, (recordState) => {
+    recordState.bankImports = (recordState.bankImports || []).map((statement) => (
+      statement.id !== statementId
+        ? statement
+        : {
+          ...statement,
+          closedAt: statement.closedAt ? "" : new Date().toISOString(),
+        }
+    ));
+  });
+  const record = getCompanyRecord(company.company_number);
+  renderBankImports(record);
+  renderStats();
+  const statement = (record.bankImports || []).find((item) => item.id === statementId);
+  recordAuditEvent({
+    action: "statement-close",
+    title: statement?.closedAt ? "Statement period closed" : "Statement period reopened",
+    entityType: "company",
+    entityId: company.company_number,
+    changes: [{ label: "Statement", from: statementId, to: statement?.closedAt ? "closed" : "reopened" }],
+  });
+  setSaveState(elements.companySaveState, "Statement reconciliation status updated");
+}
+
+function updateStatementEntryField(statementId, entryId, field, value) {
+  const company = getSelectedCompany();
+  if (!company) return;
+  const existingRecord = getCompanyRecord(company.company_number);
+  const lockedStatement = (existingRecord.bankImports || []).find((statement) => statement.id === statementId && statement.closedAt);
+  if (lockedStatement) {
+    setSaveState(elements.companySaveState, "Reopen the statement period before changing those lines.");
+    return;
+  }
+
+  updateCompanyRecordField(company.company_number, (recordState) => {
+    recordState.bankImports = (recordState.bankImports || []).map((statement) => {
+      if (statement.id !== statementId) return statement;
+      const entries = (statement.entries || []).map((entry) => {
+        if (entry.id !== entryId) return entry;
+        return {
+          ...entry,
+          [field]: value,
+        };
+      });
+      return {
+        ...statement,
+        entries,
+        summary: summarizeStatement(entries),
+      };
+    });
+  });
+
+  const record = getCompanyRecord(company.company_number);
+  renderStats();
+  renderBankImports(record);
+  renderCompanyChart(record);
+  renderVatReport(record);
+  renderBalanceSheet(record);
+  recordAuditEvent({
+    action: "statement-edit",
+    title: "Bank line updated",
+    entityType: "company",
+    entityId: company.company_number,
+    changes: [{ label: field, from: "previous value", to: String(value) }],
+  });
+  setSaveState(elements.companySaveState, "Bookkeeping row updated");
+}
+
+function slugifyFilePart(value) {
+  return String(value || "aligned-financials")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    || "aligned-financials";
+}
+
+function escapeCsvValue(value) {
+  const text = String(value ?? "");
+  if (/[",\n]/.test(text)) {
+    return `"${text.replace(/"/g, "\"\"")}"`;
+  }
+  return text;
+}
+
+function makeCsv(rows) {
+  return rows
+    .map((row) => row.map((value) => escapeCsvValue(value)).join(","))
+    .join("\n");
+}
+
+function buildExportDocument(title, body) {
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>${escapeHtml(title)}</title>
+    <style>
+      @page {
+        margin: 18mm;
+      }
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: #1a1c20;
+        margin: 0;
+        line-height: 1.5;
+        font-size: 13px;
+      }
+      h1, h2, h3 {
+        margin: 0 0 10px;
+        color: #111111;
+      }
+      h1 {
+        font-size: 26px;
+      }
+      h2 {
+        font-size: 16px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+      p {
+        margin: 0 0 10px;
+      }
+      .sheet {
+        border: 1px solid #e6dcc3;
+        border-radius: 18px;
+        overflow: hidden;
+      }
+      .sheet-head {
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #1b1a17, #312714);
+        color: #f8f3e6;
+      }
+      .sheet-head p {
+        color: #e8d6a0;
+      }
+      .sheet-body {
+        padding: 22px 24px 28px;
+        background: #fffdf8;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 18px;
+      }
+      th, td {
+        border: 1px solid #d1d5db;
+        padding: 8px 10px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: #f3f4f6;
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: 0.06em;
+      }
+      .muted {
+        color: #6b7280;
+      }
+      .section {
+        margin-top: 24px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px 20px;
+      }
+      .pill {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: #f3f4f6;
+      }
+      .footer {
+        margin-top: 28px;
+        padding-top: 16px;
+        border-top: 1px solid #eadfcb;
+        color: #6b7280;
+        font-size: 11px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sheet">
+      <div class="sheet-head">
+        <h1>Aligned Financials</h1>
+        <p>Working export generated from the desktop workspace</p>
+      </div>
+      <div class="sheet-body">
+        ${body}
+        <p class="footer">Prepared ${escapeHtml(formatDateTime(new Date().toISOString()))}</p>
+      </div>
+    </div>
+  </body>
+</html>`;
+}
+
+async function saveTextExport({ suggestedName, content, title, filters }) {
+  if (window.alignedDesktop?.isDesktop) {
+    return window.alignedDesktop.saveExportFile({ suggestedName, content, title, filters });
+  }
+
+  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = suggestedName;
+  link.click();
+  URL.revokeObjectURL(url);
+  return { ok: true, browserDownload: true };
+}
+
+async function savePdfExport({ suggestedName, html, title }) {
+  if (window.alignedDesktop?.isDesktop) {
+    return window.alignedDesktop.saveExportPdf({ suggestedName, html, title });
+  }
+
+  const popup = window.open("", "_blank");
+  if (popup) {
+    popup.document.write(html);
+    popup.document.close();
+    popup.focus();
+    popup.print();
+  }
+  return { ok: true, browserPreview: true };
+}
+
+function buildCompanyDetailsCsv(record, secrets = {}) {
+  return makeCsv([
+    ["Field", "Value"],
+    ["Display name", record.displayName],
+    ["Legal name", record.legalName],
+    ["Company number", record.companyNumber],
+    ["Entity type", record.entityType],
+    ["Company status", record.companyStatus],
+    ["Registration date", record.registrationDate],
+    ["Registration country", record.registrationCountry],
+    ["VAT registration", maskSensitiveValue(secrets.vatRegistration)],
+    ["VAT scheme", record.vatScheme],
+    ["Company UTR", maskSensitiveValue(secrets.utr)],
+    ["PAYE reference", maskSensitiveValue(secrets.payeReference)],
+    ["Account office reference", maskSensitiveValue(secrets.accountOfficeReference)],
+    ["Companies House code", maskSensitiveValue(secrets.companiesHouseCode)],
+    ["Government gateway ID", maskSensitiveValue(secrets.gatewayId)],
+    ["Government gateway password", "Hidden in export"],
+    ["Bank accounts", record.bankAccount],
+    ["Address", record.address],
+    ["Industries", record.industries],
+    ["Next VAT due", record.deadlines?.vatDue || ""],
+    ["Year end", record.deadlines?.yearEnd || ""],
+    ["Confirmation statement", record.deadlines?.confirmation || ""],
+    ["Accounts due", record.deadlines?.accountsDue || ""],
+    ["Bookkeeping status", normalizeWorkflow(record.workflow).bookkeepingStatus],
+    ["Accounts status", normalizeWorkflow(record.workflow).accountsStatus],
+    ["VAT cadence", normalizeWorkflow(record.workflow).vatCadence],
+    ["Payroll status", normalizeWorkflow(record.workflow).payrollStatus],
+    ["Next VAT period end", normalizeWorkflow(record.workflow).nextVatPeriodEnd],
+    ["Corporation tax due", normalizeWorkflow(record.workflow).corporationTaxDue],
+    ["Priority", normalizeWorkflow(record.workflow).priority],
+    ["Assigned to", normalizeWorkflow(record.workflow).assignedTo],
+    ["Next action", normalizeWorkflow(record.workflow).nextAction],
+    ["Notes", record.generalNotes],
+  ]);
+}
+
+function buildCompanyDetailsPdf(record, secrets = {}) {
+  const workflow = normalizeWorkflow(record.workflow);
+  const rows = [
+    ["Display name", record.displayName],
+    ["Legal name", record.legalName],
+    ["Company number", record.companyNumber],
+    ["Entity type", record.entityType],
+    ["Company status", record.companyStatus],
+    ["Registration date", record.registrationDate],
+    ["Registration country", record.registrationCountry],
+    ["VAT registration", maskSensitiveValue(secrets.vatRegistration)],
+    ["VAT scheme", record.vatScheme],
+    ["Company UTR", maskSensitiveValue(secrets.utr)],
+    ["PAYE reference", maskSensitiveValue(secrets.payeReference)],
+    ["Account office reference", maskSensitiveValue(secrets.accountOfficeReference)],
+    ["Companies House code", maskSensitiveValue(secrets.companiesHouseCode)],
+    ["Government gateway ID", maskSensitiveValue(secrets.gatewayId)],
+    ["Government gateway password", "Hidden in export"],
+  ];
+  const workflowRows = [
+    ["Bookkeeping status", workflow.bookkeepingStatus],
+    ["Accounts status", workflow.accountsStatus],
+    ["VAT cadence", workflow.vatCadence],
+    ["Payroll status", workflow.payrollStatus],
+    ["Next VAT period end", workflow.nextVatPeriodEnd],
+    ["Corporation tax due", workflow.corporationTaxDue],
+    ["Priority", workflow.priority],
+    ["Assigned to", workflow.assignedTo],
+    ["Next action", workflow.nextAction],
+  ];
+
+  return buildExportDocument(
+    `${record.displayName} client details`,
+    `
+      <h1>${escapeHtml(record.displayName)}</h1>
+      <p class="muted">Client details export generated from the Aligned Financials workspace.</p>
+      <div class="section">
+        <table>
+          <thead><tr><th>Field</th><th>Value</th></tr></thead>
+          <tbody>${rows.map(([label, value]) => `<tr><td>${escapeHtml(label)}</td><td>${escapeHtml(value || "")}</td></tr>`).join("")}</tbody>
+        </table>
+      </div>
+      <div class="section">
+        <h2>Workflow</h2>
+        <table>
+          <thead><tr><th>Field</th><th>Value</th></tr></thead>
+          <tbody>${workflowRows.map(([label, value]) => `<tr><td>${escapeHtml(label)}</td><td>${escapeHtml(value || "")}</td></tr>`).join("")}</tbody>
+        </table>
+      </div>
+      <div class="section">
+        <h2>Notes</h2>
+        <p>${escapeHtml(record.generalNotes || "No notes saved.")}</p>
+      </div>
+    `,
+  );
+}
+
+function getBankActivityRows(record) {
+  return (record.bankImports || []).flatMap((statement) =>
+    (statement.entries || []).map((entry) => {
+      const hydrated = hydrateStatementEntry(entry);
+      return [
+        statement.accountLabel || "Imported statement",
+        statement.fileName || "",
+        hydrated.date || "",
+        hydrated.description || "",
+        hydrated.category || "",
+        hydrated.reviewStatus || "",
+        hydrated.reconciled ? "Yes" : "No",
+        hydrated.direction || "",
+        hydrated.amount || 0,
+        hydrated.moneyIn || 0,
+        hydrated.moneyOut || 0,
+      ];
+    }),
+  );
+}
+
+function buildBankActivityCsv(record) {
+  return makeCsv([
+    ["Statement", "File", "Date", "Description", "Category", "Review", "Reconciled", "Direction", "Amount", "Money In", "Money Out"],
+    ...getBankActivityRows(record),
+  ]);
+}
+
+function buildBankActivityPdf(record) {
+  const rows = getBankActivityRows(record);
+  return buildExportDocument(
+    `${record.displayName} bank activity`,
+    `
+      <h1>${escapeHtml(record.displayName)} bank activity</h1>
+      <p class="muted">Imported bank activity with bookkeeping category, review, and reconciliation state.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Statement</th>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Review</th>
+            <th>Reconciled</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map((row) => `<tr><td>${escapeHtml(row[0])}</td><td>${escapeHtml(row[2])}</td><td>${escapeHtml(row[3])}</td><td>${escapeHtml(row[4])}</td><td>${escapeHtml(row[5])}</td><td>${escapeHtml(row[6])}</td><td>${escapeHtml(formatCurrency(row[8]))}</td></tr>`).join("")}
+        </tbody>
+      </table>
+    `,
+  );
+}
+
+function buildVatCsv(record, secrets = {}) {
+  const vat = buildVatReport(record, secrets);
+  return makeCsv([
+    ["Field", "Value", "Note"],
+    ["VAT registration", secrets.vatRegistration || "Not set", "Registration number on file"],
+    ["Scheme", record.vatScheme || "Not set", "Current VAT method"],
+    ["Next period end", normalizeWorkflow(record.workflow).nextVatPeriodEnd || "Not set", "Workflow planning field"],
+    ["Due before", record.deadlines?.vatDue || "Not set", "Deadline in the compliance timeline"],
+    ["Imported taxable sales", vat.taxableSales, "Money-in lines mapped to sales income"],
+    ["Working VAT due", vat.estimatedVatDue, vat.isFlatRate ? `${((vat.flatRate || 0) * 100).toFixed(2)}% flat rate` : vat.isRegistered ? "Standard-rate estimate" : "Not VAT registered"],
+    ["VAT payments found", vat.taxPayments, "HMRC and VAT-tagged payments in imported activity"],
+    ["Estimated position", vat.position, vat.position > 0 ? "Still due" : vat.position < 0 ? "Paid ahead" : "Currently even"],
+    ["Reconciled lines", vat.reconciledCount, "Imported entries marked reconciled"],
+    ["Review queue", vat.reviewQueueCount, "Imported entries still not ready"],
+  ]);
+}
+
+function buildVatPdf(record, secrets = {}) {
+  const vat = buildVatReport(record, secrets);
+  return buildExportDocument(
+    `${record.displayName} VAT report`,
+    `
+      <h1>${escapeHtml(record.displayName)} VAT report</h1>
+      <p class="muted">Working VAT report generated from imported bank activity.</p>
+      <table>
+        <thead><tr><th>Field</th><th>Value</th><th>Note</th></tr></thead>
+        <tbody>
+          ${[
+            ["VAT registration", secrets.vatRegistration || "Not set", "Registration number on file"],
+            ["Scheme", record.vatScheme || "Not set", "Current VAT method"],
+            ["Next period end", normalizeWorkflow(record.workflow).nextVatPeriodEnd || "Not set", "Workflow planning field"],
+            ["Due before", record.deadlines?.vatDue || "Not set", "Deadline in the compliance timeline"],
+            ["Imported taxable sales", formatCurrency(vat.taxableSales), "Money-in lines mapped to sales income"],
+            ["Working VAT due", formatCurrency(vat.estimatedVatDue), vat.isFlatRate ? `${((vat.flatRate || 0) * 100).toFixed(2)}% flat rate` : vat.isRegistered ? "Standard-rate estimate" : "Not VAT registered"],
+            ["VAT payments found", formatCurrency(vat.taxPayments), "HMRC and VAT-tagged payments in imported activity"],
+            ["Estimated position", formatCurrency(vat.position), vat.position > 0 ? "Still due" : vat.position < 0 ? "Paid ahead" : "Currently even"],
+            ["Reconciled lines", number.format(vat.reconciledCount), "Imported entries marked reconciled"],
+            ["Review queue", number.format(vat.reviewQueueCount), "Imported entries still not ready"],
+          ].map(([label, value, note]) => `<tr><td>${escapeHtml(label)}</td><td>${escapeHtml(value)}</td><td>${escapeHtml(note)}</td></tr>`).join("")}
+        </tbody>
+      </table>
+    `,
+  );
+}
+
+function buildBalanceCsv(record, secrets = {}) {
+  const sheet = buildBalanceSheet(record, secrets);
+  return makeCsv([
+    ["Section", "Line", "Value"],
+    ...sheet.currentAssets.map(([label, value]) => ["Current assets", label, value]),
+    ["Current assets", "Total assets", sheet.totalAssets],
+    ...sheet.currentLiabilities.map(([label, value]) => ["Current liabilities", label, value]),
+    ["Current liabilities", "Total liabilities", sheet.totalLiabilities],
+    ...sheet.equityLines.map(([label, value]) => ["Equity", label, value]),
+    ["Equity", "Total equity", sheet.totalEquity],
+    ["Summary", "Trading result", sheet.tradingResult],
+    ["Summary", "Net cash", sheet.netCash],
+  ]);
+}
+
+function buildBalancePdf(record, secrets = {}) {
+  const sheet = buildBalanceSheet(record, secrets);
+  const renderRows = (lines) => lines.map(([label, value]) => `<tr><td>${escapeHtml(label)}</td><td>${escapeHtml(formatCurrency(value))}</td></tr>`).join("");
+  return buildExportDocument(
+    `${record.displayName} balance sheet`,
+    `
+      <h1>${escapeHtml(record.displayName)} balance sheet</h1>
+      <p class="muted">Working balance sheet generated from imported cash movement and saved bookkeeping categories.</p>
+      <div class="section">
+        <h2>Current assets</h2>
+        <table><thead><tr><th>Line</th><th>Value</th></tr></thead><tbody>${renderRows(sheet.currentAssets)}<tr><td>Total assets</td><td>${escapeHtml(formatCurrency(sheet.totalAssets))}</td></tr></tbody></table>
+      </div>
+      <div class="section">
+        <h2>Current liabilities</h2>
+        <table><thead><tr><th>Line</th><th>Value</th></tr></thead><tbody>${renderRows(sheet.currentLiabilities)}<tr><td>Total liabilities</td><td>${escapeHtml(formatCurrency(sheet.totalLiabilities))}</td></tr></tbody></table>
+      </div>
+      <div class="section">
+        <h2>Equity</h2>
+        <table><thead><tr><th>Line</th><th>Value</th></tr></thead><tbody>${renderRows(sheet.equityLines)}<tr><td>Total equity</td><td>${escapeHtml(formatCurrency(sheet.totalEquity))}</td></tr></tbody></table>
+      </div>
+    `,
+  );
+}
+
+async function exportCompanySection(section, format) {
+  const company = getSelectedCompany();
+  if (!company) return;
+  const record = getCompanyRecord(company.company_number);
+  const secrets = getCompanySecretSnapshot(record, company.company_number);
+  const slug = slugifyFilePart(record.displayName || company.company_number);
+
+  const exporters = {
+    details: {
+      csv: {
+        fileName: `${slug}-client-details.csv`,
+        title: "Save client details CSV",
+        content: buildCompanyDetailsCsv(record, secrets),
+      },
+      pdf: {
+        fileName: `${slug}-client-details.pdf`,
+        title: "Save client details PDF",
+        html: buildCompanyDetailsPdf(record, secrets),
+      },
+    },
+    bank: {
+      csv: {
+        fileName: `${slug}-bank-activity.csv`,
+        title: "Save bank activity CSV",
+        content: buildBankActivityCsv(record),
+      },
+      pdf: {
+        fileName: `${slug}-bank-activity.pdf`,
+        title: "Save bank activity PDF",
+        html: buildBankActivityPdf(record),
+      },
+    },
+    vat: {
+      csv: {
+        fileName: `${slug}-vat-report.csv`,
+        title: "Save VAT report CSV",
+        content: buildVatCsv(record, secrets),
+      },
+      pdf: {
+        fileName: `${slug}-vat-report.pdf`,
+        title: "Save VAT report PDF",
+        html: buildVatPdf(record, secrets),
+      },
+    },
+    balance: {
+      csv: {
+        fileName: `${slug}-balance-sheet.csv`,
+        title: "Save balance sheet CSV",
+        content: buildBalanceCsv(record, secrets),
+      },
+      pdf: {
+        fileName: `${slug}-balance-sheet.pdf`,
+        title: "Save balance sheet PDF",
+        html: buildBalancePdf(record, secrets),
+      },
+    },
+  };
+
+  const config = exporters[section]?.[format];
+  if (!config) return;
+
+  const result = format === "pdf"
+    ? await savePdfExport({
+      suggestedName: config.fileName,
+      html: config.html,
+      title: config.title,
+    })
+    : await saveTextExport({
+      suggestedName: config.fileName,
+      content: config.content,
+      title: config.title,
+      filters: [{ name: "CSV", extensions: ["csv"] }],
+    });
+
+  if (result?.ok) {
+    setSaveState(elements.companySaveState, `${section.charAt(0).toUpperCase() + section.slice(1)} export ready`);
+  }
 }
 
 function amountClass(value) {
@@ -2583,36 +3315,90 @@ function escapeAttribute(value) {
     .replace(/>/g, "&gt;");
 }
 
-function applyCompanyEdits() {
+async function applyCompanyEdits() {
   const company = getSelectedCompany();
   if (!company) return;
+  if (!canEditWorkspace()) {
+    setSaveState(elements.companySaveState, "Your current role cannot edit company records.");
+    return;
+  }
 
   const current = getCompanyRecord(company.company_number);
   const edits = collectCompanyFormData();
+  const secretEdits = collectCompanySecretData();
+  const accountingOverrides = collectAccountingOverridesData();
   state.companyRecords[company.company_number] = {
     ...current,
     ...edits,
     workflow: normalizeWorkflow(edits.workflow),
+    accountingOverrides,
     companyNumber: edits.companyNumber || company.company_number,
   };
   saveRecords(COMPANY_STORAGE_KEY, state.companyRecords);
+  const secretResult = await saveCompanySecrets(company.company_number, secretEdits);
+  if (secretResult?.ok === false && secretResult?.message) {
+    setSaveState(elements.companySaveState, secretResult.message);
+    return;
+  }
+  const changes = diffFields(current, state.companyRecords[company.company_number], {
+    displayName: "Display name",
+    legalName: "Legal name",
+    companyStatus: "Company status",
+    vatScheme: "VAT scheme",
+    bankAccount: "Bank account",
+  });
+  if (changes.length) {
+    recordAuditEvent({
+      action: "company-save",
+      title: `Updated ${state.companyRecords[company.company_number].displayName}`,
+      entityType: "company",
+      entityId: company.company_number,
+      changes,
+    });
+  }
   renderStats();
   renderCompanyList();
   renderCompanyPanel();
   setSaveState(elements.companySaveState, `Saved ${state.companyRecords[company.company_number].displayName}`);
 }
 
-function applyPersonEdits() {
+async function applyPersonEdits() {
   const personId = state.selectedPersonId;
   if (!personId) return;
+  if (!canEditWorkspace()) {
+    setSaveState(elements.personSaveState, "Your current role cannot edit self employed records.");
+    return;
+  }
 
   const current = state.personRecords[personId];
   const edits = collectPersonFormData();
+  const secretEdits = collectPersonSecretData();
   state.personRecords[personId] = {
     ...current,
     ...edits,
   };
   saveRecords(PERSON_STORAGE_KEY, state.personRecords);
+  const secretResult = await savePersonSecrets(personId, secretEdits);
+  if (secretResult?.ok === false && secretResult?.message) {
+    setSaveState(elements.personSaveState, secretResult.message);
+    return;
+  }
+  const changes = diffFields(current, state.personRecords[personId], {
+    fullName: "Full name",
+    tradingName: "Trading name",
+    dateOfBirth: "Date of birth",
+    nationality: "Nationality",
+    address: "Address",
+  });
+  if (changes.length) {
+    recordAuditEvent({
+      action: "person-save",
+      title: `Updated ${state.personRecords[personId].fullName}`,
+      entityType: "person",
+      entityId: personId,
+      changes,
+    });
+  }
   renderArchivedRecords();
   renderSelfEmployedList();
   renderSelfEmployedPanel();
@@ -2627,6 +3413,13 @@ function archiveCompanyRecord(companyId) {
     archivedReason: "Archived from the live desk",
   };
   saveRecords(COMPANY_STORAGE_KEY, state.companyRecords);
+  recordAuditEvent({
+    action: "company-archive",
+    title: `Archived ${state.companyRecords[companyId].displayName}`,
+    entityType: "company",
+    entityId: companyId,
+    changes: [{ label: "Archive status", from: "live", to: "archived" }],
+  });
   filterCompanies(elements.companySearch.value);
   renderStats();
   renderArchivedRecords();
@@ -2642,6 +3435,13 @@ function restoreCompanyRecord(companyId) {
     archivedReason: "",
   };
   saveRecords(COMPANY_STORAGE_KEY, state.companyRecords);
+  recordAuditEvent({
+    action: "company-restore",
+    title: `Restored ${state.companyRecords[companyId].displayName}`,
+    entityType: "company",
+    entityId: companyId,
+    changes: [{ label: "Archive status", from: "archived", to: "live" }],
+  });
   filterCompanies(elements.companySearch.value);
   renderStats();
   renderArchivedRecords();
@@ -2678,6 +3478,13 @@ function archivePersonRecord(personId) {
     archivedReason: "Archived from the live desk",
   };
   saveRecords(PERSON_STORAGE_KEY, state.personRecords);
+  recordAuditEvent({
+    action: "person-archive",
+    title: `Archived ${state.personRecords[personId].fullName}`,
+    entityType: "person",
+    entityId: personId,
+    changes: [{ label: "Archive status", from: "live", to: "archived" }],
+  });
   renderSelfEmployedList();
   renderStats();
   renderArchivedRecords();
@@ -2693,12 +3500,18 @@ function restorePersonRecord(personId) {
     archivedReason: "",
   };
   saveRecords(PERSON_STORAGE_KEY, state.personRecords);
+  recordAuditEvent({
+    action: "person-restore",
+    title: `Restored ${state.personRecords[personId].fullName}`,
+    entityType: "person",
+    entityId: personId,
+    changes: [{ label: "Archive status", from: "archived", to: "live" }],
+  });
   renderSelfEmployedList();
   renderStats();
   renderArchivedRecords();
   if (elements.settingsPanel.classList.contains("hidden")) {
-    state.selectedPersonId = personId;
-    renderSelfEmployedPanel();
+    openPersonRecord(personId);
   }
   setSaveState(elements.settingsSaveState, `Restored ${state.personRecords[personId].fullName}`);
 }
@@ -2750,11 +3563,20 @@ function openFirstSelfEmployed() {
     elements.emptyState.classList.remove("hidden");
     return;
   }
+  openPersonRecord(firstPerson);
+}
+
+function openPersonRecord(personId) {
+  if (!personId) return;
   state.selectedCompanyId = null;
-  state.selectedPersonId = firstPerson;
+  state.selectedPersonId = personId;
   renderCompanyList();
   renderSelfEmployedList();
   renderSelfEmployedPanel();
+  void loadPersonSecrets(personId).then(() => {
+    if (state.selectedPersonId !== personId) return;
+    renderSelfEmployedPanel();
+  });
 }
 
 async function hydrateEncryptedData() {
@@ -2795,6 +3617,10 @@ async function hydrateEncryptedData() {
 function applyLoadedWorkspaceData(data) {
   const previousCompanyId = state.selectedCompanyId;
   const previousPersonId = state.selectedPersonId;
+  state.activeCompanySecrets = {};
+  state.activeCompanySecretsId = "";
+  state.activePersonSecrets = {};
+  state.activePersonSecretsId = "";
   state.persistedData = data || {};
   initializeRecords(window.APP_DATA);
   renderStats();
@@ -2809,16 +3635,221 @@ function applyLoadedWorkspaceData(data) {
   }
 
   if (previousPersonId && state.personRecords[previousPersonId]) {
-    state.selectedPersonId = previousPersonId;
-    state.selectedCompanyId = null;
-    renderCompanyList();
-    renderSelfEmployedList();
-    renderSelfEmployedPanel();
+    openPersonRecord(previousPersonId);
     return;
   }
 
   renderCompanyList();
   renderSelfEmployedList();
+}
+
+function applyLegacySecretsToCurrentRecords() {
+  if (!state.companies.length) return;
+
+  state.companies.forEach((company) => {
+    state.companyRecords[company.company_number] ??= companyDefaults(company);
+    state.companyRecords[company.company_number] = applyLegacyCompanyBackfill(
+      company.company_number,
+      state.companyRecords[company.company_number],
+    );
+  });
+
+  saveRecords(COMPANY_STORAGE_KEY, state.companyRecords);
+}
+
+async function hydrateLegacySecrets() {
+  state.activeCompanySecrets = {};
+  state.activeCompanySecretsId = "";
+}
+
+async function loadCompanySecrets(companyId) {
+  if (!companyId) return {};
+  if (state.activeCompanySecretsId === companyId) {
+    return state.activeCompanySecrets;
+  }
+
+  if (!window.alignedDesktop?.isDesktop || !window.alignedDesktop.getLegacyCompanySecretRecord) {
+    state.activeCompanySecrets = {};
+    state.activeCompanySecretsId = companyId;
+    return state.activeCompanySecrets;
+  }
+
+  try {
+    const secrets = await window.alignedDesktop.getLegacyCompanySecretRecord({
+      companyId,
+      username: state.activeUser,
+      password: state.activePassword,
+    });
+    state.activeCompanySecrets = secrets && typeof secrets === "object" ? secrets : {};
+    state.activeCompanySecretsId = companyId;
+  } catch {
+    state.activeCompanySecrets = {};
+    state.activeCompanySecretsId = companyId;
+  }
+
+  return state.activeCompanySecrets;
+}
+
+async function saveCompanySecrets(companyId, secrets) {
+  if (!companyId) return { ok: false };
+
+  if (!window.alignedDesktop?.isDesktop || !window.alignedDesktop.saveLegacyCompanySecretRecord) {
+    state.activeCompanySecrets = { ...secrets };
+    state.activeCompanySecretsId = companyId;
+    return { ok: true };
+  }
+
+  const result = await window.alignedDesktop.saveLegacyCompanySecretRecord({
+    companyId,
+    username: state.activeUser,
+    password: state.activePassword,
+    secrets,
+  });
+
+  if (result?.ok) {
+    state.activeCompanySecrets = { ...secrets };
+    state.activeCompanySecretsId = companyId;
+  }
+
+  return result;
+}
+
+async function migrateStoredCompanySecrets() {
+  if (!window.alignedDesktop?.isDesktop || !state.activeUser || !state.activePassword) return;
+
+  let changed = false;
+  for (const [companyId, record] of Object.entries(state.companyRecords)) {
+    const extractedSecrets = COMPANY_SECRET_FIELDS.reduce((accumulator, field) => {
+      const value = String(record[field] || "").trim();
+      if (value) accumulator[field] = value;
+      return accumulator;
+    }, {});
+
+    if (!Object.keys(extractedSecrets).length) continue;
+
+    const existingSecrets = await loadCompanySecrets(companyId);
+    const nextSecrets = {
+      ...extractedSecrets,
+      ...existingSecrets,
+    };
+    const result = await saveCompanySecrets(companyId, nextSecrets);
+    if (!result?.ok) continue;
+
+    COMPANY_SECRET_FIELDS.forEach((field) => {
+      if (record[field]) {
+        record[field] = "";
+        changed = true;
+      }
+    });
+  }
+
+  if (changed) {
+    saveRecords(COMPANY_STORAGE_KEY, state.companyRecords);
+  }
+
+  const currentCompanyId = state.selectedCompanyId || "";
+  if (currentCompanyId) {
+    state.activeCompanySecretsId = "";
+    await loadCompanySecrets(currentCompanyId);
+  } else {
+    state.activeCompanySecrets = {};
+    state.activeCompanySecretsId = "";
+  }
+}
+
+async function loadPersonSecrets(personId) {
+  if (!personId) return {};
+  if (state.activePersonSecretsId === personId) {
+    return state.activePersonSecrets;
+  }
+
+  if (!window.alignedDesktop?.isDesktop || !window.alignedDesktop.getSelfEmployedSecretRecord) {
+    state.activePersonSecrets = {};
+    state.activePersonSecretsId = personId;
+    return state.activePersonSecrets;
+  }
+
+  try {
+    const secrets = await window.alignedDesktop.getSelfEmployedSecretRecord({
+      personId,
+      username: state.activeUser,
+      password: state.activePassword,
+    });
+    state.activePersonSecrets = secrets && typeof secrets === "object" ? secrets : {};
+    state.activePersonSecretsId = personId;
+  } catch {
+    state.activePersonSecrets = {};
+    state.activePersonSecretsId = personId;
+  }
+
+  return state.activePersonSecrets;
+}
+
+async function savePersonSecrets(personId, secrets) {
+  if (!personId) return { ok: false };
+
+  if (!window.alignedDesktop?.isDesktop || !window.alignedDesktop.saveSelfEmployedSecretRecord) {
+    state.activePersonSecrets = { ...secrets };
+    state.activePersonSecretsId = personId;
+    return { ok: true };
+  }
+
+  const result = await window.alignedDesktop.saveSelfEmployedSecretRecord({
+    personId,
+    username: state.activeUser,
+    password: state.activePassword,
+    secrets,
+  });
+
+  if (result?.ok) {
+    state.activePersonSecrets = { ...secrets };
+    state.activePersonSecretsId = personId;
+  }
+
+  return result;
+}
+
+async function migrateStoredPersonSecrets() {
+  if (!window.alignedDesktop?.isDesktop || !state.activeUser || !state.activePassword) return;
+
+  let changed = false;
+  for (const [personId, record] of Object.entries(state.personRecords)) {
+    const extractedSecrets = PERSON_SECRET_FIELDS.reduce((accumulator, field) => {
+      const value = String(record[field] || "").trim();
+      if (value) accumulator[field] = value;
+      return accumulator;
+    }, {});
+
+    if (!Object.keys(extractedSecrets).length) continue;
+
+    const existingSecrets = await loadPersonSecrets(personId);
+    const nextSecrets = {
+      ...extractedSecrets,
+      ...existingSecrets,
+    };
+    const result = await savePersonSecrets(personId, nextSecrets);
+    if (!result?.ok) continue;
+
+    PERSON_SECRET_FIELDS.forEach((field) => {
+      if (record[field]) {
+        record[field] = "";
+        changed = true;
+      }
+    });
+  }
+
+  if (changed) {
+    saveRecords(PERSON_STORAGE_KEY, state.personRecords);
+  }
+
+  const currentPersonId = state.selectedPersonId || "";
+  if (currentPersonId) {
+    state.activePersonSecretsId = "";
+    await loadPersonSecrets(currentPersonId);
+  } else {
+    state.activePersonSecrets = {};
+    state.activePersonSecretsId = "";
+  }
 }
 
 async function syncWorkspaceNow(force = false) {
@@ -2908,11 +3939,100 @@ async function changeLocalPassword() {
     : "Local password updated.";
   elements.changePasswordForm.reset();
   elements.changePasswordForm.elements.username.value = username;
+  recordAuditEvent({
+    action: "password-change",
+    title: "Password updated",
+    entityType: "workspace",
+    entityId: username,
+    changes: [{ label: "Password", from: "old password", to: "new password" }],
+  });
   setSaveState(elements.settingsSaveState, "Password updated");
   refreshSyncSurface();
 }
 
-function createCompanyRecord() {
+function saveSecuritySettings() {
+  state.settings = normalizeSettings({
+    ...state.settings,
+    security: {
+      autoLockMinutes: Math.max(1, Math.min(240, Number(elements.autoLockMinutes?.value || 15))),
+      requirePasswordReveal: Boolean(elements.requirePasswordReveal?.checked),
+      permissionRole: elements.permissionRole?.value || "owner",
+    },
+  });
+  persistSettings();
+  recordAuditEvent({
+    action: "security-settings",
+    title: "Security settings updated",
+    entityType: "workspace",
+    entityId: "settings",
+    changes: [
+      { label: "Auto-lock", from: "previous", to: `${state.settings.security.autoLockMinutes} minutes` },
+      { label: "Reveal confirmation", from: "previous", to: state.settings.security.requirePasswordReveal ? "Required" : "Not required" },
+      { label: "Role", from: "previous", to: state.settings.security.permissionRole },
+    ],
+  });
+  setSaveState(elements.settingsSaveState, "Security settings saved");
+}
+
+async function exportEncryptedBackup() {
+  if (!window.alignedDesktop?.isDesktop) {
+    setSaveState(elements.settingsSaveState, "Backups are available in the desktop app only");
+    return;
+  }
+  const result = await window.alignedDesktop.exportEncryptedBackup({
+    username: state.activeUser,
+    password: state.activePassword,
+  });
+  if (result?.ok) {
+    if (elements.backupStatusText) {
+      elements.backupStatusText.textContent = `Encrypted backup exported to ${result.filePath}.`;
+    }
+    recordAuditEvent({
+      action: "backup-export",
+      title: "Encrypted backup exported",
+      entityType: "workspace",
+      entityId: "backup",
+      changes: [{ label: "Backup file", from: "not exported", to: result.filePath }],
+    });
+    setSaveState(elements.settingsSaveState, "Encrypted backup exported");
+    return;
+  }
+  setSaveState(elements.settingsSaveState, result?.message || "Backup export cancelled");
+}
+
+async function importEncryptedBackup() {
+  if (!window.alignedDesktop?.isDesktop) {
+    setSaveState(elements.settingsSaveState, "Backup restore is available in the desktop app only");
+    return;
+  }
+  const result = await window.alignedDesktop.importEncryptedBackup({
+    username: state.activeUser,
+    password: state.activePassword,
+  });
+  if (result?.ok) {
+    applyLoadedWorkspaceData(result.data || {});
+    if (elements.backupStatusText) {
+      elements.backupStatusText.textContent = `Encrypted backup restored from ${result.filePath}.`;
+    }
+    recordAuditEvent({
+      action: "backup-import",
+      title: "Encrypted backup restored",
+      entityType: "workspace",
+      entityId: "backup",
+      changes: [{ label: "Backup file", from: "previous workspace", to: result.filePath }],
+    });
+    setSaveState(elements.settingsSaveState, "Encrypted backup restored");
+    renderAuditLog();
+    return;
+  }
+  setSaveState(elements.settingsSaveState, result?.message || "Backup restore cancelled");
+}
+
+async function createCompanyRecord() {
+  if (!canEditWorkspace()) {
+    setSaveState(elements.createCompanyState, "Your current role cannot create company records.");
+    return;
+  }
   const formData = new FormData(elements.addCompanyForm);
   const displayName = String(formData.get("displayName") || "").trim();
   const legalName = String(formData.get("legalName") || "").trim();
@@ -2948,15 +4068,21 @@ function createCompanyRecord() {
     legalName: legalName || displayName,
     companyNumber,
     entityType: entityType || "Private limited company",
-    vatRegistration,
     vatScheme,
-    utr,
     address,
     generalNotes: [contactName, contactNote, yearEndNote, note].filter(Boolean).join("\n"),
   };
 
   saveRecords(COMPANY_STORAGE_KEY, state.companyRecords);
   saveRecords(CUSTOM_COMPANIES_KEY, state.customCompanies);
+  const secretResult = await saveCompanySecrets(companyNumber, {
+    vatRegistration,
+    utr,
+  });
+  if (secretResult?.ok === false && secretResult?.message) {
+    setSaveState(elements.createCompanyState, secretResult.message);
+    return;
+  }
   state.companies = [...state.customCompanies, ...state.companies.filter((company) => !company.isCustom)];
   filterCompanies(elements.companySearch.value);
   elements.addCompanyForm.reset();
@@ -2967,15 +4093,28 @@ function createCompanyRecord() {
   renderCompanyList();
   renderSelfEmployedList();
   renderCompanyPanel();
+  recordAuditEvent({
+    action: "company-create",
+    title: `Created ${displayName}`,
+    entityType: "company",
+    entityId: companyNumber,
+    changes: [{ label: "Record", from: "not present", to: displayName }],
+  });
   setSaveState(elements.createCompanyState, `Created ${displayName}`);
 }
 
-function createPersonRecord() {
+async function createPersonRecord() {
+  if (!canEditWorkspace()) {
+    setSaveState(elements.createPersonState, "Your current role cannot create self employed records.");
+    return;
+  }
   const formData = new FormData(elements.addPersonForm);
   const fullName = String(formData.get("fullName") || "").trim();
   const tradingName = String(formData.get("tradingName") || "").trim();
   const utr = String(formData.get("utr") || "").trim();
   const nino = String(formData.get("nino") || "").trim();
+  const gatewayId = String(formData.get("gatewayId") || "").trim();
+  const gatewayPassword = String(formData.get("gatewayPassword") || "").trim();
   const dateOfBirth = String(formData.get("dateOfBirth") || "").trim();
   const nationality = String(formData.get("nationality") || "").trim();
   const address = String(formData.get("address") || "").trim();
@@ -2997,8 +4136,6 @@ function createPersonRecord() {
   state.personRecords[fullName] = {
     ...personDefaults(fullName),
     tradingName,
-    utr,
-    nino,
     dateOfBirth,
     nationality,
     address,
@@ -3007,26 +4144,54 @@ function createPersonRecord() {
 
   saveRecords(PERSON_STORAGE_KEY, state.personRecords);
   saveRecords(CUSTOM_PEOPLE_KEY, state.customPeople);
+  const secretResult = await savePersonSecrets(fullName, {
+    utr,
+    nino,
+    gatewayId,
+    gatewayPassword,
+  });
+  if (secretResult?.ok === false && secretResult?.message) {
+    setSaveState(elements.createPersonState, secretResult.message);
+    return;
+  }
   elements.addPersonForm.reset();
   setPersonWizardStep("identity");
-  state.selectedCompanyId = null;
-  state.selectedPersonId = fullName;
   renderStats();
   renderCompanyList();
   renderSelfEmployedList();
-  renderSelfEmployedPanel();
+  openPersonRecord(fullName);
+  recordAuditEvent({
+    action: "person-create",
+    title: `Created ${fullName}`,
+    entityType: "person",
+    entityId: fullName,
+    changes: [{ label: "Record", from: "not present", to: fullName }],
+  });
   setSaveState(elements.createPersonState, `Created ${fullName}`);
 }
 
 function filterCompanies(query) {
+  state.companyFilters.query = query;
   const lowered = query.trim().toLowerCase();
-  state.filteredCompanies = getActiveCompanies().filter((company) => {
+  const archiveFilter = state.companyFilters.archive || "active";
+  const sourceCompanies = archiveFilter === "archived"
+    ? getArchivedCompanies()
+    : archiveFilter === "all"
+      ? state.companies
+      : getActiveCompanies();
+
+  state.filteredCompanies = sourceCompanies.filter((company) => {
     const record = getCompanyRecord(company.company_number);
-    return (
+    const matchesSearch = (
       record.displayName.toLowerCase().includes(lowered) ||
       record.companyNumber.toLowerCase().includes(lowered) ||
       record.legalName.toLowerCase().includes(lowered)
     );
+    const matchesStatus = state.companyFilters.status === "all"
+      || String(record.companyStatus || "").toLowerCase() === state.companyFilters.status;
+    const matchesBookkeeping = state.companyFilters.bookkeeping === "all"
+      || String(normalizeWorkflow(record.workflow).bookkeepingStatus || "").toLowerCase() === state.companyFilters.bookkeeping;
+    return matchesSearch && matchesStatus && matchesBookkeeping;
   });
   renderCompanyList();
 }
@@ -3039,6 +4204,8 @@ function initializeRecords(data) {
   };
   state.companyRecords = loadSavedRecords(COMPANY_STORAGE_KEY);
   state.personRecords = loadSavedRecords(PERSON_STORAGE_KEY);
+  state.settings = normalizeSettings(loadSavedRecords(SETTINGS_STORAGE_KEY));
+  state.auditLog = Array.isArray(state.persistedData[AUDIT_LOG_STORAGE_KEY]) ? state.persistedData[AUDIT_LOG_STORAGE_KEY] : [];
   state.customCompanies = state.persistedData[CUSTOM_COMPANIES_KEY] || [];
   state.customPeople = state.persistedData[CUSTOM_PEOPLE_KEY] || [];
 
@@ -3057,6 +4224,9 @@ function initializeRecords(data) {
     state.companyRecords[company.company_number].workflow = normalizeWorkflow(
       state.companyRecords[company.company_number].workflow,
     );
+    state.companyRecords[company.company_number].accountingOverrides = normalizeAccountingOverrides(
+      state.companyRecords[company.company_number].accountingOverrides,
+    );
   });
   getSelfEmployedPeople().forEach((person) => {
     state.personRecords[person] ??= personDefaults(person);
@@ -3065,6 +4235,7 @@ function initializeRecords(data) {
 
   saveRecords(COMPANY_STORAGE_KEY, state.companyRecords);
   saveRecords(PERSON_STORAGE_KEY, state.personRecords);
+  saveRecords(SETTINGS_STORAGE_KEY, state.settings);
   state.filteredCompanies = getActiveCompanies();
   state.selectedCompanyId = getActiveCompanies()[0]?.company_number || null;
   refreshSyncSurface();
@@ -3075,6 +4246,18 @@ function bindEvents() {
 
   elements.companySearch.addEventListener("input", (event) => {
     filterCompanies(event.target.value);
+  });
+  elements.companyStatusFilter?.addEventListener("change", (event) => {
+    state.companyFilters.status = event.target.value;
+    filterCompanies(elements.companySearch.value);
+  });
+  elements.companyBookkeepingFilter?.addEventListener("change", (event) => {
+    state.companyFilters.bookkeeping = event.target.value;
+    filterCompanies(elements.companySearch.value);
+  });
+  elements.companyArchiveFilter?.addEventListener("change", (event) => {
+    state.companyFilters.archive = event.target.value;
+    filterCompanies(elements.companySearch.value);
   });
 
   elements.addCompanyButton.addEventListener("click", showNewCompanyPanel);
@@ -3125,6 +4308,19 @@ function bindEvents() {
   elements.resetAccessButton.addEventListener("click", resetLocalAccess);
   elements.logoutButton.addEventListener("click", lockWorkspace);
   elements.changePasswordButton.addEventListener("click", changeLocalPassword);
+  elements.saveSecuritySettingsButton?.addEventListener("click", saveSecuritySettings);
+  elements.exportBackupButton?.addEventListener("click", () => {
+    void exportEncryptedBackup();
+  });
+  elements.importBackupButton?.addEventListener("click", () => {
+    void importEncryptedBackup();
+  });
+  elements.checkUpdatesButton?.addEventListener("click", () => {
+    void checkForUpdatesNow();
+  });
+  elements.installUpdateButton?.addEventListener("click", () => {
+    void installDownloadedUpdate();
+  });
   elements.reloadRemoteButton?.addEventListener("click", () => {
     void reloadCloudWorkspace();
   });
@@ -3136,9 +4332,54 @@ function bindEvents() {
   elements.archiveCompanyButton.addEventListener("click", archiveSelectedCompany);
   elements.importBankStatementButton.addEventListener("click", importBankStatement);
   elements.bankStatementFile.addEventListener("change", updateBankStatementFileName);
+  elements.bankEntrySearch?.addEventListener("input", (event) => {
+    state.bankFilters.search = event.target.value;
+    const company = getSelectedCompany();
+    if (company) renderBankImports(getCompanyRecord(company.company_number));
+  });
+  elements.bankReviewFilter?.addEventListener("change", (event) => {
+    state.bankFilters.review = event.target.value;
+    const company = getSelectedCompany();
+    if (company) renderBankImports(getCompanyRecord(company.company_number));
+  });
+  elements.bankReconciledFilter?.addEventListener("change", (event) => {
+    state.bankFilters.reconciled = event.target.value;
+    const company = getSelectedCompany();
+    if (company) renderBankImports(getCompanyRecord(company.company_number));
+  });
+  elements.exportCompanyDetailsCsvButton?.addEventListener("click", () => {
+    void exportCompanySection("details", "csv");
+  });
+  elements.exportCompanyDetailsPdfButton?.addEventListener("click", () => {
+    void exportCompanySection("details", "pdf");
+  });
+  elements.exportBankActivityCsvButton?.addEventListener("click", () => {
+    void exportCompanySection("bank", "csv");
+  });
+  elements.exportBankActivityPdfButton?.addEventListener("click", () => {
+    void exportCompanySection("bank", "pdf");
+  });
+  elements.exportVatCsvButton?.addEventListener("click", () => {
+    void exportCompanySection("vat", "csv");
+  });
+  elements.exportVatPdfButton?.addEventListener("click", () => {
+    void exportCompanySection("vat", "pdf");
+  });
+  elements.exportBalanceCsvButton?.addEventListener("click", () => {
+    void exportCompanySection("balance", "csv");
+  });
+  elements.exportBalancePdfButton?.addEventListener("click", () => {
+    void exportCompanySection("balance", "pdf");
+  });
   elements.savePersonButton.addEventListener("click", applyPersonEdits);
   elements.resetPersonButton.addEventListener("click", resetCurrentPersonView);
   elements.archivePersonButton.addEventListener("click", archiveSelectedPerson);
+
+  if (window.alignedDesktop?.onUpdateStatus && !state.removeUpdateListener) {
+    state.removeUpdateListener = window.alignedDesktop.onUpdateStatus((payload) => {
+      handleUpdateState(payload);
+    });
+  }
 
   elements.setupForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -3165,6 +4406,12 @@ function bindEvents() {
     event.preventDefault();
     createPersonRecord();
   });
+
+  ["click", "keydown", "pointerdown"].forEach((eventName) => {
+    document.addEventListener(eventName, () => {
+      noteActivityReset();
+    }, true);
+  });
 }
 
 async function loadApp() {
@@ -3175,6 +4422,7 @@ async function loadApp() {
 
   initializeRecords(data);
   bindEvents();
+  hardenSensitiveInputs();
   setCompanyWizardStep("identity");
   setPersonWizardStep("identity");
   renderHeader(data);
@@ -3183,9 +4431,16 @@ async function loadApp() {
   renderSelfEmployedList();
   renderArchivedRecords();
   refreshSyncSurface();
+  await hydrateDesktopMeta();
   if (window.alignedDesktop?.isDesktop) {
     const status = await window.alignedDesktop.authStatus();
     state.supabaseConfigured = Boolean(status.configured);
+    state.appMeta = {
+      ...(state.appMeta || {}),
+      configured: status.configured,
+      hasExternalConfig: Boolean(status.hasExternalConfig),
+    };
+    refreshAboutSurface();
     showAuth(status.configured ? false : !status.hasAccess);
     if (status.username) {
       elements.loginForm.elements.username.value = status.username;

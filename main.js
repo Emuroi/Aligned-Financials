@@ -7,6 +7,10 @@ const { autoUpdater } = require("electron-updater");
 const AUTH_FILE = "aligned-auth.json";
 const DATA_FILE = "aligned-data.enc";
 const ENV_FILE = ".env";
+const LEGACY_SECRETS_FILE = "legacy-company-secrets.json";
+const PERSON_SECRETS_FILE = "self-employed-secrets.json";
+const BACKUP_FILE_EXTENSION = "afb";
+const ENCRYPTED_STORE_FORMAT = "aligned-financials-secret-store-v1";
 
 let supabaseClient = null;
 let onlineSession = {
@@ -15,6 +19,22 @@ let onlineSession = {
   authenticated: false,
 };
 let updateCheckStarted = false;
+const authAttemptState = new Map();
+const AUTH_WINDOW_MS = 10 * 60 * 1000;
+const AUTH_MAX_FAILURES = 5;
+const AUTH_LOCK_MS = 15 * 60 * 1000;
+let updateState = {
+  currentVersion: app.getVersion(),
+  availableVersion: "",
+  downloadedVersion: "",
+  status: "idle",
+  message: "Updates check automatically when the installed desktop app opens.",
+  percent: 0,
+  checking: false,
+  updateAvailable: false,
+  updateDownloaded: false,
+  lastCheckedAt: "",
+};
 
 function createWindow() {
   const window = new BrowserWindow({
@@ -30,7 +50,12 @@ function createWindow() {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
       nodeIntegration: false,
-      sandbox: false,
+      sandbox: true,
+      webSecurity: true,
+      allowRunningInsecureContent: false,
+      navigateOnDragDrop: false,
+      safeDialogs: true,
+      safeDialogsMessage: "Only use this workspace with trusted local files.",
     },
   });
 
@@ -40,10 +65,157 @@ function createWindow() {
     shell.openExternal(url);
     return { action: "deny" };
   });
+
+  window.webContents.on("will-navigate", (event) => {
+    event.preventDefault();
+  });
+}
+
+function broadcastUpdateState() {
+  BrowserWindow.getAllWindows().forEach((window) => {
+    if (!window.isDestroyed()) {
+      window.webContents.send("app:update-status", updateState);
+    }
+  });
+}
+
+app.on("web-contents-created", (_event, contents) => {
+  contents.session.setPermissionRequestHandler((_webContents, _permission, callback) => {
+    callback(false);
+  });
+});
+
+function setUpdateState(patch) {
+  updateState = {
+    ...updateState,
+    ...patch,
+    currentVersion: app.getVersion(),
+  };
+  broadcastUpdateState();
+}
+
+function getEnvCandidatePaths() {
+  const paths = [];
+
+  if (!app.isPackaged) {
+    paths.push(path.join(__dirname, ENV_FILE));
+  }
+
+  paths.push(path.join(path.dirname(process.execPath), ENV_FILE));
+  paths.push(appFile(ENV_FILE));
+
+  return [...new Set(paths)];
+}
+
+function getLegacySecretsCandidatePaths() {
+  return [
+    path.join(__dirname, ".secrets", LEGACY_SECRETS_FILE),
+    path.join(path.dirname(process.execPath), ".secrets", LEGACY_SECRETS_FILE),
+    path.join(path.dirname(process.execPath), LEGACY_SECRETS_FILE),
+    appFile(LEGACY_SECRETS_FILE),
+  ];
+}
+
+function getLegacySecretsWritePath() {
+  const existing = getLegacySecretsCandidatePaths().find((candidate) => fs.existsSync(candidate));
+  if (existing) return existing;
+  if (!app.isPackaged) return path.join(__dirname, ".secrets", LEGACY_SECRETS_FILE);
+  return appFile(LEGACY_SECRETS_FILE);
+}
+
+function getPersonSecretsCandidatePaths() {
+  return [
+    path.join(__dirname, ".secrets", PERSON_SECRETS_FILE),
+    path.join(path.dirname(process.execPath), ".secrets", PERSON_SECRETS_FILE),
+    path.join(path.dirname(process.execPath), PERSON_SECRETS_FILE),
+    appFile(PERSON_SECRETS_FILE),
+  ];
+}
+
+function getPersonSecretsWritePath() {
+  const existing = getPersonSecretsCandidatePaths().find((candidate) => fs.existsSync(candidate));
+  if (existing) return existing;
+  if (!app.isPackaged) return path.join(__dirname, ".secrets", PERSON_SECRETS_FILE);
+  return appFile(PERSON_SECRETS_FILE);
+}
+
+function authKeyFor(username) {
+  return String(username || "").trim().toLowerCase();
+}
+
+function getAuthThrottle(username) {
+  const key = authKeyFor(username);
+  const now = Date.now();
+  const current = authAttemptState.get(key) || {
+    failures: [],
+    blockedUntil: 0,
+  };
+  current.failures = current.failures.filter((timestamp) => now - timestamp < AUTH_WINDOW_MS);
+  if (current.blockedUntil && current.blockedUntil <= now) {
+    current.blockedUntil = 0;
+  }
+  authAttemptState.set(key, current);
+  return current;
+}
+
+function consumeAuthFailure(username) {
+  const key = authKeyFor(username);
+  const current = getAuthThrottle(key);
+  const now = Date.now();
+  current.failures.push(now);
+  if (current.failures.length >= AUTH_MAX_FAILURES) {
+    current.blockedUntil = now + AUTH_LOCK_MS;
+  }
+  authAttemptState.set(key, current);
+}
+
+function clearAuthFailures(username) {
+  authAttemptState.delete(authKeyFor(username));
+}
+
+function getAuthThrottleMessage(username) {
+  const current = getAuthThrottle(username);
+  const now = Date.now();
+  if (current.blockedUntil && current.blockedUntil > now) {
+    const minutes = Math.max(1, Math.ceil((current.blockedUntil - now) / 60000));
+    return `Too many failed sign-in attempts. Try again in about ${minutes} minute${minutes === 1 ? "" : "s"}.`;
+  }
+  return "";
 }
 
 function shouldCheckForUpdates() {
   return app.isPackaged && !process.env.ELECTRON_SKIP_UPDATES;
+}
+
+function runUpdateCheck(trigger = "automatic") {
+  if (!shouldCheckForUpdates()) {
+    setUpdateState({
+      status: "disabled",
+      message: "Updates are available after installing the packaged desktop app.",
+      checking: false,
+    });
+    return Promise.resolve({ ok: false, message: "Updates are only available in the installed desktop app." });
+  }
+
+  setUpdateState({
+    status: "checking",
+    message: trigger === "manual" ? "Checking for updates now." : "Checking for updates.",
+    checking: true,
+    percent: 0,
+    lastCheckedAt: new Date().toISOString(),
+  });
+
+  return autoUpdater.checkForUpdates()
+    .then(() => ({ ok: true }))
+    .catch((error) => {
+      const message = error?.message || "Update check failed.";
+      setUpdateState({
+        status: "error",
+        message,
+        checking: false,
+      });
+      return { ok: false, message };
+    });
 }
 
 function setupAutoUpdates() {
@@ -55,26 +227,78 @@ function setupAutoUpdates() {
 
   autoUpdater.on("checking-for-update", () => {
     console.log("[updater] Checking for updates");
+    setUpdateState({
+      status: "checking",
+      message: "Checking for updates.",
+      checking: true,
+      percent: 0,
+      updateAvailable: false,
+      updateDownloaded: false,
+      downloadedVersion: "",
+      lastCheckedAt: new Date().toISOString(),
+    });
   });
 
   autoUpdater.on("update-available", (info) => {
     console.log(`[updater] Update available: ${info?.version || "unknown version"}`);
+    setUpdateState({
+      status: "downloading",
+      message: `Downloading version ${info?.version || "latest"}.`,
+      checking: false,
+      updateAvailable: true,
+      updateDownloaded: false,
+      availableVersion: info?.version || "",
+      downloadedVersion: "",
+      percent: 0,
+    });
   });
 
   autoUpdater.on("update-not-available", () => {
     console.log("[updater] No update available");
+    setUpdateState({
+      status: "up-to-date",
+      message: `You're on the latest version (${app.getVersion()}).`,
+      checking: false,
+      updateAvailable: false,
+      updateDownloaded: false,
+      availableVersion: "",
+      downloadedVersion: "",
+      percent: 0,
+      lastCheckedAt: new Date().toISOString(),
+    });
   });
 
   autoUpdater.on("error", (error) => {
     console.error("[updater] Update error:", error?.message || error);
+    setUpdateState({
+      status: "error",
+      message: error?.message || "Update check failed.",
+      checking: false,
+    });
   });
 
   autoUpdater.on("download-progress", (progress) => {
     console.log(`[updater] Downloading update: ${Math.round(progress.percent || 0)}%`);
+    setUpdateState({
+      status: "downloading",
+      message: `Downloading update: ${Math.round(progress.percent || 0)}%.`,
+      checking: false,
+      percent: Math.round(progress.percent || 0),
+    });
   });
 
   autoUpdater.on("update-downloaded", async (info) => {
     console.log(`[updater] Update downloaded: ${info?.version || "unknown version"}`);
+    setUpdateState({
+      status: "downloaded",
+      message: `Version ${info?.version || "latest"} is ready to install.`,
+      checking: false,
+      updateAvailable: true,
+      updateDownloaded: true,
+      downloadedVersion: info?.version || "",
+      availableVersion: info?.version || "",
+      percent: 100,
+    });
     const focusedWindow = BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0] || null;
     const result = await dialog.showMessageBox(focusedWindow, {
       type: "info",
@@ -92,9 +316,7 @@ function setupAutoUpdates() {
     }
   });
 
-  autoUpdater.checkForUpdatesAndNotify().catch((error) => {
-    console.error("[updater] Initial update check failed:", error?.message || error);
-  });
+  void runUpdateCheck("automatic");
 }
 
 function appFile(name) {
@@ -138,12 +360,24 @@ function decryptPayload(payload, password, salt) {
   return JSON.parse(decrypted.toString("utf8"));
 }
 
+function isEncryptedStore(value) {
+  return Boolean(
+    value
+    && typeof value === "object"
+    && value.format === ENCRYPTED_STORE_FORMAT
+    && value.payload
+    && typeof value.payload === "object"
+    && value.payload.iv
+    && value.payload.tag
+    && value.payload.content,
+  );
+}
+
 function hashPassword(password, salt) {
   return crypto.pbkdf2Sync(password, Buffer.from(salt, "hex"), 150000, 32, "sha256").toString("hex");
 }
 
-function parseEnvFile() {
-  const envPath = path.join(__dirname, ENV_FILE);
+function parseEnvFile(envPath) {
   if (!fs.existsSync(envPath)) return {};
 
   return fs.readFileSync(envPath, "utf8")
@@ -159,11 +393,152 @@ function parseEnvFile() {
     }, {});
 }
 
+function resolveExternalEnvConfig() {
+  const envPath = getEnvCandidatePaths().find((candidate) => fs.existsSync(candidate)) || "";
+  return {
+    envPath,
+    fileConfig: envPath ? parseEnvFile(envPath) : {},
+    searchedPaths: getEnvCandidatePaths(),
+  };
+}
+
+function readLegacyCompanySecrets() {
+  return {};
+}
+
+function readPersonSecrets() {
+  return {};
+}
+
+function writeLegacyCompanySecrets(value) {
+  return value;
+}
+
+function writePersonSecrets(value) {
+  return value;
+}
+
+function readSecureStore(filePath, password, salt) {
+  if (!filePath || !fs.existsSync(filePath)) return {};
+  try {
+    const parsed = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    if (!parsed || typeof parsed !== "object") return {};
+    if (isEncryptedStore(parsed)) {
+      return decryptPayload(parsed.payload, password, salt);
+    }
+    return parsed;
+  } catch {
+    return {};
+  }
+}
+
+function writeSecureStore(filePath, value, password, salt) {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  const serialized = {
+    format: ENCRYPTED_STORE_FORMAT,
+    updatedAt: new Date().toISOString(),
+    payload: encryptPayload(value, password, salt),
+  };
+  fs.writeFileSync(filePath, `${JSON.stringify(serialized, null, 2)}\n`, "utf8");
+  return filePath;
+}
+
+function verifyDesktopSession(username, password) {
+  const normalizedUsername = String(username || "").trim();
+  const normalizedPassword = String(password || "");
+  if (!normalizedUsername || !normalizedPassword) {
+    return { ok: false, message: "A signed-in desktop session is required." };
+  }
+
+  const verification = verifyCredentials(normalizedUsername, normalizedPassword);
+  if (!verification.ok) {
+    return verification;
+  }
+
+  return { ok: true, auth: verification.auth };
+}
+
+function readLegacyCompanySecretsForSession(username, password) {
+  const verification = verifyDesktopSession(username, password);
+  if (!verification.ok) return {};
+  const filePath = getLegacySecretsCandidatePaths().find((candidate) => fs.existsSync(candidate)) || "";
+  return readSecureStore(filePath, password, verification.auth.salt);
+}
+
+function writeLegacyCompanySecretsForSession(username, password, value) {
+  const verification = verifyDesktopSession(username, password);
+  if (!verification.ok) return "";
+  return writeSecureStore(getLegacySecretsWritePath(), value, password, verification.auth.salt);
+}
+
+function readPersonSecretsForSession(username, password) {
+  const verification = verifyDesktopSession(username, password);
+  if (!verification.ok) return {};
+  const filePath = getPersonSecretsCandidatePaths().find((candidate) => fs.existsSync(candidate)) || "";
+  return readSecureStore(filePath, password, verification.auth.salt);
+}
+
+function writePersonSecretsForSession(username, password, value) {
+  const verification = verifyDesktopSession(username, password);
+  if (!verification.ok) return "";
+  return writeSecureStore(getPersonSecretsWritePath(), value, password, verification.auth.salt);
+}
+
+function buildBackupPackage(username, password) {
+  const verification = verifyDesktopSession(username, password);
+  if (!verification.ok) {
+    return verification;
+  }
+
+  const workspace = loadLocalWorkspace(username, password);
+  if (!workspace.ok) {
+    return workspace;
+  }
+
+  return {
+    ok: true,
+    payload: {
+      format: "aligned-financials-backup-v1",
+      appVersion: app.getVersion(),
+      username,
+      createdAt: new Date().toISOString(),
+      workspace: workspace.data || {},
+      companySecrets: readLegacyCompanySecretsForSession(username, password),
+      personSecrets: readPersonSecretsForSession(username, password),
+    },
+    salt: verification.auth.salt,
+  };
+}
+
+function migrateSecretsToNewPassword(username, currentPassword, newPassword, oldSalt, newSalt) {
+  const companyFilePath = getLegacySecretsCandidatePaths().find((candidate) => fs.existsSync(candidate));
+  if (companyFilePath) {
+    const companySecrets = readSecureStore(companyFilePath, currentPassword, oldSalt);
+    writeSecureStore(getLegacySecretsWritePath(), companySecrets, newPassword, newSalt);
+  }
+
+  const personFilePath = getPersonSecretsCandidatePaths().find((candidate) => fs.existsSync(candidate));
+  if (personFilePath) {
+    const personSecrets = readSecureStore(personFilePath, currentPassword, oldSalt);
+    writeSecureStore(getPersonSecretsWritePath(), personSecrets, newPassword, newSalt);
+  }
+}
+
 function getSupabaseConfig() {
-  const fileConfig = parseEnvFile();
+  const { fileConfig } = resolveExternalEnvConfig();
   return {
     url: process.env.SUPABASE_URL || fileConfig.SUPABASE_URL || "",
     anonKey: process.env.SUPABASE_ANON_KEY || fileConfig.SUPABASE_ANON_KEY || "",
+  };
+}
+
+function getSupabaseConfigInfo() {
+  const resolved = resolveExternalEnvConfig();
+  const config = getSupabaseConfig();
+  return {
+    configured: Boolean(config.url && config.anonKey),
+    envPath: resolved.envPath,
+    searchedPaths: resolved.searchedPaths,
   };
 }
 
@@ -487,23 +862,31 @@ function saveLocalWorkspace(username, password, data) {
 
 ipcMain.handle("auth:status", () => {
   const auth = getAuth();
+  const config = getSupabaseConfigInfo();
   return {
     hasAccess: Boolean(auth),
     username: auth?.username || "",
-    configured: hasSupabaseConfig(),
-    mode: hasSupabaseConfig() ? "supabase" : "local",
+    configured: config.configured,
+    mode: config.configured ? "supabase" : "local",
+    hasExternalConfig: Boolean(config.envPath),
   };
 });
 
 ipcMain.handle("auth:create", async (_event, payload) => {
   const username = String(payload?.username || "").trim();
   const password = String(payload?.password || "");
+  const throttleMessage = getAuthThrottleMessage(username);
+  if (throttleMessage) {
+    return { ok: false, message: throttleMessage };
+  }
   if (!username || password.length < 8) {
+    consumeAuthFailure(username);
     return { ok: false, message: "Provide an email address and a password with at least 8 characters." };
   }
 
   if (!hasSupabaseConfig()) {
     storeLocalAccess(username, password);
+    clearAuthFailures(username);
     return { ok: true, username, offlineOnly: true, message: "Account created." };
   }
 
@@ -512,6 +895,7 @@ ipcMain.handle("auth:create", async (_event, payload) => {
     const login = await signInOnline(username, password);
     if (login.ok) {
       storeLocalAccess(username, password, getAuth());
+      clearAuthFailures(username);
       return {
         ok: true,
         username,
@@ -519,12 +903,14 @@ ipcMain.handle("auth:create", async (_event, payload) => {
         message: "Account already exists. Logged in successfully.",
       };
     }
+    consumeAuthFailure(username);
     return signup;
   }
 
   // Keep the local encrypted access in step with account creation so the user can
   // reopen the same workspace reliably even if email confirmation is enabled.
   storeLocalAccess(username, password, getAuth());
+  clearAuthFailures(username);
 
   return signup;
 });
@@ -532,21 +918,30 @@ ipcMain.handle("auth:create", async (_event, payload) => {
 ipcMain.handle("auth:login", async (_event, payload) => {
   const username = String(payload?.username || "").trim();
   const password = String(payload?.password || "");
+  const throttleMessage = getAuthThrottleMessage(username);
+  if (throttleMessage) {
+    return { ok: false, message: throttleMessage };
+  }
 
   if (!hasSupabaseConfig()) {
     const verification = verifyCredentials(username, password);
-    if (!verification.ok) return verification;
+    if (!verification.ok) {
+      consumeAuthFailure(username);
+      return verification;
+    }
     onlineSession = {
       username,
       password,
       authenticated: false,
     };
+    clearAuthFailures(username);
     return { ok: true, username, offline: true, message: "Logged in successfully." };
   }
 
   const online = await signInOnline(username, password);
   if (online.ok) {
     storeLocalAccess(username, password, getAuth());
+    clearAuthFailures(username);
     return { ok: true, username, offline: false, message: "Logged in successfully." };
   }
 
@@ -557,6 +952,7 @@ ipcMain.handle("auth:login", async (_event, payload) => {
       password,
       authenticated: false,
     };
+    clearAuthFailures(username);
     return {
       ok: true,
       username,
@@ -571,6 +967,7 @@ ipcMain.handle("auth:login", async (_event, payload) => {
       password,
       authenticated: false,
     };
+    clearAuthFailures(username);
     return {
       ok: true,
       username,
@@ -579,6 +976,7 @@ ipcMain.handle("auth:login", async (_event, payload) => {
     };
   }
 
+  consumeAuthFailure(username);
   return online;
 });
 
@@ -586,14 +984,20 @@ ipcMain.handle("auth:change-password", async (_event, payload) => {
   const username = String(payload?.username || "").trim();
   const currentPassword = String(payload?.currentPassword || "");
   const newPassword = String(payload?.newPassword || "");
+  const throttleMessage = getAuthThrottleMessage(username);
+  if (throttleMessage) {
+    return { ok: false, message: throttleMessage };
+  }
 
   if (newPassword.length < 8) {
+    consumeAuthFailure(username);
     return { ok: false, message: "Use at least 8 characters for the new password." };
   }
 
   if (hasSupabaseConfig()) {
     const login = await signInOnline(username, currentPassword);
     if (!login.ok) {
+      consumeAuthFailure(username);
       return login;
     }
 
@@ -605,19 +1009,26 @@ ipcMain.handle("auth:change-password", async (_event, payload) => {
   } else {
     const verification = verifyCredentials(username, currentPassword);
     if (!verification.ok) {
+      consumeAuthFailure(username);
       return verification;
     }
   }
 
   const currentDataResult = loadLocalWorkspace(username, currentPassword);
   const currentData = currentDataResult.ok ? currentDataResult.data : {};
-  storeLocalAccess(username, newPassword, getAuth());
+  const previousAuth = getAuth();
+  const previousSalt = previousAuth?.salt || "";
+  const nextAuth = storeLocalAccess(username, newPassword, previousAuth);
   saveLocalWorkspace(username, newPassword, currentData);
+  if (previousSalt) {
+    migrateSecretsToNewPassword(username, currentPassword, newPassword, previousSalt, nextAuth.salt);
+  }
   onlineSession = {
     username,
     password: newPassword,
     authenticated: hasSupabaseConfig(),
   };
+  clearAuthFailures(username);
   return { ok: true, username };
 });
 
@@ -628,6 +1039,10 @@ ipcMain.handle("auth:reset", async () => {
   const dataPath = appFile(DATA_FILE);
   if (fs.existsSync(authPath)) fs.unlinkSync(authPath);
   if (fs.existsSync(dataPath)) fs.unlinkSync(dataPath);
+  const companySecretsPath = getLegacySecretsWritePath();
+  const personSecretsPath = getPersonSecretsWritePath();
+  if (fs.existsSync(companySecretsPath)) fs.unlinkSync(companySecretsPath);
+  if (fs.existsSync(personSecretsPath)) fs.unlinkSync(personSecretsPath);
   return { ok: true };
 });
 
@@ -716,6 +1131,244 @@ ipcMain.handle("data:save", async (_event, payload) => {
     source: "local",
     offline: true,
   };
+});
+
+ipcMain.handle("app:meta", () => {
+  const config = getSupabaseConfigInfo();
+  return {
+    appName: app.getName(),
+    version: app.getVersion(),
+    packaged: app.isPackaged,
+    configured: config.configured,
+    hasExternalConfig: Boolean(config.envPath),
+    updateState,
+  };
+});
+
+ipcMain.handle("secrets:legacy-company", () => {
+  if (!onlineSession.username || !onlineSession.password) {
+    return {};
+  }
+  return readLegacyCompanySecretsForSession(onlineSession.username, onlineSession.password);
+});
+
+ipcMain.handle("secrets:legacy-company-record", (_event, payload) => {
+  const companyId = String(payload?.companyId || "").trim();
+  const username = String(payload?.username || "").trim();
+  const password = String(payload?.password || "");
+  const session = verifyDesktopSession(username, password);
+  if (!session.ok || !companyId) {
+    return {};
+  }
+
+  const secrets = readLegacyCompanySecretsForSession(username, password);
+  return secrets[companyId] || {};
+});
+
+ipcMain.handle("secrets:save-company-record", (_event, payload) => {
+  const companyId = String(payload?.companyId || "").trim();
+  const username = String(payload?.username || "").trim();
+  const password = String(payload?.password || "");
+  const session = verifyDesktopSession(username, password);
+  if (!session.ok || !companyId) {
+    return { ok: false, message: session.message || "A signed-in desktop session is required." };
+  }
+
+  const incoming = payload?.secrets && typeof payload.secrets === "object" ? payload.secrets : {};
+  const sanitized = Object.entries(incoming).reduce((accumulator, [key, value]) => {
+    const text = String(value || "").trim();
+    if (text) accumulator[key] = text;
+    return accumulator;
+  }, {});
+
+  const secrets = readLegacyCompanySecretsForSession(username, password);
+  if (Object.keys(sanitized).length) {
+    secrets[companyId] = sanitized;
+  } else {
+    delete secrets[companyId];
+  }
+  writeLegacyCompanySecretsForSession(username, password, secrets);
+  return { ok: true };
+});
+
+ipcMain.handle("secrets:self-employed-record", (_event, payload) => {
+  const personId = String(payload?.personId || "").trim();
+  const username = String(payload?.username || "").trim();
+  const password = String(payload?.password || "");
+  const session = verifyDesktopSession(username, password);
+  if (!session.ok || !personId) {
+    return {};
+  }
+
+  const secrets = readPersonSecretsForSession(username, password);
+  return secrets[personId] || {};
+});
+
+ipcMain.handle("secrets:save-self-employed-record", (_event, payload) => {
+  const personId = String(payload?.personId || "").trim();
+  const username = String(payload?.username || "").trim();
+  const password = String(payload?.password || "");
+  const session = verifyDesktopSession(username, password);
+  if (!session.ok || !personId) {
+    return { ok: false, message: session.message || "A signed-in desktop session is required." };
+  }
+
+  const incoming = payload?.secrets && typeof payload.secrets === "object" ? payload.secrets : {};
+  const sanitized = Object.entries(incoming).reduce((accumulator, [key, value]) => {
+    const text = String(value || "").trim();
+    if (text) accumulator[key] = text;
+    return accumulator;
+  }, {});
+
+  const secrets = readPersonSecretsForSession(username, password);
+  if (Object.keys(sanitized).length) {
+    secrets[personId] = sanitized;
+  } else {
+    delete secrets[personId];
+  }
+  writePersonSecretsForSession(username, password, secrets);
+  return { ok: true };
+});
+
+ipcMain.handle("backup:export", async (_event, payload) => {
+  const username = String(payload?.username || "").trim();
+  const password = String(payload?.password || "");
+  const backup = buildBackupPackage(username, password);
+  if (!backup.ok) {
+    return backup;
+  }
+
+  const result = await dialog.showSaveDialog({
+    title: "Export encrypted backup",
+    defaultPath: `aligned-financials-backup-${new Date().toISOString().slice(0, 10)}.${BACKUP_FILE_EXTENSION}`,
+    filters: [{ name: "Aligned Financials Backup", extensions: [BACKUP_FILE_EXTENSION] }],
+  });
+
+  if (result.canceled || !result.filePath) {
+    return { ok: false, cancelled: true };
+  }
+
+  const encrypted = {
+    format: "aligned-financials-backup-file-v1",
+    createdAt: backup.payload.createdAt,
+    payload: encryptPayload(backup.payload, password, backup.salt),
+  };
+  fs.writeFileSync(result.filePath, `${JSON.stringify(encrypted, null, 2)}\n`, "utf8");
+  return { ok: true, filePath: result.filePath };
+});
+
+ipcMain.handle("backup:import", async (_event, payload) => {
+  const username = String(payload?.username || "").trim();
+  const password = String(payload?.password || "");
+  const verification = verifyDesktopSession(username, password);
+  if (!verification.ok) {
+    return verification;
+  }
+
+  const result = await dialog.showOpenDialog({
+    title: "Restore encrypted backup",
+    filters: [{ name: "Aligned Financials Backup", extensions: [BACKUP_FILE_EXTENSION] }],
+    properties: ["openFile"],
+  });
+
+  if (result.canceled || !result.filePaths?.[0]) {
+    return { ok: false, cancelled: true };
+  }
+
+  try {
+    const raw = JSON.parse(fs.readFileSync(result.filePaths[0], "utf8"));
+    const payloadValue = isEncryptedStore({
+      format: ENCRYPTED_STORE_FORMAT,
+      payload: raw?.payload,
+    })
+      ? decryptPayload(raw.payload, password, verification.auth.salt)
+      : null;
+    if (!payloadValue || payloadValue.format !== "aligned-financials-backup-v1") {
+      return { ok: false, message: "That backup file is not valid for this workspace." };
+    }
+
+    saveLocalWorkspace(username, password, payloadValue.workspace || {});
+    writeLegacyCompanySecretsForSession(username, password, payloadValue.companySecrets || {});
+    writePersonSecretsForSession(username, password, payloadValue.personSecrets || {});
+    return {
+      ok: true,
+      restoredAt: new Date().toISOString(),
+      filePath: result.filePaths[0],
+      data: payloadValue.workspace || {},
+    };
+  } catch {
+    return { ok: false, message: "The backup file could not be restored with the current password." };
+  }
+});
+
+ipcMain.handle("updates:state", () => updateState);
+
+ipcMain.handle("updates:check", async () => runUpdateCheck("manual"));
+
+ipcMain.handle("updates:install", async () => {
+  if (!updateState.updateDownloaded) {
+    return { ok: false, message: "No downloaded update is ready to install yet." };
+  }
+  autoUpdater.quitAndInstall();
+  return { ok: true };
+});
+
+ipcMain.handle("exports:save-file", async (_event, payload) => {
+  const suggestedName = String(payload?.suggestedName || "aligned-financials-export.txt");
+  const title = String(payload?.title || "Save export");
+  const content = String(payload?.content || "");
+  const filters = Array.isArray(payload?.filters) ? payload.filters : [];
+
+  const result = await dialog.showSaveDialog({
+    title,
+    defaultPath: suggestedName,
+    filters,
+  });
+
+  if (result.canceled || !result.filePath) {
+    return { ok: false, cancelled: true };
+  }
+
+  fs.writeFileSync(result.filePath, content, "utf8");
+  return { ok: true, filePath: result.filePath };
+});
+
+ipcMain.handle("exports:save-pdf", async (_event, payload) => {
+  const suggestedName = String(payload?.suggestedName || "aligned-financials-export.pdf");
+  const title = String(payload?.title || "Save PDF");
+  const html = String(payload?.html || "");
+
+  const result = await dialog.showSaveDialog({
+    title,
+    defaultPath: suggestedName,
+    filters: [{ name: "PDF", extensions: ["pdf"] }],
+  });
+
+  if (result.canceled || !result.filePath) {
+    return { ok: false, cancelled: true };
+  }
+
+  const exportWindow = new BrowserWindow({
+    show: false,
+    webPreferences: {
+      sandbox: false,
+    },
+  });
+
+  try {
+    await exportWindow.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(html)}`);
+    const pdf = await exportWindow.webContents.printToPDF({
+      printBackground: true,
+      preferCSSPageSize: true,
+      pageSize: "A4",
+    });
+    fs.writeFileSync(result.filePath, pdf);
+    return { ok: true, filePath: result.filePath };
+  } finally {
+    if (!exportWindow.isDestroyed()) {
+      exportWindow.destroy();
+    }
+  }
 });
 
 app.whenReady().then(() => {

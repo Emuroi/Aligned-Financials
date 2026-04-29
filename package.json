@@ -8,9 +8,18 @@
     "start": "electron .",
     "dist": "electron-builder",
     "dist:win": "electron-builder --win nsis portable",
-    "dist:installer": "electron-builder --win nsis",
+    "dist:installer": "node scripts/build-windows.js",
     "dist:portable": "electron-builder --win portable",
-    "dist:publish": "electron-builder --win nsis --publish always"
+    "dist:publish": "node scripts/build-windows.js --publish",
+    "release:notes": "node scripts/make-release-notes.js",
+    "version:bump:patch": "node scripts/bump-version.js patch",
+    "version:bump:minor": "node scripts/bump-version.js minor",
+    "version:bump:major": "node scripts/bump-version.js major",
+    "release:prepare:patch": "npm run version:bump:patch && npm run release:notes",
+    "release:prepare:minor": "npm run version:bump:minor && npm run release:notes",
+    "release:prepare:major": "npm run version:bump:major && npm run release:notes",
+    "release:test": "npm run dist:installer",
+    "release:ship": "npm run dist:publish"
   },
   "build": {
     "appId": "com.alignedfinancials.desktop",
@@ -23,8 +32,6 @@
       "app/**/*",
       "main.js",
       "preload.js",
-      ".env",
-      ".env.example",
       "package.json",
       "README.md"
     ],

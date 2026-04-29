@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
     <title>Aligned Financials Workspace</title>
     <link rel="stylesheet" href="styles.css">
   </head>
@@ -143,6 +144,26 @@
           <button id="addCompanyButton" class="rail-action">New company</button>
           <label class="search-label" for="companySearch">Search companies</label>
           <input id="companySearch" class="search" type="search" placeholder="Name or company number">
+          <div class="rail-filters">
+            <select id="companyStatusFilter" class="search search-select">
+              <option value="all">All statuses</option>
+              <option value="active">Active only</option>
+              <option value="not confirmed">Not confirmed</option>
+              <option value="dissolved">Dissolved</option>
+            </select>
+            <select id="companyBookkeepingFilter" class="search search-select">
+              <option value="all">All bookkeeping</option>
+              <option value="ready">Ready</option>
+              <option value="in progress">In progress</option>
+              <option value="waiting">Waiting</option>
+              <option value="review">Review</option>
+            </select>
+            <select id="companyArchiveFilter" class="search search-select">
+              <option value="active">Active desk</option>
+              <option value="archived">Archived</option>
+              <option value="all">All records</option>
+            </select>
+          </div>
           <div id="companyList" class="company-list"></div>
 
           <div class="rail-divider"></div>
@@ -573,6 +594,10 @@
                     <p class="section-kicker">Core profile</p>
                     <h3>Company details</h3>
                   </div>
+                  <div class="card-toolbar">
+                    <button id="exportCompanyDetailsCsvButton" class="mini-button" type="button">Export details CSV</button>
+                    <button id="exportCompanyDetailsPdfButton" class="mini-button" type="button">Export details PDF</button>
+                  </div>
                   <form id="companyDetailsForm" class="form-grid">
                     <label>
                       <span>Display name</span>
@@ -738,7 +763,7 @@
                   <div class="notes-stack">
                     <article class="note-card">
                       <h4>How it works</h4>
-                      <p>Positive amounts are treated as money in. Negative amounts are treated as money out. Separate debit and credit columns are also detected automatically.</p>
+                      <p>Positive amounts are treated as money in. Negative amounts are treated as money out. Separate debit and credit columns are also detected automatically, then you can refine category, review state, and reconciliation below.</p>
                     </article>
                     <article class="note-card">
                       <h4>Best statement format</h4>
@@ -752,6 +777,24 @@
                 <div class="card-head">
                   <p class="section-kicker">Imported library</p>
                   <h3>Company bank statements</h3>
+                </div>
+                <div class="table-filter-bar">
+                  <input id="bankEntrySearch" class="search table-search" type="search" placeholder="Search imported descriptions">
+                  <select id="bankReviewFilter" class="search search-select">
+                    <option value="all">All review states</option>
+                    <option value="needs-review">Needs review</option>
+                    <option value="review">Review</option>
+                    <option value="ready">Ready</option>
+                  </select>
+                  <select id="bankReconciledFilter" class="search search-select">
+                    <option value="all">All reconciliation</option>
+                    <option value="open">Open only</option>
+                    <option value="matched">Matched only</option>
+                  </select>
+                </div>
+                <div class="card-toolbar card-toolbar-centered">
+                  <button id="exportBankActivityCsvButton" class="mini-button" type="button">Export bank CSV</button>
+                  <button id="exportBankActivityPdfButton" class="mini-button" type="button">Export bank PDF</button>
                 </div>
                 <p id="bankImportEmpty" class="workflow-summary"></p>
                 <div id="bankStatementList" class="statement-list"></div>
@@ -788,6 +831,52 @@
                     <p class="section-kicker">Review</p>
                     <h3>Posting notes</h3>
                   </div>
+                  <div class="form-grid compact-form">
+                    <label class="full-span">
+                      <span>Account mapping preset</span>
+                      <select id="chartPresetSelect">
+                        <option value="default">Default mapping</option>
+                        <option value="conservative">Conservative review bias</option>
+                        <option value="cash-heavy">Cash-heavy trading</option>
+                      </select>
+                    </label>
+                    <label>
+                      <span>Sales income account</span>
+                      <select id="mapSalesIncome"></select>
+                    </label>
+                    <label>
+                      <span>Other income account</span>
+                      <select id="mapOtherIncome"></select>
+                    </label>
+                    <label>
+                      <span>Tax payment account</span>
+                      <select id="mapTaxPayment"></select>
+                    </label>
+                    <label>
+                      <span>Payroll account</span>
+                      <select id="mapPayroll"></select>
+                    </label>
+                    <label>
+                      <span>Rent account</span>
+                      <select id="mapRent"></select>
+                    </label>
+                    <label>
+                      <span>Software account</span>
+                      <select id="mapSoftware"></select>
+                    </label>
+                    <label>
+                      <span>Bank charges account</span>
+                      <select id="mapBankCharges"></select>
+                    </label>
+                    <label>
+                      <span>Transfer account</span>
+                      <select id="mapTransfer"></select>
+                    </label>
+                    <label>
+                      <span>Admin expense account</span>
+                      <select id="mapGeneralAdminExpense"></select>
+                    </label>
+                  </div>
                   <div id="companyChartNotes" class="notes-stack"></div>
                 </article>
               </section>
@@ -800,6 +889,10 @@
                     <p class="section-kicker">Tax</p>
                     <h3>VAT working report</h3>
                   </div>
+                  <div class="card-toolbar">
+                    <button id="exportVatCsvButton" class="mini-button" type="button">Export VAT CSV</button>
+                    <button id="exportVatPdfButton" class="mini-button" type="button">Export VAT PDF</button>
+                  </div>
                   <div id="companyVatCards" class="metric-grid"></div>
                 </article>
 
@@ -807,6 +900,24 @@
                   <div class="card-head">
                     <p class="section-kicker">VAT notes</p>
                     <h3>Period position</h3>
+                  </div>
+                  <div class="form-grid compact-form">
+                    <label>
+                      <span>VAT treatment</span>
+                      <select id="vatTreatmentSelect">
+                        <option value="auto">Use workspace default</option>
+                        <option value="registered">Registered</option>
+                        <option value="not-registered">Not registered</option>
+                      </select>
+                    </label>
+                    <label>
+                      <span>Working rate override (%)</span>
+                      <input id="vatRateOverride" type="number" step="0.01" placeholder="Optional">
+                    </label>
+                    <label class="full-span">
+                      <span>Manual VAT due override</span>
+                      <input id="vatManualDueOverride" type="number" step="0.01" placeholder="Optional">
+                    </label>
                   </div>
                   <div id="companyVatNotes" class="notes-stack"></div>
                 </article>
@@ -820,6 +931,10 @@
                     <p class="section-kicker">Financials</p>
                     <h3>Working balance sheet</h3>
                   </div>
+                  <div class="card-toolbar">
+                    <button id="exportBalanceCsvButton" class="mini-button" type="button">Export balance CSV</button>
+                    <button id="exportBalancePdfButton" class="mini-button" type="button">Export balance PDF</button>
+                  </div>
                   <p id="companyBalanceSummary" class="workflow-summary"></p>
                   <div class="detail-grid dual-balance" id="companyBalanceSheet"></div>
                 </article>
@@ -828,6 +943,35 @@
                   <div class="card-head">
                     <p class="section-kicker">Position</p>
                     <h3>Balance sheet notes</h3>
+                  </div>
+                  <div class="form-grid compact-form">
+                    <label>
+                      <span>Bank classification</span>
+                      <select id="balanceBankClass">
+                        <option value="current-asset">Current asset</option>
+                        <option value="current-liability">Current liability</option>
+                      </select>
+                    </label>
+                    <label>
+                      <span>Director funding override</span>
+                      <input id="directorFundingOverride" type="number" step="0.01" placeholder="Optional">
+                    </label>
+                    <label>
+                      <span>Additional asset</span>
+                      <input id="balanceExtraAssetLabel" type="text" placeholder="Asset label">
+                    </label>
+                    <label>
+                      <span>Asset value</span>
+                      <input id="balanceExtraAssetValue" type="number" step="0.01" placeholder="0.00">
+                    </label>
+                    <label>
+                      <span>Additional liability</span>
+                      <input id="balanceExtraLiabilityLabel" type="text" placeholder="Liability label">
+                    </label>
+                    <label>
+                      <span>Liability value</span>
+                      <input id="balanceExtraLiabilityValue" type="number" step="0.01" placeholder="0.00">
+                    </label>
                   </div>
                   <div id="companyBalanceNotes" class="notes-stack"></div>
                 </article>
@@ -932,7 +1076,7 @@
                 </div>
                 <form id="changePasswordForm" class="form-grid">
                   <label>
-                    <span>Username</span>
+                    <span>Email</span>
                     <input name="username" type="text" autocomplete="username">
                   </label>
                   <label>
@@ -950,6 +1094,34 @@
                 </form>
                 <div class="import-actions">
                   <button id="changePasswordButton" class="action-chip">Update password</button>
+                </div>
+              </article>
+
+              <article class="glass-card">
+                <div class="card-head">
+                  <p class="section-kicker">Session</p>
+                  <h3>Lock and reveal controls</h3>
+                </div>
+                <form id="securitySettingsForm" class="form-grid">
+                  <label>
+                    <span>Auto-lock after minutes</span>
+                    <input id="autoLockMinutes" type="number" min="1" max="240" step="1">
+                  </label>
+                  <label>
+                    <span>Permission role</span>
+                    <select id="permissionRole">
+                      <option value="owner">Owner</option>
+                      <option value="staff">Staff</option>
+                      <option value="viewer">Viewer</option>
+                    </select>
+                  </label>
+                  <label class="toggle-field full-span">
+                    <span>Require password again before revealing sensitive fields</span>
+                    <input id="requirePasswordReveal" type="checkbox">
+                  </label>
+                </form>
+                <div class="import-actions">
+                  <button id="saveSecuritySettingsButton" class="action-chip" type="button">Save security settings</button>
                 </div>
               </article>
 
@@ -981,6 +1153,64 @@
 
               <article class="glass-card">
                 <div class="card-head">
+                  <p class="section-kicker">Backup</p>
+                  <h3>Encrypted backup and restore</h3>
+                </div>
+                <div class="notes-stack">
+                  <article class="note-card">
+                    <h4>Protected backup</h4>
+                    <p id="backupStatusText">Create a one-click encrypted backup of the workspace and local secret stores.</p>
+                    <div class="sync-actions">
+                      <button id="exportBackupButton" class="action-chip subtle" type="button">Export backup</button>
+                      <button id="importBackupButton" class="action-chip subtle" type="button">Restore backup</button>
+                    </div>
+                  </article>
+                </div>
+              </article>
+
+              <article class="glass-card">
+                <div class="card-head">
+                  <p class="section-kicker">About</p>
+                  <h3>Updates and release</h3>
+                </div>
+                <div class="notes-stack">
+                  <article class="note-card">
+                    <h4>Current version</h4>
+                    <p id="appVersionText">Version details will appear here.</p>
+                    <p id="appPackageText" class="workflow-summary"></p>
+                  </article>
+                  <article class="note-card">
+                    <h4>Update state</h4>
+                    <p id="updateStatusText">Update status will appear here.</p>
+                    <p id="updateDetailText" class="workflow-summary"></p>
+                    <div class="sync-actions">
+                      <button id="checkUpdatesButton" class="action-chip subtle" type="button">Check now</button>
+                      <button id="installUpdateButton" class="action-chip subtle hidden" type="button">Restart to update</button>
+                    </div>
+                  </article>
+                  <article class="note-card">
+                    <h4>Supabase config</h4>
+                    <p id="configPathText">Desktop config paths will appear here.</p>
+                  </article>
+                </div>
+              </article>
+
+              <article class="glass-card">
+                <div class="card-head">
+                  <p class="section-kicker">Audit</p>
+                  <h3>Recent activity</h3>
+                </div>
+                <div class="notes-stack">
+                  <article class="note-card">
+                    <h4>Change trail</h4>
+                    <p id="auditEmptyText" class="workflow-summary"></p>
+                    <div id="auditLogList" class="archive-list"></div>
+                  </article>
+                </div>
+              </article>
+
+              <article class="glass-card">
+                <div class="card-head">
                   <p class="section-kicker">Archive</p>
                   <h3>Archived records</h3>
                 </div>
@@ -1004,6 +1234,7 @@
     </main>
 
     <script src="dashboard-data.js"></script>
+    <script src="legacy-profiles-public.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
