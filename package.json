@@ -1,6 +1,6 @@
 {
   "name": "aligned-financials-desktop",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Private offline desktop workspace for Aligned Financials.",
   "author": "Aligned Financials",
   "main": "main.js",
@@ -39,7 +39,8 @@
       {
         "provider": "github",
         "owner": "Emuroi",
-        "repo": "Aligned-Financials"
+        "repo": "Aligned-Financials",
+        "publishAutoUpdate": true
       }
     ],
     "win": {
