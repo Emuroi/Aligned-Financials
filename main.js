@@ -1,7 +1,8 @@
-const { app, BrowserWindow, shell, ipcMain } = require("electron");
+const { app, BrowserWindow, shell, ipcMain, dialog } = require("electron");
 const path = require("path");
 const fs = require("fs");
 const crypto = require("crypto");
+const { autoUpdater } = require("electron-updater");
 
 const AUTH_FILE = "aligned-auth.json";
 const DATA_FILE = "aligned-data.enc";
@@ -13,6 +14,7 @@ let onlineSession = {
   password: "",
   authenticated: false,
 };
+let updateCheckStarted = false;
 
 function createWindow() {
   const window = new BrowserWindow({
@@ -37,6 +39,61 @@ function createWindow() {
   window.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
     return { action: "deny" };
+  });
+}
+
+function shouldCheckForUpdates() {
+  return app.isPackaged && !process.env.ELECTRON_SKIP_UPDATES;
+}
+
+function setupAutoUpdates() {
+  if (!shouldCheckForUpdates() || updateCheckStarted) return;
+  updateCheckStarted = true;
+
+  autoUpdater.autoDownload = true;
+  autoUpdater.autoInstallOnAppQuit = true;
+
+  autoUpdater.on("checking-for-update", () => {
+    console.log("[updater] Checking for updates");
+  });
+
+  autoUpdater.on("update-available", (info) => {
+    console.log(`[updater] Update available: ${info?.version || "unknown version"}`);
+  });
+
+  autoUpdater.on("update-not-available", () => {
+    console.log("[updater] No update available");
+  });
+
+  autoUpdater.on("error", (error) => {
+    console.error("[updater] Update error:", error?.message || error);
+  });
+
+  autoUpdater.on("download-progress", (progress) => {
+    console.log(`[updater] Downloading update: ${Math.round(progress.percent || 0)}%`);
+  });
+
+  autoUpdater.on("update-downloaded", async (info) => {
+    console.log(`[updater] Update downloaded: ${info?.version || "unknown version"}`);
+    const focusedWindow = BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0] || null;
+    const result = await dialog.showMessageBox(focusedWindow, {
+      type: "info",
+      buttons: ["Restart now", "Later"],
+      defaultId: 0,
+      cancelId: 1,
+      title: "Update ready",
+      message: "A new version of Aligned Financials has been downloaded.",
+      detail: "Restart the app to install the update.",
+      noLink: true,
+    });
+
+    if (result.response === 0) {
+      autoUpdater.quitAndInstall();
+    }
+  });
+
+  autoUpdater.checkForUpdatesAndNotify().catch((error) => {
+    console.error("[updater] Initial update check failed:", error?.message || error);
   });
 }
 
@@ -663,6 +720,7 @@ ipcMain.handle("data:save", async (_event, payload) => {
 
 app.whenReady().then(() => {
   createWindow();
+  setupAutoUpdates();
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {
