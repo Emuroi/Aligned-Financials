@@ -2088,14 +2088,18 @@ async function createLocalAccess() {
   elements.setupForm.reset();
   resetSensitiveFields(elements.setupForm, "setup");
   setAuthMessage(elements.authMessage, "Account created. Opening workspace...");
-  await openWorkspaceSession(
-    username,
-    password,
-    {
-      offline: Boolean(authResult.offline || authResult.offlineOnly),
-      message: authResult.message || (state.supabaseConfigured ? "Account created and ready to save." : "Account created."),
-    },
-  );
+  try {
+    await openWorkspaceSession(
+      username,
+      password,
+      {
+        offline: Boolean(authResult.offline || authResult.offlineOnly),
+        message: authResult.message || (state.supabaseConfigured ? "Account created and ready to save." : "Account created."),
+      },
+    );
+  } catch (error) {
+    setAuthMessage(elements.authMessage, error?.message || "Account was created, but the workspace could not be opened.");
+  }
 }
 
 async function loginLocalAccess() {
@@ -2128,7 +2132,11 @@ async function loginLocalAccess() {
 
   elements.loginForm.reset();
   resetSensitiveFields(elements.loginForm, "login");
-  await openWorkspaceSession(username, password, authResult);
+  try {
+    await openWorkspaceSession(username, password, authResult);
+  } catch (error) {
+    setAuthMessage(elements.loginMessage, error?.message || "Signed in, but the workspace could not be opened.");
+  }
 }
 
 async function tryAutoLogin() {
@@ -2137,9 +2145,14 @@ async function tryAutoLogin() {
   const result = await window.alignedDesktop.autoLogin();
   if (!result.ok) return false;
 
-  setAuthMessage(elements.loginMessage, result.message || "Opened saved workspace.");
-  await openWorkspaceSession(result.username, result.password, result);
-  return true;
+  try {
+    setAuthMessage(elements.loginMessage, result.message || "Opened saved workspace.");
+    await openWorkspaceSession(result.username, result.password, result);
+    return true;
+  } catch (error) {
+    setAuthMessage(elements.loginMessage, error?.message || "Saved login worked, but the workspace could not be opened.");
+    return false;
+  }
 }
 
 function lockWorkspace() {
