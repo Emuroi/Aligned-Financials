@@ -1,6 +1,6 @@
 {
   "name": "aligned-financials-desktop",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "Private offline desktop workspace for Aligned Financials.",
   "author": "Aligned Financials",
   "main": "main.js",

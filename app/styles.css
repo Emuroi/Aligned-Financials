@@ -3043,3 +3043,67 @@ body::-webkit-scrollbar-thumb,
 #authShell.hidden {
   display: none !important;
 }
+
+/* Sidebar usability patch: keep both client lists reachable and fix native select menus. */
+select,
+.search-select,
+.table-select {
+  color-scheme: dark;
+}
+
+select option,
+select optgroup {
+  color: var(--text);
+  background-color: #191b21;
+}
+
+select option:checked {
+  color: var(--gold-strong);
+  background-color: #2b2417;
+}
+
+.client-rail {
+  scrollbar-gutter: stable;
+}
+
+.rail-filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+
+#companyArchiveFilter {
+  grid-column: 1 / -1;
+}
+
+.client-rail .search-select {
+  min-height: 42px;
+  padding: 8px 10px;
+  font-size: 0.82rem;
+}
+
+.company-list {
+  max-height: clamp(150px, 26vh, 250px);
+}
+
+.company-list.compact-list {
+  min-height: 130px;
+  max-height: clamp(130px, 22vh, 220px);
+}
+
+@media (min-width: 1241px) {
+  .client-rail {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .company-list {
+    flex: 0 1 clamp(150px, 24vh, 235px);
+    min-height: 140px;
+  }
+
+  .company-list.compact-list {
+    flex: 1 1 clamp(130px, 20vh, 210px);
+    min-height: 130px;
+  }
+}
