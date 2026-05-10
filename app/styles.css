@@ -3036,3 +3036,10 @@ body::-webkit-scrollbar-thumb,
     padding-right: 3px;
   }
 }
+
+/* Security guard: hidden authenticated surfaces must never be revealed by layout overrides. */
+.hidden,
+#appShell.hidden,
+#authShell.hidden {
+  display: none !important;
+}
