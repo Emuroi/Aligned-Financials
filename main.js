@@ -1092,9 +1092,11 @@ ipcMain.handle("auth:create", async (_event, payload) => {
   }
 
   if (signup.requiresConfirmation) {
-    // Keep local encrypted access available while Supabase email confirmation is pending.
-    storeLocalAccess(username, password, getAuth());
+    clearRememberedLogin();
+    clearAuthFailures(username);
+    return signup;
   }
+
   if (remember) {
     writeRememberedLogin(username, password);
   } else {
