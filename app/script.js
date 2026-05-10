@@ -3789,11 +3789,11 @@ async function hydrateEncryptedData() {
     state.lastRemoteSyncAt = result.remoteUpdatedAt || "";
     state.offlineMode = Boolean(result.offline || result.source === "local");
     state.syncConflict = false;
-    state.syncMessage = result.offline
+    state.syncMessage = result.message || (result.offline
       ? result.message || "Opened the encrypted local cache."
       : result.remoteUpdatedAt
         ? `Loaded cloud workspace from ${formatDateTime(result.remoteUpdatedAt)}.`
-        : "";
+        : "");
     refreshSyncSurface();
     return;
   }

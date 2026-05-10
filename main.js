@@ -174,6 +174,15 @@ function clearAuthFailures(username) {
   authAttemptState.delete(authKeyFor(username));
 }
 
+function hasWorkspaceContent(data) {
+  if (!data || typeof data !== "object") return false;
+  return Object.values(data).some((value) => {
+    if (Array.isArray(value)) return value.length > 0;
+    if (value && typeof value === "object") return Object.keys(value).length > 0;
+    return Boolean(value);
+  });
+}
+
 function getAuthThrottleMessage(username) {
   const current = getAuthThrottle(username);
   const now = Date.now();
@@ -586,6 +595,7 @@ function getSupabaseConfig() {
   return {
     url: process.env.SUPABASE_URL || fileConfig.SUPABASE_URL || "",
     anonKey: process.env.SUPABASE_ANON_KEY || fileConfig.SUPABASE_ANON_KEY || "",
+    workspaceId: process.env.SUPABASE_WORKSPACE_ID || fileConfig.SUPABASE_WORKSPACE_ID || "",
   };
 }
 
@@ -596,6 +606,7 @@ function getSupabaseConfigInfo() {
     configured: Boolean(config.url && config.anonKey),
     envPath: resolved.envPath,
     searchedPaths: resolved.searchedPaths,
+    workspaceId: config.workspaceId,
   };
 }
 
@@ -758,7 +769,6 @@ async function performDesktopLogin(username, password) {
 
   const online = await signInOnline(username, password);
   if (online.ok) {
-    storeLocalAccess(username, password, getAuth());
     clearAuthFailures(username);
     return { ok: true, username, password, offline: false, message: "Logged in successfully." };
   }
@@ -855,43 +865,60 @@ async function signOutOnline() {
 }
 
 async function getWorkspaceSnapshot(client) {
-  const snapshotResult = await client
-    .from("workspace_snapshots")
-    .select("id, workspace_id, payload, updated_at")
-    .single();
-
-  if (!snapshotResult.error) {
-    return { ok: true, snapshot: snapshotResult.data };
-  }
-
-  if (snapshotResult.error.code !== "PGRST116") {
-    return { ok: false, message: snapshotResult.error.message };
-  }
-
-  const workspaceResult = await client
+  const config = getSupabaseConfig();
+  let workspaceQuery = client
     .from("workspaces")
     .select("id")
-    .single();
+    .order("created_at", { ascending: true })
+    .limit(1);
 
+  if (config.workspaceId) {
+    workspaceQuery = workspaceQuery.eq("id", config.workspaceId);
+  }
+
+  const workspaceResult = await workspaceQuery.maybeSingle();
   if (workspaceResult.error) {
     return { ok: false, message: workspaceResult.error.message };
   }
 
-  const insertResult = await client
-    .from("workspace_snapshots")
-    .insert({
-      workspace_id: workspaceResult.data.id,
-      payload: {},
-      schema_version: 1,
-    })
-    .select("id, workspace_id, payload, updated_at")
-    .single();
-
-  if (insertResult.error) {
-    return { ok: false, message: insertResult.error.message };
+  if (!workspaceResult.data?.id) {
+    return {
+      ok: false,
+      message: config.workspaceId
+        ? "This Supabase account does not have access to the configured shared workspace."
+        : "No Supabase workspace is available for this account.",
+    };
   }
 
-  return { ok: true, snapshot: insertResult.data };
+  const snapshotResult = await client
+    .from("workspace_snapshots")
+    .select("id, workspace_id, payload, updated_at")
+    .eq("workspace_id", workspaceResult.data.id)
+    .maybeSingle();
+
+  if (!snapshotResult.error) {
+    if (!snapshotResult.data) {
+      const insertResult = await client
+        .from("workspace_snapshots")
+        .insert({
+          workspace_id: workspaceResult.data.id,
+          payload: {},
+          schema_version: 1,
+        })
+        .select("id, workspace_id, payload, updated_at")
+        .single();
+
+      if (insertResult.error) {
+        return { ok: false, message: insertResult.error.message };
+      }
+
+      return { ok: true, snapshot: insertResult.data };
+    }
+
+    return { ok: true, snapshot: snapshotResult.data };
+  }
+
+  return { ok: false, message: snapshotResult.error.message };
 }
 
 async function loadRemoteWorkspace() {
@@ -1047,7 +1074,6 @@ ipcMain.handle("auth:create", async (_event, payload) => {
   if (!signup.ok) {
     const login = await signInOnline(username, password);
     if (login.ok) {
-      storeLocalAccess(username, password, getAuth());
       if (remember) {
         writeRememberedLogin(username, password);
       } else {
@@ -1065,9 +1091,10 @@ ipcMain.handle("auth:create", async (_event, payload) => {
     return signup;
   }
 
-  // Keep the local encrypted access in step with account creation so the user can
-  // reopen the same workspace reliably even if email confirmation is enabled.
-  storeLocalAccess(username, password, getAuth());
+  if (signup.requiresConfirmation) {
+    // Keep local encrypted access available while Supabase email confirmation is pending.
+    storeLocalAccess(username, password, getAuth());
+  }
   if (remember) {
     writeRememberedLogin(username, password);
   } else {
@@ -1194,10 +1221,25 @@ ipcMain.handle("data:load", async (_event, payload) => {
   if (hasSupabaseConfig() && onlineStatus.authenticated) {
     const remote = await loadRemoteWorkspace();
     if (remote.ok) {
-      saveLocalWorkspace(username, password, remote.data || {});
+      const remoteData = remote.data || {};
+      if (!hasWorkspaceContent(remoteData) && local.ok && hasWorkspaceContent(local.data)) {
+        const promoted = await saveRemoteWorkspace(local.data || {}, remote.remoteUpdatedAt || "", true);
+        saveLocalWorkspace(username, password, local.data || {});
+        return {
+          ok: true,
+          data: local.data || {},
+          source: promoted.ok ? "remote" : "local",
+          remoteUpdatedAt: promoted.remoteUpdatedAt || remote.remoteUpdatedAt || "",
+          message: promoted.ok
+            ? "The cloud workspace was empty, so the saved local workspace was kept and synced."
+            : "The cloud workspace was empty, so the saved local workspace was kept.",
+        };
+      }
+
+      saveLocalWorkspace(username, password, remoteData);
       return {
         ok: true,
-        data: remote.data || {},
+        data: remoteData,
         source: "remote",
         remoteUpdatedAt: remote.remoteUpdatedAt || "",
       };

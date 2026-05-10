@@ -109,6 +109,7 @@ Starter files are included here:
 
 - [.env.example](/C:/Users/softb/OneDrive/Documents/GitHub/Alligned-Financials/.env.example)
 - [docs/SUPABASE_SETUP.md](/C:/Users/softb/OneDrive/Documents/GitHub/Alligned-Financials/docs/SUPABASE_SETUP.md)
+- [docs/SUPABASE_SHARED_WORKSPACE.md](/C:/Users/softb/OneDrive/Documents/GitHub/Alligned-Financials/docs/SUPABASE_SHARED_WORKSPACE.md)
 - [supabase/schema.sql](/C:/Users/softb/OneDrive/Documents/GitHub/Alligned-Financials/supabase/schema.sql)
 
 ## First software layer

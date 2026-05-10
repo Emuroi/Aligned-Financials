@@ -17,6 +17,14 @@ create table if not exists public.workspaces (
   unique (owner_id)
 );
 
+create table if not exists public.workspace_members (
+  workspace_id uuid not null references public.workspaces (id) on delete cascade,
+  user_id uuid not null references public.profiles (id) on delete cascade,
+  role text not null default 'staff' check (role in ('owner', 'staff', 'viewer')),
+  created_at timestamptz not null default timezone('utc', now()),
+  primary key (workspace_id, user_id)
+);
+
 create table if not exists public.workspace_snapshots (
   id uuid primary key default gen_random_uuid(),
   workspace_id uuid not null references public.workspaces (id) on delete cascade,
@@ -52,6 +60,12 @@ begin
   where owner_id = new.id
   on conflict (workspace_id) do nothing;
 
+  insert into public.workspace_members (workspace_id, user_id, role)
+  select id, new.id, 'owner'
+  from public.workspaces
+  where owner_id = new.id
+  on conflict (workspace_id, user_id) do nothing;
+
   return new;
 end;
 $$;
@@ -64,7 +78,13 @@ create trigger on_auth_user_created
 
 alter table public.profiles enable row level security;
 alter table public.workspaces enable row level security;
+alter table public.workspace_members enable row level security;
 alter table public.workspace_snapshots enable row level security;
+
+insert into public.workspace_members (workspace_id, user_id, role)
+select id, owner_id, 'owner'
+from public.workspaces
+on conflict (workspace_id, user_id) do nothing;
 
 drop policy if exists "profiles_select_own" on public.profiles;
 create policy "profiles_select_own"
@@ -82,66 +102,107 @@ using (auth.uid() = id)
 with check (auth.uid() = id);
 
 drop policy if exists "workspaces_select_own" on public.workspaces;
-create policy "workspaces_select_own"
+drop policy if exists "workspaces_select_member" on public.workspaces;
+create policy "workspaces_select_member"
 on public.workspaces
 for select
 to authenticated
-using (auth.uid() = owner_id);
+using (
+  auth.uid() = owner_id
+  or exists (
+    select 1
+    from public.workspace_members
+    where public.workspace_members.workspace_id = workspaces.id
+      and public.workspace_members.user_id = auth.uid()
+  )
+);
 
 drop policy if exists "workspaces_update_own" on public.workspaces;
-create policy "workspaces_update_own"
+drop policy if exists "workspaces_update_member" on public.workspaces;
+create policy "workspaces_update_member"
 on public.workspaces
 for update
 to authenticated
-using (auth.uid() = owner_id)
-with check (auth.uid() = owner_id);
+using (
+  auth.uid() = owner_id
+  or exists (
+    select 1
+    from public.workspace_members
+    where public.workspace_members.workspace_id = workspaces.id
+      and public.workspace_members.user_id = auth.uid()
+      and public.workspace_members.role in ('owner', 'staff')
+  )
+)
+with check (
+  auth.uid() = owner_id
+  or exists (
+    select 1
+    from public.workspace_members
+    where public.workspace_members.workspace_id = workspaces.id
+      and public.workspace_members.user_id = auth.uid()
+      and public.workspace_members.role in ('owner', 'staff')
+  )
+);
+
+drop policy if exists "workspace_members_select_own" on public.workspace_members;
+create policy "workspace_members_select_own"
+on public.workspace_members
+for select
+to authenticated
+using (auth.uid() = user_id);
 
 drop policy if exists "workspace_snapshots_select_own" on public.workspace_snapshots;
-create policy "workspace_snapshots_select_own"
+drop policy if exists "workspace_snapshots_select_member" on public.workspace_snapshots;
+create policy "workspace_snapshots_select_member"
 on public.workspace_snapshots
 for select
 to authenticated
 using (
   exists (
     select 1
-    from public.workspaces
-    where public.workspaces.id = workspace_snapshots.workspace_id
-      and public.workspaces.owner_id = auth.uid()
+    from public.workspace_members
+    where public.workspace_members.workspace_id = workspace_snapshots.workspace_id
+      and public.workspace_members.user_id = auth.uid()
   )
 );
 
 drop policy if exists "workspace_snapshots_insert_own" on public.workspace_snapshots;
-create policy "workspace_snapshots_insert_own"
+drop policy if exists "workspace_snapshots_insert_member" on public.workspace_snapshots;
+create policy "workspace_snapshots_insert_member"
 on public.workspace_snapshots
 for insert
 to authenticated
 with check (
   exists (
     select 1
-    from public.workspaces
-    where public.workspaces.id = workspace_snapshots.workspace_id
-      and public.workspaces.owner_id = auth.uid()
+    from public.workspace_members
+    where public.workspace_members.workspace_id = workspace_snapshots.workspace_id
+      and public.workspace_members.user_id = auth.uid()
+      and public.workspace_members.role in ('owner', 'staff')
   )
 );
 
 drop policy if exists "workspace_snapshots_update_own" on public.workspace_snapshots;
-create policy "workspace_snapshots_update_own"
+drop policy if exists "workspace_snapshots_update_member" on public.workspace_snapshots;
+create policy "workspace_snapshots_update_member"
 on public.workspace_snapshots
 for update
 to authenticated
 using (
   exists (
     select 1
-    from public.workspaces
-    where public.workspaces.id = workspace_snapshots.workspace_id
-      and public.workspaces.owner_id = auth.uid()
+    from public.workspace_members
+    where public.workspace_members.workspace_id = workspace_snapshots.workspace_id
+      and public.workspace_members.user_id = auth.uid()
+      and public.workspace_members.role in ('owner', 'staff')
   )
 )
 with check (
   exists (
     select 1
-    from public.workspaces
-    where public.workspaces.id = workspace_snapshots.workspace_id
-      and public.workspaces.owner_id = auth.uid()
+    from public.workspace_members
+    where public.workspace_members.workspace_id = workspace_snapshots.workspace_id
+      and public.workspace_members.user_id = auth.uid()
+      and public.workspace_members.role in ('owner', 'staff')
   )
 );

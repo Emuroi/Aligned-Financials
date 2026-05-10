@@ -2750,12 +2750,12 @@ body::-webkit-scrollbar-thumb,
 
   .stat-card {
     display: grid;
-    grid-template-columns: auto auto minmax(0, 1fr);
-    min-height: 54px;
+    grid-template-columns: minmax(95px, auto) auto minmax(0, 1fr);
+    min-height: 66px;
     align-items: center;
     justify-items: start;
-    column-gap: 10px;
-    padding: 9px 12px;
+    column-gap: 12px;
+    padding: 11px 14px;
   }
 
   .stat-card .section-kicker,
@@ -2765,7 +2765,7 @@ body::-webkit-scrollbar-thumb,
   }
 
   .stat-value {
-    font-size: 1.35rem;
+    font-size: 1.5rem;
   }
 
   .stat-subtext {
@@ -2773,7 +2773,7 @@ body::-webkit-scrollbar-thumb,
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 0.78rem;
+    font-size: 0.82rem;
   }
 
   .workspace-shell {
@@ -2888,8 +2888,8 @@ body::-webkit-scrollbar-thumb,
   }
 
   .record-panel .form-grid:not(.auth-form) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
 
   #settingsPanel .form-grid,
@@ -2899,24 +2899,24 @@ body::-webkit-scrollbar-thumb,
   }
 
   .compact-form {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .form-grid label {
-    gap: 4px;
+    gap: 6px;
   }
 
   .search,
   input,
   textarea,
   select {
-    min-height: 35px;
-    padding: 7px 9px;
-    font-size: 0.84rem;
+    min-height: 38px;
+    padding: 8px 10px;
+    font-size: 0.88rem;
   }
 
   textarea {
-    min-height: 66px;
+    min-height: 76px;
   }
 
   .form-grid textarea[rows="7"],
@@ -2943,8 +2943,8 @@ body::-webkit-scrollbar-thumb,
   .workflow-summary,
   .note-card p,
   .stack-card p {
-    font-size: 0.78rem;
-    line-height: 1.35;
+    font-size: 0.82rem;
+    line-height: 1.42;
   }
 
   .bank-import-layout {
@@ -2964,7 +2964,7 @@ body::-webkit-scrollbar-thumb,
   }
 
   .statement-list {
-    max-height: calc(100vh - 390px);
+    max-height: calc(100vh - 420px);
     overflow: auto;
     padding-right: 3px;
   }
@@ -3009,29 +3009,24 @@ body::-webkit-scrollbar-thumb,
   }
 
   #settingsPanel .details-layout {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
   }
 
   #settingsPanel .glass-card {
     padding: 12px;
   }
 
-  #settingsPanel .glass-card:nth-child(3),
-  #settingsPanel .glass-card:nth-child(4),
-  #settingsPanel .glass-card:nth-child(5) {
-    grid-column: span 1;
-  }
-
+  #settingsPanel .glass-card:nth-child(5),
   #settingsPanel .glass-card:nth-child(6),
   #settingsPanel .glass-card:nth-child(7) {
-    grid-column: span 3;
+    grid-column: span 2;
   }
 
   #settingsPanel .note-card {
-    grid-template-columns: minmax(100px, 0.28fr) minmax(0, 1fr);
-    gap: 6px 10px;
-    padding: 9px 10px;
+    grid-template-columns: minmax(120px, 0.32fr) minmax(0, 1fr);
+    gap: 8px 12px;
+    padding: 10px 11px;
   }
 
   #settingsPanel .archive-list,
