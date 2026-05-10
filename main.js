@@ -174,15 +174,6 @@ function clearAuthFailures(username) {
   authAttemptState.delete(authKeyFor(username));
 }
 
-function hasWorkspaceContent(data) {
-  if (!data || typeof data !== "object") return false;
-  return Object.values(data).some((value) => {
-    if (Array.isArray(value)) return value.length > 0;
-    if (value && typeof value === "object") return Object.keys(value).length > 0;
-    return Boolean(value);
-  });
-}
-
 function getAuthThrottleMessage(username) {
   const current = getAuthThrottle(username);
   const now = Date.now();
@@ -773,39 +764,6 @@ async function performDesktopLogin(username, password) {
     return { ok: true, username, password, offline: false, message: "Logged in successfully." };
   }
 
-  const localFallback = verifyCredentials(username, password);
-  if (localFallback.ok && isLikelyNetworkError(online.message)) {
-    onlineSession = {
-      username,
-      password,
-      authenticated: false,
-    };
-    clearAuthFailures(username);
-    return {
-      ok: true,
-      username,
-      password,
-      offline: true,
-      message: "Cloud sync is unavailable right now. Opened the saved local workspace instead.",
-    };
-  }
-
-  if (localFallback.ok && isConfirmationError(online.message)) {
-    onlineSession = {
-      username,
-      password,
-      authenticated: false,
-    };
-    clearAuthFailures(username);
-    return {
-      ok: true,
-      username,
-      password,
-      offline: true,
-      message: "Email confirmation is still pending. Opened the saved local workspace for now.",
-    };
-  }
-
   consumeAuthFailure(username);
   return online;
 }
@@ -1035,11 +993,12 @@ ipcMain.handle("auth:status", () => {
   const auth = getAuth();
   const config = getSupabaseConfigInfo();
   const remembered = readRememberedLogin();
+  const configured = Boolean(config.configured);
   return {
-    hasAccess: Boolean(auth),
-    username: auth?.username || "",
-    configured: config.configured,
-    mode: config.configured ? "supabase" : "local",
+    hasAccess: configured ? false : Boolean(auth),
+    username: configured ? remembered?.username || "" : auth?.username || "",
+    configured,
+    mode: configured ? "supabase" : "local",
     hasExternalConfig: Boolean(config.envPath),
     rememberedUsername: remembered?.username || "",
     canAutoLogin: Boolean(remembered?.username && remembered?.password),
@@ -1166,12 +1125,24 @@ ipcMain.handle("auth:change-password", async (_event, payload) => {
     if (updateResult.error) {
       return { ok: false, message: updateResult.error.message };
     }
-  } else {
-    const verification = verifyCredentials(username, currentPassword);
-    if (!verification.ok) {
-      consumeAuthFailure(username);
-      return verification;
+
+    onlineSession = {
+      username,
+      password: newPassword,
+      authenticated: true,
+    };
+    const remembered = readRememberedLogin();
+    if (remembered?.username === username) {
+      writeRememberedLogin(username, newPassword);
     }
+    clearAuthFailures(username);
+    return { ok: true, username };
+  }
+
+  const verification = verifyCredentials(username, currentPassword);
+  if (!verification.ok) {
+    consumeAuthFailure(username);
+    return verification;
   }
 
   const currentDataResult = loadLocalWorkspace(username, currentPassword);
@@ -1183,10 +1154,11 @@ ipcMain.handle("auth:change-password", async (_event, payload) => {
   if (previousSalt) {
     migrateSecretsToNewPassword(username, currentPassword, newPassword, previousSalt, nextAuth.salt);
   }
+
   onlineSession = {
     username,
     password: newPassword,
-    authenticated: hasSupabaseConfig(),
+    authenticated: false,
   };
   const remembered = readRememberedLogin();
   if (remembered?.username === username) {
@@ -1215,30 +1187,18 @@ ipcMain.handle("data:load", async (_event, payload) => {
   const username = String(payload?.username || "").trim();
   const password = String(payload?.password || "");
 
-  const local = loadLocalWorkspace(username, password);
-  const onlineStatus = hasSupabaseConfig()
-    ? await ensureOnlineSession(username, password)
-    : { ok: false, authenticated: false, message: "" };
+  if (hasSupabaseConfig()) {
+    const onlineStatus = await ensureOnlineSession(username, password);
+    if (!onlineStatus.authenticated) {
+      return {
+        ok: false,
+        message: onlineStatus.message || "Cloud sign-in is required to open this workspace.",
+      };
+    }
 
-  if (hasSupabaseConfig() && onlineStatus.authenticated) {
     const remote = await loadRemoteWorkspace();
     if (remote.ok) {
       const remoteData = remote.data || {};
-      if (!hasWorkspaceContent(remoteData) && local.ok && hasWorkspaceContent(local.data)) {
-        const promoted = await saveRemoteWorkspace(local.data || {}, remote.remoteUpdatedAt || "", true);
-        saveLocalWorkspace(username, password, local.data || {});
-        return {
-          ok: true,
-          data: local.data || {},
-          source: promoted.ok ? "remote" : "local",
-          remoteUpdatedAt: promoted.remoteUpdatedAt || remote.remoteUpdatedAt || "",
-          message: promoted.ok
-            ? "The cloud workspace was empty, so the saved local workspace was kept and synced."
-            : "The cloud workspace was empty, so the saved local workspace was kept.",
-        };
-      }
-
-      saveLocalWorkspace(username, password, remoteData);
       return {
         ok: true,
         data: remoteData,
@@ -1247,20 +1207,10 @@ ipcMain.handle("data:load", async (_event, payload) => {
       };
     }
 
-    if (local.ok) {
-      return {
-        ok: true,
-        data: local.data || {},
-        source: "local",
-        remoteUpdatedAt: "",
-        offline: true,
-        message: remote.message,
-      };
-    }
-
     return remote;
   }
 
+  const local = loadLocalWorkspace(username, password);
   if (local.ok) {
     return {
       ok: true,
@@ -1268,9 +1218,7 @@ ipcMain.handle("data:load", async (_event, payload) => {
       source: "local",
       remoteUpdatedAt: "",
       offline: true,
-      message: hasSupabaseConfig()
-        ? onlineStatus.message || "Cloud sync is unavailable right now. Opened the saved local workspace instead."
-        : "",
+      message: "",
     };
   }
 
@@ -1284,15 +1232,16 @@ ipcMain.handle("data:save", async (_event, payload) => {
   const lastKnownRemoteAt = String(payload?.lastKnownRemoteAt || "");
   const force = Boolean(payload?.force);
 
-  const local = saveLocalWorkspace(username, password, data);
-  const onlineStatus = hasSupabaseConfig()
-    ? await ensureOnlineSession(username, password)
-    : { ok: false, authenticated: false, message: "" };
-  if (!local.ok) {
-    return local;
-  }
+  if (hasSupabaseConfig()) {
+    const onlineStatus = await ensureOnlineSession(username, password);
+    if (!onlineStatus.authenticated) {
+      return {
+        ok: false,
+        message: onlineStatus.message || "Cloud sign-in is required before saving this workspace.",
+        localSaved: false,
+      };
+    }
 
-  if (hasSupabaseConfig() && onlineStatus.authenticated) {
     const remote = await saveRemoteWorkspace(data, lastKnownRemoteAt, force);
     if (!remote.ok) {
       return {
@@ -1301,16 +1250,21 @@ ipcMain.handle("data:save", async (_event, payload) => {
         message: remote.message,
         remoteUpdatedAt: remote.remoteUpdatedAt || "",
         remoteData: remote.remoteData || null,
-        localSaved: true,
+        localSaved: false,
       };
     }
 
     return {
       ok: true,
-      localSaved: true,
+      localSaved: false,
       remoteUpdatedAt: remote.remoteUpdatedAt || "",
       source: "remote",
     };
+  }
+
+  const local = saveLocalWorkspace(username, password, data);
+  if (!local.ok) {
+    return local;
   }
 
   return {
@@ -1319,9 +1273,7 @@ ipcMain.handle("data:save", async (_event, payload) => {
     remoteUpdatedAt: "",
     source: "local",
     offline: true,
-    message: hasSupabaseConfig()
-      ? onlineStatus.message || "Cloud sync is unavailable right now. Saved the local workspace instead."
-      : "",
+    message: "",
   };
 });
 

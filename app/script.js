@@ -657,8 +657,8 @@ function syncStatusSummary() {
 
   if (state.offlineMode) {
     return {
-      title: "Offline cache active",
-      note: state.syncMessage || "The encrypted local cache is open. Cloud sync will resume when sign-in can reach Supabase.",
+      title: "Local mode active",
+      note: state.syncMessage || "Changes are saved to this desktop until cloud sync is configured.",
       className: "sync-warning",
     };
   }
@@ -833,7 +833,7 @@ function refreshSyncSurface() {
     elements.storageModeText.textContent = !window.alignedDesktop?.isDesktop
       ? "Browser storage is active on this machine."
       : state.supabaseConfigured
-        ? "Encrypted local cache with cloud sync."
+        ? "Cloud workspace only."
         : "Encrypted local desktop file.";
   }
 
@@ -897,7 +897,7 @@ function handleSyncResult(result) {
   if (result.conflict) {
     state.syncConflict = true;
     state.syncMessage =
-      result.message || "Remote workspace changed on another machine. Local backup was kept.";
+      result.message || "Remote workspace changed on another machine. Reload latest before saving again.";
   } else if (result.ok) {
     state.syncConflict = false;
     state.syncMessage = result.offline
@@ -971,7 +971,7 @@ function saveRecords(key, value) {
   if (window.alignedDesktop?.isDesktop && state.activeUser && state.activePassword) {
     void persistDesktopData().then((result) => {
       if (result?.conflict) {
-        const message = "Remote workspace changed on another machine. Local backup was kept.";
+        const message = "Remote workspace changed on another machine. Reload latest before saving again.";
         setSaveState(elements.settingsSaveState, message);
         setSaveState(elements.companySaveState, message);
       }
@@ -2285,7 +2285,7 @@ function renderCompanyDetails(company, record) {
       ? `Latest bank import: ${latestImport.fileName} on ${new Date(latestImport.importedAt).toLocaleString("en-GB")}.`
       : "No bank imports yet for this company. Add a statement to start building the working file.";
   elements.companyStatusSummary.textContent =
-    `${record.archivedAt ? `This company is archived from the live desk since ${formatCompactDate(record.archivedAt)}. ` : "This company record is live and editable. "}${state.supabaseConfigured ? "The encrypted local cache stays in sync with the cloud workspace when available." : "The encrypted local cache is the current working store."} Bookkeeping is ${workflow.bookkeepingStatus || "not set"}, accounts are ${workflow.accountsStatus || "not set"}, and the next action is ${workflow.nextAction || "still to be defined"}.`;
+    `${record.archivedAt ? `This company is archived from the live desk since ${formatCompactDate(record.archivedAt)}. ` : "This company record is live and editable. "}${state.supabaseConfigured ? "Changes save straight to the cloud workspace." : "The encrypted local cache is the current working store."} Bookkeeping is ${workflow.bookkeepingStatus || "not set"}, accounts are ${workflow.accountsStatus || "not set"}, and the next action is ${workflow.nextAction || "still to be defined"}.`;
   if (elements.archiveCompanyButton) {
     elements.archiveCompanyButton.textContent = record.archivedAt ? "Restore company" : "Archive company";
   }
@@ -3897,7 +3897,7 @@ async function loadCompanySecrets(companyId) {
   }
 
   const syncedSecrets = await getSyncedCompanySecretRecord(companyId);
-  const localSecrets = await loadLocalCompanySecrets(companyId);
+  const localSecrets = state.supabaseConfigured ? {} : await loadLocalCompanySecrets(companyId);
   state.activeCompanySecrets = {
     ...syncedSecrets,
     ...localSecrets,
@@ -3935,6 +3935,15 @@ async function persistSyncedCompanySecrets(companyId, secrets) {
 async function saveCompanySecrets(companyId, secrets) {
   if (!companyId) return { ok: false };
   const normalizedSecrets = normalizeSecretRecord(COMPANY_SECRET_FIELDS, secrets);
+
+  if (state.supabaseConfigured) {
+    const syncedResult = await persistSyncedCompanySecrets(companyId, normalizedSecrets);
+    if (syncedResult?.ok) {
+      state.activeCompanySecrets = { ...normalizedSecrets };
+      state.activeCompanySecretsId = companyId;
+    }
+    return syncedResult;
+  }
 
   if (!window.alignedDesktop?.isDesktop || !window.alignedDesktop.saveLegacyCompanySecretRecord) {
     state.activeCompanySecrets = { ...normalizedSecrets };
@@ -4006,7 +4015,12 @@ async function migrateStoredCompanySecrets() {
 }
 
 async function syncLocalCompanySecretsToWorkspace() {
-  if (!window.alignedDesktop?.isDesktop || !state.activeUser || !state.activePassword) return;
+  if (
+    state.supabaseConfigured ||
+    !window.alignedDesktop?.isDesktop ||
+    !state.activeUser ||
+    !state.activePassword
+  ) return;
 
   const syncedStore = await readSyncedCompanySecretsStore();
   let changed = false;
@@ -4058,7 +4072,7 @@ async function loadPersonSecrets(personId) {
   }
 
   const syncedSecrets = await getSyncedPersonSecretRecord(personId);
-  const localSecrets = await loadLocalPersonSecrets(personId);
+  const localSecrets = state.supabaseConfigured ? {} : await loadLocalPersonSecrets(personId);
   state.activePersonSecrets = {
     ...syncedSecrets,
     ...localSecrets,
@@ -4096,6 +4110,15 @@ async function persistSyncedPersonSecrets(personId, secrets) {
 async function savePersonSecrets(personId, secrets) {
   if (!personId) return { ok: false };
   const normalizedSecrets = normalizeSecretRecord(PERSON_SECRET_FIELDS, secrets);
+
+  if (state.supabaseConfigured) {
+    const syncedResult = await persistSyncedPersonSecrets(personId, normalizedSecrets);
+    if (syncedResult?.ok) {
+      state.activePersonSecrets = { ...normalizedSecrets };
+      state.activePersonSecretsId = personId;
+    }
+    return syncedResult;
+  }
 
   if (!window.alignedDesktop?.isDesktop || !window.alignedDesktop.saveSelfEmployedSecretRecord) {
     state.activePersonSecrets = { ...normalizedSecrets };
@@ -4167,7 +4190,12 @@ async function migrateStoredPersonSecrets() {
 }
 
 async function syncLocalPersonSecretsToWorkspace() {
-  if (!window.alignedDesktop?.isDesktop || !state.activeUser || !state.activePassword) return;
+  if (
+    state.supabaseConfigured ||
+    !window.alignedDesktop?.isDesktop ||
+    !state.activeUser ||
+    !state.activePassword
+  ) return;
 
   const syncedStore = await readSyncedPersonSecretsStore();
   let changed = false;
