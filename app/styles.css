@@ -3107,3 +3107,75 @@ select option:checked {
     min-height: 130px;
   }
 }
+
+/* Sidebar cleanup: one rail scrollbar, no clipped nested list cards. */
+.client-rail {
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.company-list,
+.company-list.compact-list {
+  flex: none;
+  min-height: 0;
+  max-height: none;
+  overflow: visible;
+  padding: 0;
+  scrollbar-gutter: auto;
+}
+
+.company-button {
+  min-height: auto;
+  overflow: visible;
+  padding: 9px 11px;
+  text-align: left;
+}
+
+.company-button strong,
+.company-button span {
+  max-width: 100%;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  text-wrap: auto;
+}
+
+.company-button strong {
+  font-size: 0.92rem;
+  line-height: 1.22;
+}
+
+.company-button span {
+  margin-top: 3px;
+  font-size: 0.76rem;
+  line-height: 1.25;
+}
+
+.company-imports {
+  display: inline-flex;
+  min-height: 19px;
+  margin-top: 5px;
+  padding: 0 8px;
+  font-size: 0.68rem;
+}
+
+.rail-divider {
+  margin: 16px 0 18px;
+}
+
+@media (min-width: 1241px) {
+  .client-rail {
+    display: block;
+    height: 100%;
+    max-height: none;
+  }
+
+  .company-list,
+  .company-list.compact-list {
+    flex: none;
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
+  }
+}
