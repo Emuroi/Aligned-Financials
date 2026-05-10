@@ -1,6 +1,6 @@
 {
   "name": "aligned-financials-desktop",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "Private offline desktop workspace for Aligned Financials.",
   "author": "Aligned Financials",
   "main": "main.js",
@@ -53,6 +53,7 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
+      "include": "build/installer.nsh",
       "artifactName": "Aligned-Financials-Setup-${version}.${ext}"
     },
     "portable": {
