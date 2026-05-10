@@ -657,8 +657,8 @@ function syncStatusSummary() {
 
   if (state.offlineMode) {
     return {
-      title: "Local mode active",
-      note: state.syncMessage || "Changes are saved to this desktop until cloud sync is configured.",
+      title: "Cloud connection required",
+      note: state.syncMessage || "This workspace is online-only. Sign in again when the connection is available.",
       className: "sync-warning",
     };
   }
@@ -1004,6 +1004,7 @@ function showAuth(setupMode) {
   elements.authShell.classList.remove("hidden");
   elements.setupCard.classList.toggle("hidden", !setupMode);
   elements.loginCard.classList.toggle("hidden", setupMode);
+  elements.resetAccessButton?.classList.toggle("hidden", Boolean(state.supabaseConfigured));
   setAuthMessage(elements.authMessage, "");
   setAuthMessage(elements.loginMessage, "");
   resetSensitiveFields(elements.setupForm, "setup");
@@ -1017,9 +1018,7 @@ function updateActiveUserLabel() {
     return;
   }
 
-  elements.activeUser.textContent = state.offlineMode
-    ? `Signed in as ${state.activeUser} (offline cache)`
-    : `Signed in as ${state.activeUser}`;
+  elements.activeUser.textContent = `Signed in as ${state.activeUser}`;
 }
 
 function unlockWorkspace(username) {

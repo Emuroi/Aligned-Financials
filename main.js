@@ -12,6 +12,11 @@ const LEGACY_SECRETS_FILE = "legacy-company-secrets.json";
 const PERSON_SECRETS_FILE = "self-employed-secrets.json";
 const BACKUP_FILE_EXTENSION = "afb";
 const ENCRYPTED_STORE_FORMAT = "aligned-financials-secret-store-v1";
+const DEFAULT_SUPABASE_CONFIG = Object.freeze({
+  url: "https://kqhnddzsxqsiyoaejvhu.supabase.co",
+  anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtxaG5kZHpzeHFzaXlvYWVqdmh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MDM1MjMsImV4cCI6MjA5MjI3OTUyM30.cBDvLVEZuPlZ_miYJcMWEunN9HxonIJT68FypE_uW1I",
+  workspaceId: "b1ac0f5c-6b28-4eaa-8329-9ce844ec55b0",
+});
 
 let supabaseClient = null;
 let onlineSession = {
@@ -584,9 +589,9 @@ function migrateSecretsToNewPassword(username, currentPassword, newPassword, old
 function getSupabaseConfig() {
   const { fileConfig } = resolveExternalEnvConfig();
   return {
-    url: process.env.SUPABASE_URL || fileConfig.SUPABASE_URL || "",
-    anonKey: process.env.SUPABASE_ANON_KEY || fileConfig.SUPABASE_ANON_KEY || "",
-    workspaceId: process.env.SUPABASE_WORKSPACE_ID || fileConfig.SUPABASE_WORKSPACE_ID || "",
+    url: process.env.SUPABASE_URL || fileConfig.SUPABASE_URL || DEFAULT_SUPABASE_CONFIG.url,
+    anonKey: process.env.SUPABASE_ANON_KEY || fileConfig.SUPABASE_ANON_KEY || DEFAULT_SUPABASE_CONFIG.anonKey,
+    workspaceId: process.env.SUPABASE_WORKSPACE_ID || fileConfig.SUPABASE_WORKSPACE_ID || DEFAULT_SUPABASE_CONFIG.workspaceId,
   };
 }
 
@@ -598,6 +603,7 @@ function getSupabaseConfigInfo() {
     envPath: resolved.envPath,
     searchedPaths: resolved.searchedPaths,
     workspaceId: config.workspaceId,
+    usingBundledConfig: !resolved.envPath && Boolean(config.url && config.anonKey),
   };
 }
 

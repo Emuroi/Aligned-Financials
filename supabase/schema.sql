@@ -1,5 +1,13 @@
 create extension if not exists "pgcrypto";
 
+create or replace function public.aligned_shared_workspace_id()
+returns uuid
+language sql
+immutable
+as $$
+  select 'b1ac0f5c-6b28-4eaa-8329-9ce844ec55b0'::uuid;
+$$;
+
 create table if not exists public.profiles (
   id uuid primary key references auth.users (id) on delete cascade,
   email text,
@@ -66,6 +74,22 @@ begin
   where owner_id = new.id
   on conflict (workspace_id, user_id) do nothing;
 
+  insert into public.workspace_members (workspace_id, user_id, role)
+  select
+    public.aligned_shared_workspace_id(),
+    new.id,
+    case when lower(coalesce(new.email, '')) = 'david@sidra78.com' then 'owner' else 'staff' end
+  where exists (
+    select 1
+    from public.workspaces
+    where id = public.aligned_shared_workspace_id()
+  )
+  on conflict (workspace_id, user_id) do update
+  set role = case
+    when public.workspace_members.role = 'owner' then public.workspace_members.role
+    else excluded.role
+  end;
+
   return new;
 end;
 $$;
@@ -85,6 +109,31 @@ insert into public.workspace_members (workspace_id, user_id, role)
 select id, owner_id, 'owner'
 from public.workspaces
 on conflict (workspace_id, user_id) do nothing;
+
+insert into public.profiles (id, email, display_name)
+select
+  auth.users.id,
+  auth.users.email,
+  coalesce(auth.users.raw_user_meta_data ->> 'display_name', split_part(coalesce(auth.users.email, ''), '@', 1))
+from auth.users
+on conflict (id) do nothing;
+
+insert into public.workspace_members (workspace_id, user_id, role)
+select
+  public.aligned_shared_workspace_id(),
+  profiles.id,
+  case when lower(coalesce(profiles.email, '')) = 'david@sidra78.com' then 'owner' else 'staff' end
+from public.profiles
+where exists (
+  select 1
+  from public.workspaces
+  where id = public.aligned_shared_workspace_id()
+)
+on conflict (workspace_id, user_id) do update
+set role = case
+  when public.workspace_members.role = 'owner' then public.workspace_members.role
+  else excluded.role
+end;
 
 drop policy if exists "profiles_select_own" on public.profiles;
 create policy "profiles_select_own"
