@@ -656,6 +656,33 @@ async function signInOnline(username, password) {
   };
 }
 
+async function ensureOnlineSession(username, password) {
+  if (!hasSupabaseConfig()) {
+    return {
+      ok: false,
+      authenticated: false,
+      message: "Supabase is not configured yet.",
+    };
+  }
+
+  if (onlineSession.authenticated && onlineSession.username === username) {
+    return { ok: true, authenticated: true };
+  }
+
+  const online = await signInOnline(username, password);
+  if (online.ok) {
+    return { ok: true, authenticated: true };
+  }
+
+  return {
+    ok: false,
+    authenticated: false,
+    message: online.message || "Cloud sync is unavailable right now.",
+    network: isLikelyNetworkError(online.message),
+    confirmation: isConfirmationError(online.message),
+  };
+}
+
 async function signUpOnline(username, password) {
   const client = getSupabaseClient();
   if (!client) {
@@ -1051,8 +1078,11 @@ ipcMain.handle("data:load", async (_event, payload) => {
   const password = String(payload?.password || "");
 
   const local = loadLocalWorkspace(username, password);
+  const onlineStatus = hasSupabaseConfig()
+    ? await ensureOnlineSession(username, password)
+    : { ok: false, authenticated: false, message: "" };
 
-  if (hasSupabaseConfig() && onlineSession.authenticated && onlineSession.username === username) {
+  if (hasSupabaseConfig() && onlineStatus.authenticated) {
     const remote = await loadRemoteWorkspace();
     if (remote.ok) {
       saveLocalWorkspace(username, password, remote.data || {});
@@ -1085,6 +1115,9 @@ ipcMain.handle("data:load", async (_event, payload) => {
       source: "local",
       remoteUpdatedAt: "",
       offline: true,
+      message: hasSupabaseConfig()
+        ? onlineStatus.message || "Cloud sync is unavailable right now. Opened the saved local workspace instead."
+        : "",
     };
   }
 
@@ -1099,11 +1132,14 @@ ipcMain.handle("data:save", async (_event, payload) => {
   const force = Boolean(payload?.force);
 
   const local = saveLocalWorkspace(username, password, data);
+  const onlineStatus = hasSupabaseConfig()
+    ? await ensureOnlineSession(username, password)
+    : { ok: false, authenticated: false, message: "" };
   if (!local.ok) {
     return local;
   }
 
-  if (hasSupabaseConfig() && onlineSession.authenticated && onlineSession.username === username) {
+  if (hasSupabaseConfig() && onlineStatus.authenticated) {
     const remote = await saveRemoteWorkspace(data, lastKnownRemoteAt, force);
     if (!remote.ok) {
       return {
@@ -1130,6 +1166,9 @@ ipcMain.handle("data:save", async (_event, payload) => {
     remoteUpdatedAt: "",
     source: "local",
     offline: true,
+    message: hasSupabaseConfig()
+      ? onlineStatus.message || "Cloud sync is unavailable right now. Saved the local workspace instead."
+      : "",
   };
 });
 

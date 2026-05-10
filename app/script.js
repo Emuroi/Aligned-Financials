@@ -82,6 +82,9 @@ const CUSTOM_COMPANIES_KEY = "aligned-financials-custom-companies";
 const CUSTOM_PEOPLE_KEY = "aligned-financials-custom-people";
 const SETTINGS_STORAGE_KEY = "aligned-financials-settings";
 const AUDIT_LOG_STORAGE_KEY = "aligned-financials-audit-log";
+const SYNCED_PERSON_SECRETS_STORAGE_KEY = "aligned-financials-synced-self-employed-secrets";
+const SYNCED_SECRET_STORE_FORMAT = "aligned-financials-synced-secret-store-v1";
+const SYNCED_SECRET_ITERATIONS = 200000;
 const LEGACY_AUTH_STORAGE_KEY = "aligned-financials-auth";
 const WIZARD_STEPS = ["identity", "tax", "contacts", "notes"];
 const SENSITIVE_FIELD_NAMES = new Set([
@@ -188,6 +191,121 @@ const currency = new Intl.NumberFormat("en-GB", {
   currency: "GBP",
   maximumFractionDigits: 2,
 });
+const textEncoder = new TextEncoder();
+const textDecoder = new TextDecoder();
+
+function bytesToBase64(bytes) {
+  let binary = "";
+  for (let index = 0; index < bytes.length; index += 1) {
+    binary += String.fromCharCode(bytes[index]);
+  }
+  return btoa(binary);
+}
+
+function base64ToBytes(value) {
+  const binary = atob(value || "");
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index += 1) {
+    bytes[index] = binary.charCodeAt(index);
+  }
+  return bytes;
+}
+
+function randomBytes(length) {
+  const bytes = new Uint8Array(length);
+  window.crypto.getRandomValues(bytes);
+  return bytes;
+}
+
+function normalizeSecretRecord(fields, value) {
+  return fields.reduce((accumulator, field) => {
+    const text = String(value?.[field] || "").trim();
+    if (text) accumulator[field] = text;
+    return accumulator;
+  }, {});
+}
+
+function isEncryptedSyncedSecretStore(value) {
+  return Boolean(
+    value
+    && typeof value === "object"
+    && value.format === SYNCED_SECRET_STORE_FORMAT
+    && typeof value.salt === "string"
+    && typeof value.iv === "string"
+    && typeof value.content === "string",
+  );
+}
+
+async function deriveSyncedSecretKey(password, saltBytes) {
+  const material = await window.crypto.subtle.importKey(
+    "raw",
+    textEncoder.encode(password),
+    "PBKDF2",
+    false,
+    ["deriveKey"],
+  );
+
+  return window.crypto.subtle.deriveKey(
+    {
+      name: "PBKDF2",
+      salt: saltBytes,
+      iterations: SYNCED_SECRET_ITERATIONS,
+      hash: "SHA-256",
+    },
+    material,
+    {
+      name: "AES-GCM",
+      length: 256,
+    },
+    false,
+    ["encrypt", "decrypt"],
+  );
+}
+
+async function encryptSyncedSecretStore(store, password) {
+  const salt = randomBytes(16);
+  const iv = randomBytes(12);
+  const key = await deriveSyncedSecretKey(password, salt);
+  const payload = textEncoder.encode(JSON.stringify(store || {}));
+  const encrypted = await window.crypto.subtle.encrypt(
+    {
+      name: "AES-GCM",
+      iv,
+    },
+    key,
+    payload,
+  );
+
+  return {
+    format: SYNCED_SECRET_STORE_FORMAT,
+    updatedAt: new Date().toISOString(),
+    salt: bytesToBase64(salt),
+    iv: bytesToBase64(iv),
+    content: bytesToBase64(new Uint8Array(encrypted)),
+  };
+}
+
+async function decryptSyncedSecretStore(envelope, password) {
+  if (!isEncryptedSyncedSecretStore(envelope) || !password) return {};
+
+  try {
+    const salt = base64ToBytes(envelope.salt);
+    const iv = base64ToBytes(envelope.iv);
+    const content = base64ToBytes(envelope.content);
+    const key = await deriveSyncedSecretKey(password, salt);
+    const decrypted = await window.crypto.subtle.decrypt(
+      {
+        name: "AES-GCM",
+        iv,
+      },
+      key,
+      content,
+    );
+    return JSON.parse(textDecoder.decode(decrypted));
+  } catch {
+    return {};
+  }
+}
 
 const number = new Intl.NumberFormat("en-GB");
 
@@ -353,6 +471,7 @@ const elements = {
   supabaseGuideText: document.getElementById("supabaseGuideText"),
   syncConflictText: document.getElementById("syncConflictText"),
   syncNowButton: document.getElementById("syncNowButton"),
+  reconnectCloudButton: document.getElementById("reconnectCloudButton"),
   reloadRemoteButton: document.getElementById("reloadRemoteButton"),
   overwriteRemoteButton: document.getElementById("overwriteRemoteButton"),
   archivedCompanyEmpty: document.getElementById("archivedCompanyEmpty"),
@@ -610,6 +729,31 @@ function getPersonSecretSnapshot(person, personId = state.selectedPersonId) {
   }, {});
 }
 
+function getSyncedPersonSecretsEnvelope() {
+  const value = state.persistedData[SYNCED_PERSON_SECRETS_STORAGE_KEY];
+  return isEncryptedSyncedSecretStore(value) ? value : null;
+}
+
+async function readSyncedPersonSecretsStore() {
+  if (!state.activePassword) return {};
+  return decryptSyncedSecretStore(getSyncedPersonSecretsEnvelope(), state.activePassword);
+}
+
+async function writeSyncedPersonSecretsStore(store) {
+  if (!state.activePassword) {
+    return { ok: false, message: "A signed-in desktop session is required." };
+  }
+
+  state.persistedData[SYNCED_PERSON_SECRETS_STORAGE_KEY] = await encryptSyncedSecretStore(store, state.activePassword);
+  return { ok: true };
+}
+
+async function getSyncedPersonSecretRecord(personId) {
+  if (!personId) return {};
+  const store = await readSyncedPersonSecretsStore();
+  return normalizeSecretRecord(PERSON_SECRET_FIELDS, store?.[personId]);
+}
+
 function refreshAboutSurface() {
   const meta = state.appMeta;
   const updater = normalizeUpdateState(state.updateState);
@@ -689,6 +833,15 @@ function refreshSyncSurface() {
       : state.lastRemoteSyncAt
         ? `Last remote sync: ${formatDateTime(state.lastRemoteSyncAt)}.`
         : "No remote sync has completed yet.";
+  }
+
+  if (elements.reconnectCloudButton) {
+    elements.reconnectCloudButton.disabled =
+      state.syncBusy ||
+      !window.alignedDesktop?.isDesktop ||
+      !state.activeUser ||
+      !state.supabaseConfigured ||
+      !state.offlineMode;
   }
 
   if (elements.reloadRemoteButton) {
@@ -1907,6 +2060,7 @@ async function createLocalAccess() {
   initializeRecords(window.APP_DATA);
   await migrateStoredCompanySecrets();
   await migrateStoredPersonSecrets();
+  await syncLocalPersonSecretsToWorkspace();
   renderCompanyList();
   renderSelfEmployedList();
   unlockWorkspace(username);
@@ -1948,6 +2102,7 @@ async function loginLocalAccess() {
   initializeRecords(window.APP_DATA);
   await migrateStoredCompanySecrets();
   await migrateStoredPersonSecrets();
+  await syncLocalPersonSecretsToWorkspace();
   renderCompanyList();
   renderSelfEmployedList();
   unlockWorkspace(username);
@@ -3765,16 +3920,10 @@ async function migrateStoredCompanySecrets() {
   }
 }
 
-async function loadPersonSecrets(personId) {
+async function loadLocalPersonSecrets(personId) {
   if (!personId) return {};
-  if (state.activePersonSecretsId === personId) {
-    return state.activePersonSecrets;
-  }
-
   if (!window.alignedDesktop?.isDesktop || !window.alignedDesktop.getSelfEmployedSecretRecord) {
-    state.activePersonSecrets = {};
-    state.activePersonSecretsId = personId;
-    return state.activePersonSecrets;
+    return {};
   }
 
   try {
@@ -3783,38 +3932,82 @@ async function loadPersonSecrets(personId) {
       username: state.activeUser,
       password: state.activePassword,
     });
-    state.activePersonSecrets = secrets && typeof secrets === "object" ? secrets : {};
-    state.activePersonSecretsId = personId;
+    return normalizeSecretRecord(PERSON_SECRET_FIELDS, secrets);
   } catch {
-    state.activePersonSecrets = {};
-    state.activePersonSecretsId = personId;
+    return {};
+  }
+}
+
+async function loadPersonSecrets(personId) {
+  if (!personId) return {};
+  if (state.activePersonSecretsId === personId) {
+    return state.activePersonSecrets;
   }
 
+  const syncedSecrets = await getSyncedPersonSecretRecord(personId);
+  const localSecrets = await loadLocalPersonSecrets(personId);
+  state.activePersonSecrets = {
+    ...syncedSecrets,
+    ...localSecrets,
+  };
+  state.activePersonSecretsId = personId;
   return state.activePersonSecrets;
+}
+
+async function persistSyncedPersonSecrets(personId, secrets) {
+  const syncable = normalizeSecretRecord(PERSON_SECRET_FIELDS, secrets);
+  const currentStore = await readSyncedPersonSecretsStore();
+  if (Object.keys(syncable).length) {
+    currentStore[personId] = syncable;
+  } else {
+    delete currentStore[personId];
+  }
+
+  const writeResult = await writeSyncedPersonSecretsStore(currentStore);
+  if (!writeResult.ok) return writeResult;
+
+  if (window.alignedDesktop?.isDesktop && state.activeUser && state.activePassword) {
+    const syncResult = await persistDesktopData();
+    if (syncResult?.ok === false) {
+      return {
+        ok: false,
+        message: syncResult.message || "The encrypted secret sync could not be saved.",
+        conflict: Boolean(syncResult.conflict),
+      };
+    }
+  }
+
+  return { ok: true };
 }
 
 async function savePersonSecrets(personId, secrets) {
   if (!personId) return { ok: false };
+  const normalizedSecrets = normalizeSecretRecord(PERSON_SECRET_FIELDS, secrets);
 
   if (!window.alignedDesktop?.isDesktop || !window.alignedDesktop.saveSelfEmployedSecretRecord) {
-    state.activePersonSecrets = { ...secrets };
+    state.activePersonSecrets = { ...normalizedSecrets };
     state.activePersonSecretsId = personId;
     return { ok: true };
   }
 
-  const result = await window.alignedDesktop.saveSelfEmployedSecretRecord({
+  const localResult = await window.alignedDesktop.saveSelfEmployedSecretRecord({
     personId,
     username: state.activeUser,
     password: state.activePassword,
-    secrets,
+    secrets: normalizedSecrets,
   });
 
-  if (result?.ok) {
-    state.activePersonSecrets = { ...secrets };
+  if (!localResult?.ok) {
+    return localResult;
+  }
+
+  const syncedResult = await persistSyncedPersonSecrets(personId, normalizedSecrets);
+  if (syncedResult?.ok) {
+    state.activePersonSecrets = { ...normalizedSecrets };
     state.activePersonSecretsId = personId;
   }
 
-  return result;
+  return syncedResult;
 }
 
 async function migrateStoredPersonSecrets() {
@@ -3860,6 +4053,34 @@ async function migrateStoredPersonSecrets() {
   }
 }
 
+async function syncLocalPersonSecretsToWorkspace() {
+  if (!window.alignedDesktop?.isDesktop || !state.activeUser || !state.activePassword) return;
+
+  const syncedStore = await readSyncedPersonSecretsStore();
+  let changed = false;
+
+  for (const personId of getSelfEmployedPeople()) {
+    const localSecrets = await loadLocalPersonSecrets(personId);
+    if (!Object.keys(localSecrets).length) continue;
+    const existing = normalizeSecretRecord(PERSON_SECRET_FIELDS, syncedStore[personId]);
+    const merged = {
+      ...existing,
+      ...localSecrets,
+    };
+    if (JSON.stringify(existing) !== JSON.stringify(merged)) {
+      syncedStore[personId] = merged;
+      changed = true;
+    }
+  }
+
+  if (!changed) return;
+
+  const writeResult = await writeSyncedPersonSecretsStore(syncedStore);
+  if (writeResult.ok) {
+    await persistDesktopData();
+  }
+}
+
 async function syncWorkspaceNow(force = false) {
   if (!window.alignedDesktop?.isDesktop || !state.activeUser || !state.activePassword) return;
   const result = await persistDesktopData({ force });
@@ -3868,6 +4089,44 @@ async function syncWorkspaceNow(force = false) {
   } else if (result?.message) {
     setSaveState(elements.settingsSaveState, result.message);
   }
+  return result;
+}
+
+async function reconnectCloudSync() {
+  if (!window.alignedDesktop?.isDesktop || !state.activeUser || !state.activePassword) return;
+
+  state.syncBusy = true;
+  refreshSyncSurface();
+  const result = await window.alignedDesktop.login({
+    username: state.activeUser,
+    password: state.activePassword,
+  });
+  state.syncBusy = false;
+
+  if (!result.ok) {
+    setSaveState(elements.settingsSaveState, result.message || "Could not reconnect cloud sync");
+    refreshSyncSurface();
+    return;
+  }
+
+  state.offlineMode = Boolean(result.offline);
+  state.syncConflict = false;
+  state.syncMessage = result.message || "";
+  refreshSyncSurface();
+
+  if (result.offline) {
+    setSaveState(elements.settingsSaveState, result.message || "Cloud sync is still unavailable");
+    return;
+  }
+
+  const syncResult = await syncWorkspaceNow();
+  if (!syncResult?.ok) {
+    handleSyncResult(syncResult);
+    setSaveState(elements.settingsSaveState, syncResult.message || "Cloud connection returned, but sync still needs attention.");
+    return;
+  }
+
+  setSaveState(elements.settingsSaveState, "Cloud sync reconnected");
 }
 
 async function reloadCloudWorkspace() {
@@ -4328,6 +4587,9 @@ function bindEvents() {
   });
   elements.installUpdateButton?.addEventListener("click", () => {
     void installDownloadedUpdate();
+  });
+  elements.reconnectCloudButton?.addEventListener("click", () => {
+    void reconnectCloudSync();
   });
   elements.reloadRemoteButton?.addEventListener("click", () => {
     void reloadCloudWorkspace();
