@@ -331,6 +331,9 @@ const elements = {
   companyStatusFilter: document.getElementById("companyStatusFilter"),
   companyBookkeepingFilter: document.getElementById("companyBookkeepingFilter"),
   companyArchiveFilter: document.getElementById("companyArchiveFilter"),
+  clientRail: document.getElementById("clientRail"),
+  companyRailSection: document.getElementById("companyRailSection"),
+  selfEmployedRailSection: document.getElementById("selfEmployedRailSection"),
   addCompanyButton: document.getElementById("addCompanyButton"),
   companyList: document.getElementById("companyList"),
   addSelfEmployedButton: document.getElementById("addSelfEmployedButton"),
@@ -1838,6 +1841,7 @@ function renderCompanyList() {
     button.addEventListener("click", () => {
       state.selectedPersonId = null;
       state.selectedCompanyId = button.dataset.company;
+      setRailMode("companies");
       renderCompanyList();
       renderSelfEmployedList();
       renderCompanyPanel();
@@ -1954,6 +1958,13 @@ function updatePrimaryNav(active) {
   });
 }
 
+function setRailMode(mode = "companies") {
+  const selfMode = mode === "self";
+  elements.clientRail?.setAttribute("data-rail-mode", selfMode ? "self" : "companies");
+  elements.companyRailSection?.classList.toggle("hidden", selfMode);
+  elements.selfEmployedRailSection?.classList.toggle("hidden", !selfMode);
+}
+
 function syncWizardUI(step, stepButtons, panels, backButton, nextButton) {
   stepButtons.forEach((button) => {
     button.classList.toggle("active", button.dataset.companyStep === step || button.dataset.personStep === step);
@@ -2014,6 +2025,7 @@ function movePersonWizard(direction) {
 function showHomePanel() {
   hideAllPanels();
   elements.homePanel.classList.remove("hidden");
+  setRailMode("companies");
   updatePrimaryNav("home");
 }
 
@@ -2031,6 +2043,7 @@ function showNewCompanyPanel() {
   hideAllPanels();
   elements.newCompanyPanel.classList.remove("hidden");
   setCompanyWizardStep("identity");
+  setRailMode("companies");
   updatePrimaryNav("companies");
 }
 
@@ -2038,6 +2051,7 @@ function showNewPersonPanel() {
   hideAllPanels();
   elements.newPersonPanel.classList.remove("hidden");
   setPersonWizardStep("identity");
+  setRailMode("self");
   updatePrimaryNav("self");
 }
 
@@ -2619,12 +2633,14 @@ function renderCompanyPanel(viewId = getActiveCompanyView()) {
   if (!company) {
     hideAllPanels();
     elements.emptyState.classList.remove("hidden");
+    setRailMode("companies");
     return;
   }
 
   const record = getCompanyRecord(company.company_number);
   hideAllPanels();
   elements.companyPanel.classList.remove("hidden");
+  setRailMode("companies");
   updatePrimaryNav("companies");
   elements.companyName.textContent = record.displayName;
   elements.companyNumber.textContent = record.companyNumber;
@@ -2649,11 +2665,13 @@ function renderSelfEmployedPanel() {
   if (!person) {
     hideAllPanels();
     elements.emptyState.classList.remove("hidden");
+    setRailMode("self");
     return;
   }
 
   hideAllPanels();
   elements.selfEmployedPanel.classList.remove("hidden");
+  setRailMode("self");
   updatePrimaryNav("self");
   elements.selfPersonName.textContent = person.fullName;
   const activeSecrets = state.activePersonSecretsId === person.fullName ? state.activePersonSecrets : {};
@@ -3766,6 +3784,7 @@ function openFirstCompany(viewId = "company-overview") {
 }
 
 function openFirstSelfEmployed() {
+  setRailMode("self");
   const firstPerson = getActiveSelfEmployedPeople()[0];
   if (!firstPerson) {
     hideAllPanels();
@@ -3779,6 +3798,7 @@ function openPersonRecord(personId) {
   if (!personId) return;
   state.selectedCompanyId = null;
   state.selectedPersonId = personId;
+  setRailMode("self");
   renderCompanyList();
   renderSelfEmployedList();
   renderSelfEmployedPanel();

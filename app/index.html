@@ -144,44 +144,46 @@
       <section class="snapshot-strip" id="stats"></section>
 
       <section class="workspace-shell">
-        <aside class="client-rail">
-          <div class="rail-head">
-            <p class="section-kicker">Client ledger</p>
-            <h2>Companies</h2>
-          </div>
-          <button id="addCompanyButton" class="rail-action">New company</button>
-          <label class="search-label" for="companySearch">Search companies</label>
-          <input id="companySearch" class="search" type="search" placeholder="Name or company number">
-          <div class="rail-filters">
-            <select id="companyStatusFilter" class="search search-select">
-              <option value="all">All statuses</option>
-              <option value="active">Active only</option>
-              <option value="not confirmed">Not confirmed</option>
-              <option value="dissolved">Dissolved</option>
-            </select>
-            <select id="companyBookkeepingFilter" class="search search-select">
-              <option value="all">All bookkeeping</option>
-              <option value="ready">Ready</option>
-              <option value="in progress">In progress</option>
-              <option value="waiting">Waiting</option>
-              <option value="review">Review</option>
-            </select>
-            <select id="companyArchiveFilter" class="search search-select">
-              <option value="active">Active desk</option>
-              <option value="archived">Archived</option>
-              <option value="all">All records</option>
-            </select>
-          </div>
-          <div id="companyList" class="company-list"></div>
+        <aside id="clientRail" class="client-rail">
+          <section id="companyRailSection" class="rail-section">
+            <div class="rail-head">
+              <p class="section-kicker">Client ledger</p>
+              <h2>Companies</h2>
+            </div>
+            <button id="addCompanyButton" class="rail-action">New company</button>
+            <label class="search-label" for="companySearch">Search companies</label>
+            <input id="companySearch" class="search" type="search" placeholder="Name or company number">
+            <div class="rail-filters">
+              <select id="companyStatusFilter" class="search search-select">
+                <option value="all">All statuses</option>
+                <option value="active">Active only</option>
+                <option value="not confirmed">Not confirmed</option>
+                <option value="dissolved">Dissolved</option>
+              </select>
+              <select id="companyBookkeepingFilter" class="search search-select">
+                <option value="all">All bookkeeping</option>
+                <option value="ready">Ready</option>
+                <option value="in progress">In progress</option>
+                <option value="waiting">Waiting</option>
+                <option value="review">Review</option>
+              </select>
+              <select id="companyArchiveFilter" class="search search-select">
+                <option value="active">Active desk</option>
+                <option value="archived">Archived</option>
+                <option value="all">All records</option>
+              </select>
+            </div>
+            <div id="companyList" class="company-list"></div>
+          </section>
 
-          <div class="rail-divider"></div>
-
-          <div class="rail-head compact">
-            <p class="section-kicker">Sole trader desk</p>
-            <h2>Self Employed</h2>
-          </div>
-          <button id="addSelfEmployedButton" class="rail-action">New self employed</button>
-          <div id="selfEmployedList" class="company-list compact-list"></div>
+          <section id="selfEmployedRailSection" class="rail-section hidden">
+            <div class="rail-head compact">
+              <p class="section-kicker">Sole trader desk</p>
+              <h2>Self Employed</h2>
+            </div>
+            <button id="addSelfEmployedButton" class="rail-action">New self employed</button>
+            <div id="selfEmployedList" class="company-list compact-list"></div>
+          </section>
         </aside>
 
         <section class="workspace-main">

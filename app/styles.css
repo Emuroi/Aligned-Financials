@@ -3115,6 +3115,10 @@ select option:checked {
   padding-right: 10px;
 }
 
+.rail-section {
+  display: block;
+}
+
 .company-list,
 .company-list.compact-list {
   flex: none;
