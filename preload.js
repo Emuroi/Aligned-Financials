@@ -6,6 +6,7 @@ contextBridge.exposeInMainWorld("alignedDesktop", {
   authStatus: () => ipcRenderer.invoke("auth:status"),
   createAccess: (payload) => ipcRenderer.invoke("auth:create", payload),
   login: (payload) => ipcRenderer.invoke("auth:login", payload),
+  autoLogin: () => ipcRenderer.invoke("auth:auto-login"),
   changePassword: (payload) => ipcRenderer.invoke("auth:change-password", payload),
   resetAccess: () => ipcRenderer.invoke("auth:reset"),
   saveData: (payload) => ipcRenderer.invoke("data:save", payload),

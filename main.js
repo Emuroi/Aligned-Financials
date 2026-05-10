@@ -1,10 +1,11 @@
-const { app, BrowserWindow, shell, ipcMain, dialog } = require("electron");
+const { app, BrowserWindow, shell, ipcMain, dialog, safeStorage } = require("electron");
 const path = require("path");
 const fs = require("fs");
 const crypto = require("crypto");
 const { autoUpdater } = require("electron-updater");
 
 const AUTH_FILE = "aligned-auth.json";
+const REMEMBER_FILE = "aligned-remember.json";
 const DATA_FILE = "aligned-data.enc";
 const ENV_FILE = ".env";
 const LEGACY_SECRETS_FILE = "legacy-company-secrets.json";
@@ -187,6 +188,17 @@ function shouldCheckForUpdates() {
   return app.isPackaged && !process.env.ELECTRON_SKIP_UPDATES;
 }
 
+function friendlyUpdateError(error) {
+  const message = String(error?.message || "");
+  if (message.includes("404")) {
+    return "Update check could not find a published GitHub release for this version.";
+  }
+  if (/ENOTFOUND|ECONN|network|fetch failed|timed out/i.test(message)) {
+    return "Update check could not reach GitHub. Check the internet connection and try again.";
+  }
+  return "Update check is unavailable right now.";
+}
+
 function runUpdateCheck(trigger = "automatic") {
   if (!shouldCheckForUpdates()) {
     setUpdateState({
@@ -208,7 +220,7 @@ function runUpdateCheck(trigger = "automatic") {
   return autoUpdater.checkForUpdates()
     .then(() => ({ ok: true }))
     .catch((error) => {
-      const message = error?.message || "Update check failed.";
+      const message = friendlyUpdateError(error);
       setUpdateState({
         status: "error",
         message,
@@ -272,7 +284,7 @@ function setupAutoUpdates() {
     console.error("[updater] Update error:", error?.message || error);
     setUpdateState({
       status: "error",
-      message: error?.message || "Update check failed.",
+      message: friendlyUpdateError(error),
       checking: false,
     });
   });
@@ -330,6 +342,51 @@ function readJson(filePath) {
 
 function writeJson(filePath, value) {
   fs.writeFileSync(filePath, JSON.stringify(value, null, 2), "utf8");
+}
+
+function canUseSecureRememberedLogin() {
+  try {
+    return safeStorage.isEncryptionAvailable();
+  } catch {
+    return false;
+  }
+}
+
+function readRememberedLogin() {
+  const filePath = appFile(REMEMBER_FILE);
+  if (!fs.existsSync(filePath)) return null;
+
+  try {
+    const parsed = readJson(filePath);
+    if (!parsed || typeof parsed !== "object") return null;
+    if (!parsed.username || !parsed.password) return null;
+    if (!canUseSecureRememberedLogin()) return null;
+    return {
+      username: String(parsed.username || "").trim(),
+      password: safeStorage.decryptString(Buffer.from(parsed.password, "base64")),
+      updatedAt: String(parsed.updatedAt || ""),
+    };
+  } catch {
+    return null;
+  }
+}
+
+function writeRememberedLogin(username, password) {
+  if (!canUseSecureRememberedLogin()) {
+    return { ok: false, message: "Secure remembered login is unavailable on this machine." };
+  }
+
+  writeJson(appFile(REMEMBER_FILE), {
+    username,
+    password: safeStorage.encryptString(String(password || "")).toString("base64"),
+    updatedAt: new Date().toISOString(),
+  });
+  return { ok: true };
+}
+
+function clearRememberedLogin() {
+  const filePath = appFile(REMEMBER_FILE);
+  if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
 }
 
 function deriveKey(password, salt) {
@@ -683,6 +740,66 @@ async function ensureOnlineSession(username, password) {
   };
 }
 
+async function performDesktopLogin(username, password) {
+  if (!hasSupabaseConfig()) {
+    const verification = verifyCredentials(username, password);
+    if (!verification.ok) {
+      consumeAuthFailure(username);
+      return verification;
+    }
+    onlineSession = {
+      username,
+      password,
+      authenticated: false,
+    };
+    clearAuthFailures(username);
+    return { ok: true, username, password, offline: true, message: "Logged in successfully." };
+  }
+
+  const online = await signInOnline(username, password);
+  if (online.ok) {
+    storeLocalAccess(username, password, getAuth());
+    clearAuthFailures(username);
+    return { ok: true, username, password, offline: false, message: "Logged in successfully." };
+  }
+
+  const localFallback = verifyCredentials(username, password);
+  if (localFallback.ok && isLikelyNetworkError(online.message)) {
+    onlineSession = {
+      username,
+      password,
+      authenticated: false,
+    };
+    clearAuthFailures(username);
+    return {
+      ok: true,
+      username,
+      password,
+      offline: true,
+      message: "Cloud sync is unavailable right now. Opened the saved local workspace instead.",
+    };
+  }
+
+  if (localFallback.ok && isConfirmationError(online.message)) {
+    onlineSession = {
+      username,
+      password,
+      authenticated: false,
+    };
+    clearAuthFailures(username);
+    return {
+      ok: true,
+      username,
+      password,
+      offline: true,
+      message: "Email confirmation is still pending. Opened the saved local workspace for now.",
+    };
+  }
+
+  consumeAuthFailure(username);
+  return online;
+}
+
 async function signUpOnline(username, password) {
   const client = getSupabaseClient();
   if (!client) {
@@ -890,18 +1007,22 @@ function saveLocalWorkspace(username, password, data) {
 ipcMain.handle("auth:status", () => {
   const auth = getAuth();
   const config = getSupabaseConfigInfo();
+  const remembered = readRememberedLogin();
   return {
     hasAccess: Boolean(auth),
     username: auth?.username || "",
     configured: config.configured,
     mode: config.configured ? "supabase" : "local",
     hasExternalConfig: Boolean(config.envPath),
+    rememberedUsername: remembered?.username || "",
+    canAutoLogin: Boolean(remembered?.username && remembered?.password),
   };
 });
 
 ipcMain.handle("auth:create", async (_event, payload) => {
   const username = String(payload?.username || "").trim();
   const password = String(payload?.password || "");
+  const remember = Boolean(payload?.remember);
   const throttleMessage = getAuthThrottleMessage(username);
   if (throttleMessage) {
     return { ok: false, message: throttleMessage };
@@ -913,6 +1034,11 @@ ipcMain.handle("auth:create", async (_event, payload) => {
 
   if (!hasSupabaseConfig()) {
     storeLocalAccess(username, password);
+    if (remember) {
+      writeRememberedLogin(username, password);
+    } else {
+      clearRememberedLogin();
+    }
     clearAuthFailures(username);
     return { ok: true, username, offlineOnly: true, message: "Account created." };
   }
@@ -922,6 +1048,11 @@ ipcMain.handle("auth:create", async (_event, payload) => {
     const login = await signInOnline(username, password);
     if (login.ok) {
       storeLocalAccess(username, password, getAuth());
+      if (remember) {
+        writeRememberedLogin(username, password);
+      } else {
+        clearRememberedLogin();
+      }
       clearAuthFailures(username);
       return {
         ok: true,
@@ -937,6 +1068,11 @@ ipcMain.handle("auth:create", async (_event, payload) => {
   // Keep the local encrypted access in step with account creation so the user can
   // reopen the same workspace reliably even if email confirmation is enabled.
   storeLocalAccess(username, password, getAuth());
+  if (remember) {
+    writeRememberedLogin(username, password);
+  } else {
+    clearRememberedLogin();
+  }
   clearAuthFailures(username);
 
   return signup;
@@ -945,66 +1081,34 @@ ipcMain.handle("auth:create", async (_event, payload) => {
 ipcMain.handle("auth:login", async (_event, payload) => {
   const username = String(payload?.username || "").trim();
   const password = String(payload?.password || "");
+  const remember = Boolean(payload?.remember);
   const throttleMessage = getAuthThrottleMessage(username);
   if (throttleMessage) {
     return { ok: false, message: throttleMessage };
   }
 
-  if (!hasSupabaseConfig()) {
-    const verification = verifyCredentials(username, password);
-    if (!verification.ok) {
-      consumeAuthFailure(username);
-      return verification;
+  const result = await performDesktopLogin(username, password);
+  if (result.ok) {
+    if (remember) {
+      writeRememberedLogin(username, password);
+    } else {
+      clearRememberedLogin();
     }
-    onlineSession = {
-      username,
-      password,
-      authenticated: false,
-    };
-    clearAuthFailures(username);
-    return { ok: true, username, offline: true, message: "Logged in successfully." };
+  }
+  return result;
+});
+
+ipcMain.handle("auth:auto-login", async () => {
+  const remembered = readRememberedLogin();
+  if (!remembered?.username || !remembered?.password) {
+    return { ok: false, message: "No saved login details were found." };
   }
 
-  const online = await signInOnline(username, password);
-  if (online.ok) {
-    storeLocalAccess(username, password, getAuth());
-    clearAuthFailures(username);
-    return { ok: true, username, offline: false, message: "Logged in successfully." };
+  const result = await performDesktopLogin(remembered.username, remembered.password);
+  if (!result.ok) {
+    clearRememberedLogin();
   }
-
-  const localFallback = verifyCredentials(username, password);
-  if (localFallback.ok && isLikelyNetworkError(online.message)) {
-    onlineSession = {
-      username,
-      password,
-      authenticated: false,
-    };
-    clearAuthFailures(username);
-    return {
-      ok: true,
-      username,
-      offline: true,
-      message: "Cloud sync is unavailable right now. Opened the saved local workspace instead.",
-    };
-  }
-
-  if (localFallback.ok && isConfirmationError(online.message)) {
-    onlineSession = {
-      username,
-      password,
-      authenticated: false,
-    };
-    clearAuthFailures(username);
-    return {
-      ok: true,
-      username,
-      offline: true,
-      message: "Email confirmation is still pending. Opened the saved local workspace for now.",
-    };
-  }
-
-  consumeAuthFailure(username);
-  return online;
+  return result;
 });
 
 ipcMain.handle("auth:change-password", async (_event, payload) => {
@@ -1055,6 +1159,10 @@ ipcMain.handle("auth:change-password", async (_event, payload) => {
     password: newPassword,
     authenticated: hasSupabaseConfig(),
   };
+  const remembered = readRememberedLogin();
+  if (remembered?.username === username) {
+    writeRememberedLogin(username, newPassword);
+  }
   clearAuthFailures(username);
   return { ok: true, username };
 });
@@ -1066,6 +1174,7 @@ ipcMain.handle("auth:reset", async () => {
   const dataPath = appFile(DATA_FILE);
   if (fs.existsSync(authPath)) fs.unlinkSync(authPath);
   if (fs.existsSync(dataPath)) fs.unlinkSync(dataPath);
+  clearRememberedLogin();
   const companySecretsPath = getLegacySecretsWritePath();
   const personSecretsPath = getPersonSecretsWritePath();
   if (fs.existsSync(companySecretsPath)) fs.unlinkSync(companySecretsPath);

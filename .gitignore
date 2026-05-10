@@ -1,6 +1,8 @@
 __pycache__/
 *.pyc
 data/extracted/
+data/self-employed-import-summary.json
+data/self-employed-ocr.json
 node_modules/
 dist/
 .env

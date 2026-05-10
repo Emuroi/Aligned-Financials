@@ -82,6 +82,7 @@ const CUSTOM_COMPANIES_KEY = "aligned-financials-custom-companies";
 const CUSTOM_PEOPLE_KEY = "aligned-financials-custom-people";
 const SETTINGS_STORAGE_KEY = "aligned-financials-settings";
 const AUDIT_LOG_STORAGE_KEY = "aligned-financials-audit-log";
+const SYNCED_COMPANY_SECRETS_STORAGE_KEY = "aligned-financials-synced-company-secrets";
 const SYNCED_PERSON_SECRETS_STORAGE_KEY = "aligned-financials-synced-self-employed-secrets";
 const SYNCED_SECRET_STORE_FORMAT = "aligned-financials-synced-secret-store-v1";
 const SYNCED_SECRET_ITERATIONS = 200000;
@@ -721,6 +722,31 @@ function getCompanySecretSnapshot(record, companyId = state.selectedCompanyId) {
   }, {});
 }
 
+function getSyncedCompanySecretsEnvelope() {
+  const value = state.persistedData[SYNCED_COMPANY_SECRETS_STORAGE_KEY];
+  return isEncryptedSyncedSecretStore(value) ? value : null;
+}
+
+async function readSyncedCompanySecretsStore() {
+  if (!state.activePassword) return {};
+  return decryptSyncedSecretStore(getSyncedCompanySecretsEnvelope(), state.activePassword);
+}
+
+async function writeSyncedCompanySecretsStore(store) {
+  if (!state.activePassword) {
+    return { ok: false, message: "A signed-in desktop session is required." };
+  }
+
+  state.persistedData[SYNCED_COMPANY_SECRETS_STORAGE_KEY] = await encryptSyncedSecretStore(store, state.activePassword);
+  return { ok: true };
+}
+
+async function getSyncedCompanySecretRecord(companyId) {
+  if (!companyId) return {};
+  const store = await readSyncedCompanySecretsStore();
+  return normalizeSecretRecord(COMPANY_SECRET_FIELDS, store?.[companyId]);
+}
+
 function getPersonSecretSnapshot(person, personId = state.selectedPersonId) {
   const fromState = state.activePersonSecretsId === personId ? state.activePersonSecrets : {};
   return PERSON_SECRET_FIELDS.reduce((accumulator, field) => {
@@ -765,13 +791,7 @@ function refreshAboutSurface() {
   }
 
   if (elements.appPackageText) {
-    if (!window.alignedDesktop?.isDesktop) {
-      elements.appPackageText.textContent = "Browser mode does not expose installer update details.";
-    } else if (meta?.packaged) {
-      elements.appPackageText.textContent = "Installed desktop build. Auto-update checks run on launch and can be checked manually here.";
-    } else {
-      elements.appPackageText.textContent = "Development build. Auto-update becomes active after installing the packaged app.";
-    }
+    elements.appPackageText.textContent = "";
   }
 
   if (elements.updateStatusText) {
@@ -811,10 +831,10 @@ function refreshSyncSurface() {
 
   if (elements.storageModeText) {
     elements.storageModeText.textContent = !window.alignedDesktop?.isDesktop
-      ? "Client records, self employed profiles, notes, and bank statement imports are stored in browser storage on this machine."
+      ? "Browser storage is active on this machine."
       : state.supabaseConfigured
-        ? "Client records, self employed profiles, notes, and bank statement imports are stored in an encrypted local desktop cache with optional cloud sync."
-        : "Client records, self employed profiles, notes, and bank statement imports are stored in an encrypted local desktop file until external Supabase config is added.";
+        ? "Encrypted local cache with cloud sync."
+        : "Encrypted local desktop file.";
   }
 
   if (elements.syncStatusText) {
@@ -823,8 +843,8 @@ function refreshSyncSurface() {
 
   if (elements.supabaseGuideText) {
     elements.supabaseGuideText.textContent = state.supabaseConfigured
-      ? "Changes save automatically. The encrypted local cache stays in place as the fallback and recovery layer."
-      : "This workspace is saving locally on this machine.";
+      ? "Changes save automatically."
+      : "Saving locally on this machine.";
   }
 
   if (elements.syncConflictText) {
@@ -1014,6 +1034,24 @@ function unlockWorkspace(username) {
   applySettingsToUi();
   refreshSyncSurface();
   showHomePanel();
+}
+
+async function openWorkspaceSession(username, password, options = {}) {
+  state.activeUser = username;
+  state.activePassword = password;
+  state.offlineMode = Boolean(options.offline);
+  state.syncConflict = false;
+  state.syncMessage = options.message || "";
+  await hydrateEncryptedData();
+  await hydrateLegacySecrets();
+  initializeRecords(window.APP_DATA);
+  await migrateStoredCompanySecrets();
+  await syncLocalCompanySecretsToWorkspace();
+  await migrateStoredPersonSecrets();
+  await syncLocalPersonSecretsToWorkspace();
+  renderCompanyList();
+  renderSelfEmployedList();
+  unlockWorkspace(username);
 }
 
 function companyDefaults(company) {
@@ -1746,10 +1784,10 @@ function renderStats() {
     normalizeWorkflow(record.workflow).nextAction || normalizeWorkflow(record.workflow).priority,
   ).length;
   const cards = [
-    ["Companies", number.format(getActiveCompanies().length), "Active client records"],
-    ["Bank imports", number.format(bankImportCount), "Statements saved across all companies"],
-    ["Review queue", number.format(reviewQueueCount), "Imported lines still needing attention"],
-    ["Next actions", number.format(activeWorkflowCount), "Companies with a live workflow note"],
+    ["Live clients", number.format(getActiveCompanies().length), "Active company records"],
+    ["Statements", number.format(bankImportCount), "Saved bank imports"],
+    ["To review", number.format(reviewQueueCount), "Bank lines needing attention"],
+    ["Next actions", number.format(activeWorkflowCount), "Clients with live workflow notes"],
   ];
 
   elements.stats.innerHTML = cards
@@ -2009,6 +2047,8 @@ async function createLocalAccess() {
   const username = String(formData.get("username") || "").trim();
   const password = String(formData.get("password") || "");
   const confirmPassword = String(formData.get("confirmPassword") || "");
+  const remember = String(formData.get("rememberLogin") || "") === "on";
+  let authResult = { offline: false, offlineOnly: false };
 
   if (!username || !password) {
     setAuthMessage(elements.authMessage, "Enter an email address and password.");
@@ -2026,17 +2066,17 @@ async function createLocalAccess() {
   }
 
   if (window.alignedDesktop?.isDesktop) {
-    const result = await window.alignedDesktop.createAccess({ username, password });
-    if (!result.ok) {
-      setAuthMessage(elements.authMessage, result.message);
+    authResult = await window.alignedDesktop.createAccess({ username, password, remember });
+    if (!authResult.ok) {
+      setAuthMessage(elements.authMessage, authResult.message);
       return;
     }
-    if (result.requiresConfirmation) {
+    if (authResult.requiresConfirmation) {
       elements.setupForm.reset();
       resetSensitiveFields(elements.setupForm, "setup");
       elements.loginForm.elements.username.value = username;
       showAuth(false);
-      setAuthMessage(elements.loginMessage, result.message);
+      setAuthMessage(elements.loginMessage, authResult.message);
       return;
     }
   } else {
@@ -2048,38 +2088,31 @@ async function createLocalAccess() {
   elements.setupForm.reset();
   resetSensitiveFields(elements.setupForm, "setup");
   setAuthMessage(elements.authMessage, "Account created. Opening workspace...");
-  state.activeUser = username;
-  state.activePassword = password;
-  state.offlineMode = false;
-  state.syncConflict = false;
-  state.syncMessage = state.supabaseConfigured
-    ? "Account created and ready to save."
-    : "Account created.";
-  await hydrateEncryptedData();
-  await hydrateLegacySecrets();
-  initializeRecords(window.APP_DATA);
-  await migrateStoredCompanySecrets();
-  await migrateStoredPersonSecrets();
-  await syncLocalPersonSecretsToWorkspace();
-  renderCompanyList();
-  renderSelfEmployedList();
-  unlockWorkspace(username);
+  await openWorkspaceSession(
+    username,
+    password,
+    {
+      offline: Boolean(authResult.offline || authResult.offlineOnly),
+      message: authResult.message || (state.supabaseConfigured ? "Account created and ready to save." : "Account created."),
+    },
+  );
 }
 
 async function loginLocalAccess() {
   const formData = new FormData(elements.loginForm);
   const username = String(formData.get("username") || "").trim();
   const password = String(formData.get("password") || "");
+  const remember = String(formData.get("rememberLogin") || "") === "on";
+  let authResult = { offline: false, message: "" };
 
   if (window.alignedDesktop?.isDesktop) {
-    const result = await window.alignedDesktop.login({ username, password });
-    if (!result.ok) {
-      setAuthMessage(elements.loginMessage, result.message);
+    authResult = await window.alignedDesktop.login({ username, password, remember });
+    if (!authResult.ok) {
+      setAuthMessage(elements.loginMessage, authResult.message);
       return;
     }
-    state.offlineMode = Boolean(result.offline);
-    if (result.message) {
-      setAuthMessage(elements.loginMessage, result.message);
+    if (authResult.message) {
+      setAuthMessage(elements.loginMessage, authResult.message);
     }
   } else {
     const authConfig = loadLegacyBrowserAuth();
@@ -2095,17 +2128,18 @@ async function loginLocalAccess() {
 
   elements.loginForm.reset();
   resetSensitiveFields(elements.loginForm, "login");
-  state.activeUser = username;
-  state.activePassword = password;
-  await hydrateEncryptedData();
-  await hydrateLegacySecrets();
-  initializeRecords(window.APP_DATA);
-  await migrateStoredCompanySecrets();
-  await migrateStoredPersonSecrets();
-  await syncLocalPersonSecretsToWorkspace();
-  renderCompanyList();
-  renderSelfEmployedList();
-  unlockWorkspace(username);
+  await openWorkspaceSession(username, password, authResult);
+}
+
+async function tryAutoLogin() {
+  if (!window.alignedDesktop?.isDesktop || !window.alignedDesktop.autoLogin) return false;
+
+  const result = await window.alignedDesktop.autoLogin();
+  if (!result.ok) return false;
+
+  setAuthMessage(elements.loginMessage, result.message || "Opened saved workspace.");
+  await openWorkspaceSession(result.username, result.password, result);
+  return true;
 }
 
 function lockWorkspace() {
@@ -3825,16 +3859,10 @@ async function hydrateLegacySecrets() {
   state.activeCompanySecretsId = "";
 }
 
-async function loadCompanySecrets(companyId) {
+async function loadLocalCompanySecrets(companyId) {
   if (!companyId) return {};
-  if (state.activeCompanySecretsId === companyId) {
-    return state.activeCompanySecrets;
-  }
-
   if (!window.alignedDesktop?.isDesktop || !window.alignedDesktop.getLegacyCompanySecretRecord) {
-    state.activeCompanySecrets = {};
-    state.activeCompanySecretsId = companyId;
-    return state.activeCompanySecrets;
+    return {};
   }
 
   try {
@@ -3843,38 +3871,82 @@ async function loadCompanySecrets(companyId) {
       username: state.activeUser,
       password: state.activePassword,
     });
-    state.activeCompanySecrets = secrets && typeof secrets === "object" ? secrets : {};
-    state.activeCompanySecretsId = companyId;
+    return normalizeSecretRecord(COMPANY_SECRET_FIELDS, secrets);
   } catch {
-    state.activeCompanySecrets = {};
-    state.activeCompanySecretsId = companyId;
+    return {};
+  }
+}
+
+async function loadCompanySecrets(companyId) {
+  if (!companyId) return {};
+  if (state.activeCompanySecretsId === companyId) {
+    return state.activeCompanySecrets;
   }
 
+  const syncedSecrets = await getSyncedCompanySecretRecord(companyId);
+  const localSecrets = await loadLocalCompanySecrets(companyId);
+  state.activeCompanySecrets = {
+    ...syncedSecrets,
+    ...localSecrets,
+  };
+  state.activeCompanySecretsId = companyId;
   return state.activeCompanySecrets;
+}
+
+async function persistSyncedCompanySecrets(companyId, secrets) {
+  const syncable = normalizeSecretRecord(COMPANY_SECRET_FIELDS, secrets);
+  const currentStore = await readSyncedCompanySecretsStore();
+  if (Object.keys(syncable).length) {
+    currentStore[companyId] = syncable;
+  } else {
+    delete currentStore[companyId];
+  }
+
+  const writeResult = await writeSyncedCompanySecretsStore(currentStore);
+  if (!writeResult.ok) return writeResult;
+
+  if (window.alignedDesktop?.isDesktop && state.activeUser && state.activePassword) {
+    const syncResult = await persistDesktopData();
+    if (syncResult?.ok === false) {
+      return {
+        ok: false,
+        message: syncResult.message || "The encrypted secret sync could not be saved.",
+        conflict: Boolean(syncResult.conflict),
+      };
+    }
+  }
+
+  return { ok: true };
 }
 
 async function saveCompanySecrets(companyId, secrets) {
   if (!companyId) return { ok: false };
+  const normalizedSecrets = normalizeSecretRecord(COMPANY_SECRET_FIELDS, secrets);
 
   if (!window.alignedDesktop?.isDesktop || !window.alignedDesktop.saveLegacyCompanySecretRecord) {
-    state.activeCompanySecrets = { ...secrets };
+    state.activeCompanySecrets = { ...normalizedSecrets };
     state.activeCompanySecretsId = companyId;
     return { ok: true };
   }
 
-  const result = await window.alignedDesktop.saveLegacyCompanySecretRecord({
+  const localResult = await window.alignedDesktop.saveLegacyCompanySecretRecord({
     companyId,
     username: state.activeUser,
     password: state.activePassword,
-    secrets,
+    secrets: normalizedSecrets,
   });
 
-  if (result?.ok) {
-    state.activeCompanySecrets = { ...secrets };
+  if (!localResult?.ok) {
+    return localResult;
+  }
+
+  const syncedResult = await persistSyncedCompanySecrets(companyId, normalizedSecrets);
+  if (syncedResult?.ok) {
+    state.activeCompanySecrets = { ...normalizedSecrets };
     state.activeCompanySecretsId = companyId;
   }
 
-  return result;
+  return syncedResult;
 }
 
 async function migrateStoredCompanySecrets() {
@@ -3917,6 +3989,34 @@ async function migrateStoredCompanySecrets() {
   } else {
     state.activeCompanySecrets = {};
     state.activeCompanySecretsId = "";
+  }
+}
+
+async function syncLocalCompanySecretsToWorkspace() {
+  if (!window.alignedDesktop?.isDesktop || !state.activeUser || !state.activePassword) return;
+
+  const syncedStore = await readSyncedCompanySecretsStore();
+  let changed = false;
+
+  for (const companyId of Object.keys(state.companyRecords)) {
+    const localSecrets = await loadLocalCompanySecrets(companyId);
+    if (!Object.keys(localSecrets).length) continue;
+    const existing = normalizeSecretRecord(COMPANY_SECRET_FIELDS, syncedStore[companyId]);
+    const merged = {
+      ...existing,
+      ...localSecrets,
+    };
+    if (JSON.stringify(existing) !== JSON.stringify(merged)) {
+      syncedStore[companyId] = merged;
+      changed = true;
+    }
+  }
+
+  if (!changed) return;
+
+  const writeResult = await writeSyncedCompanySecretsStore(syncedStore);
+  if (writeResult.ok) {
+    await persistDesktopData();
   }
 }
 
@@ -4712,11 +4812,15 @@ async function loadApp() {
     };
     refreshAboutSurface();
     showAuth(status.configured ? false : !status.hasAccess);
-    if (status.username) {
-      elements.loginForm.elements.username.value = status.username;
+    if (status.rememberedUsername || status.username) {
+      elements.loginForm.elements.username.value = status.rememberedUsername || status.username;
     }
     if (status.username && elements.changePasswordForm) {
       elements.changePasswordForm.elements.username.value = status.username;
+    }
+    if (status.canAutoLogin) {
+      const autoOpened = await tryAutoLogin();
+      if (autoOpened) return;
     }
     return;
   }
