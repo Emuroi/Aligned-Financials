@@ -177,6 +177,11 @@ const state = {
     bookkeeping: "all",
     archive: "active",
   },
+  personFilters: {
+    query: "",
+    archive: "active",
+    detail: "all",
+  },
   bankFilters: {
     search: "",
     review: "all",
@@ -327,6 +332,7 @@ const elements = {
   loginMessage: document.getElementById("loginMessage"),
   zipPath: document.getElementById("zipPath"),
   generatedAt: document.getElementById("generatedAt"),
+  workspaceShell: document.getElementById("workspaceShell"),
   companySearch: document.getElementById("companySearch"),
   companyStatusFilter: document.getElementById("companyStatusFilter"),
   companyBookkeepingFilter: document.getElementById("companyBookkeepingFilter"),
@@ -337,6 +343,9 @@ const elements = {
   addCompanyButton: document.getElementById("addCompanyButton"),
   companyList: document.getElementById("companyList"),
   addSelfEmployedButton: document.getElementById("addSelfEmployedButton"),
+  selfEmployedSearch: document.getElementById("selfEmployedSearch"),
+  selfEmployedArchiveFilter: document.getElementById("selfEmployedArchiveFilter"),
+  selfEmployedDetailFilter: document.getElementById("selfEmployedDetailFilter"),
   selfEmployedList: document.getElementById("selfEmployedList"),
   homePanel: document.getElementById("homePanel"),
   emptyState: document.getElementById("emptyState"),
@@ -1266,6 +1275,39 @@ function getArchivedSelfEmployedPeople() {
   return getSelfEmployedPeople().filter((personId) => isPersonArchived(personId));
 }
 
+function personMatchesDetailFilter(person, filter) {
+  if (filter === "has-notes") return Boolean(String(person.notes || "").trim());
+  if (filter === "needs-details") {
+    return !String(person.tradingName || "").trim()
+      || !String(person.address || "").trim()
+      || !String(person.dateOfBirth || "").trim();
+  }
+  return true;
+}
+
+function getFilteredSelfEmployedPeople() {
+  const query = String(state.personFilters.query || "").trim().toLowerCase();
+  const archiveFilter = state.personFilters.archive || "active";
+  const detailFilter = state.personFilters.detail || "all";
+  const sourcePeople = archiveFilter === "archived"
+    ? getArchivedSelfEmployedPeople()
+    : archiveFilter === "all"
+      ? getSelfEmployedPeople()
+      : getActiveSelfEmployedPeople();
+
+  return sourcePeople.filter((personId) => {
+    const person = state.personRecords[personId] || personDefaults(personId);
+    const searchableText = [
+      person.fullName,
+      person.tradingName,
+      person.address,
+      person.nationality,
+      person.notes,
+    ].join(" ").toLowerCase();
+    return searchableText.includes(query) && personMatchesDetailFilter(person, detailFilter);
+  });
+}
+
 function getStatementCategoryOptions() {
   return BOOKKEEPING_CATEGORIES;
 }
@@ -1850,12 +1892,12 @@ function renderCompanyList() {
 }
 
 function renderSelfEmployedList() {
-  const peopleToRender = getActiveSelfEmployedPeople();
+  const peopleToRender = getFilteredSelfEmployedPeople();
   if (!peopleToRender.length) {
     elements.selfEmployedList.innerHTML = `
       <article class="note-card rail-empty">
-        <h4>No live self employed records</h4>
-        <p>Restore an archived person in Settings or add a new sole trader record.</p>
+        <h4>No self employed records</h4>
+        <p>Try a different search, change the record filter, or add a new sole trader.</p>
       </article>
     `;
     return;
@@ -1863,12 +1905,16 @@ function renderSelfEmployedList() {
 
   elements.selfEmployedList.innerHTML = peopleToRender
     .map((personId) => {
-      const person = state.personRecords[personId];
+      const person = state.personRecords[personId] || personDefaults(personId);
       const active = state.selectedPersonId === personId ? "active" : "";
+      const archiveMeta = person.archivedAt
+        ? `<span class="company-archive-flag">Archived ${escapeHtml(formatCompactDate(person.archivedAt))}</span>`
+        : "";
       return `
-        <button class="company-button ${active}" data-person="${personId}">
-          <strong>${person.fullName}</strong>
-          <span>${person.tradingName || "Self employed record"}</span>
+        <button class="company-button ${active}" data-person="${escapeHtml(personId)}">
+          <strong>${escapeHtml(person.fullName)}</strong>
+          <span>${escapeHtml(person.tradingName || "Self employed record")}</span>
+          ${archiveMeta}
         </button>
       `;
     })
@@ -1959,7 +2005,14 @@ function updatePrimaryNav(active) {
 }
 
 function setRailMode(mode = "companies") {
+  const railHidden = mode === "none";
   const selfMode = mode === "self";
+  elements.workspaceShell?.classList.toggle("rail-hidden", railHidden);
+  elements.clientRail?.classList.toggle("hidden", railHidden);
+  if (railHidden) {
+    elements.clientRail?.setAttribute("data-rail-mode", "none");
+    return;
+  }
   elements.clientRail?.setAttribute("data-rail-mode", selfMode ? "self" : "companies");
   elements.companyRailSection?.classList.toggle("hidden", selfMode);
   elements.selfEmployedRailSection?.classList.toggle("hidden", !selfMode);
@@ -2025,13 +2078,14 @@ function movePersonWizard(direction) {
 function showHomePanel() {
   hideAllPanels();
   elements.homePanel.classList.remove("hidden");
-  setRailMode("companies");
+  setRailMode("none");
   updatePrimaryNav("home");
 }
 
 function showSettingsPanel() {
   hideAllPanels();
   elements.settingsPanel.classList.remove("hidden");
+  setRailMode("none");
   updatePrimaryNav("settings");
   refreshSyncSurface();
   renderArchivedRecords();
@@ -3785,7 +3839,7 @@ function openFirstCompany(viewId = "company-overview") {
 
 function openFirstSelfEmployed() {
   setRailMode("self");
-  const firstPerson = getActiveSelfEmployedPeople()[0];
+  const firstPerson = getFilteredSelfEmployedPeople()[0] || getActiveSelfEmployedPeople()[0];
   if (!firstPerson) {
     hideAllPanels();
     elements.emptyState.classList.remove("hidden");
@@ -4623,6 +4677,11 @@ function filterCompanies(query) {
   renderCompanyList();
 }
 
+function filterSelfEmployed(query) {
+  state.personFilters.query = query;
+  renderSelfEmployedList();
+}
+
 function initializeRecords(data) {
   state.summary = {
     ...data.summary,
@@ -4685,6 +4744,17 @@ function bindEvents() {
   elements.companyArchiveFilter?.addEventListener("change", (event) => {
     state.companyFilters.archive = event.target.value;
     filterCompanies(elements.companySearch.value);
+  });
+  elements.selfEmployedSearch?.addEventListener("input", (event) => {
+    filterSelfEmployed(event.target.value);
+  });
+  elements.selfEmployedArchiveFilter?.addEventListener("change", (event) => {
+    state.personFilters.archive = event.target.value;
+    filterSelfEmployed(elements.selfEmployedSearch?.value || "");
+  });
+  elements.selfEmployedDetailFilter?.addEventListener("change", (event) => {
+    state.personFilters.detail = event.target.value;
+    filterSelfEmployed(elements.selfEmployedSearch?.value || "");
   });
 
   elements.addCompanyButton.addEventListener("click", showNewCompanyPanel);

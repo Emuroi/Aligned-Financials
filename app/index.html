@@ -143,7 +143,7 @@
 
       <section class="snapshot-strip" id="stats"></section>
 
-      <section class="workspace-shell">
+      <section id="workspaceShell" class="workspace-shell">
         <aside id="clientRail" class="client-rail">
           <section id="companyRailSection" class="rail-section">
             <div class="rail-head">
@@ -182,6 +182,20 @@
               <h2>Self Employed</h2>
             </div>
             <button id="addSelfEmployedButton" class="rail-action">New self employed</button>
+            <label class="search-label" for="selfEmployedSearch">Search self employed</label>
+            <input id="selfEmployedSearch" class="search" type="search" placeholder="Name, trading name, or notes">
+            <div class="rail-filters self-employed-filters">
+              <select id="selfEmployedArchiveFilter" class="search search-select">
+                <option value="active">Active desk</option>
+                <option value="archived">Archived</option>
+                <option value="all">All records</option>
+              </select>
+              <select id="selfEmployedDetailFilter" class="search search-select">
+                <option value="all">All profiles</option>
+                <option value="needs-details">Needs details</option>
+                <option value="has-notes">Has notes</option>
+              </select>
+            </div>
             <div id="selfEmployedList" class="company-list compact-list"></div>
           </section>
         </aside>
